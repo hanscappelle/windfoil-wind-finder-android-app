@@ -43,17 +43,23 @@ dependencies {
 
     implementation libs.androidx.core.ktx
     //implementation libs.androidx.appcompat
-    implementation libs.material
     //implementation libs.androidx.activity
     //implementation libs.androidx.lifecycle.runtime.ktx
 
-    // compose with material3
+    // with material3
+    implementation libs.material
+    implementation libs.androidx.material3
+    implementation(libs.androidx.ui.text.google.fonts)
+
+    // compose
     implementation libs.androidx.activity.compose
     implementation platform(libs.androidx.compose.bom)
     implementation libs.androidx.ui
     implementation libs.androidx.ui.graphics
     implementation libs.androidx.ui.tooling.preview
-    implementation libs.androidx.material3
+
+    // injection
+    implementation(libs.koin.android)
 
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit

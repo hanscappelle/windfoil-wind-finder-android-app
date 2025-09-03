@@ -9,5 +9,8 @@ fun MainScreen(
     modifier: Modifier = Modifier,
 ) {
 
-    Text(text = "Hello WoooooRLD", modifier = modifier)
+    Text(text = "TODO get actual data from API", modifier = modifier)
+
+
+
 }
