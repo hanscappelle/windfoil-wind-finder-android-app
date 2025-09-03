@@ -47,7 +47,6 @@ dependencies {
     //implementation libs.androidx.lifecycle.runtime.ktx
 
     // with material3
-    implementation libs.material
     implementation libs.androidx.material3
     implementation(libs.androidx.ui.text.google.fonts)
 
