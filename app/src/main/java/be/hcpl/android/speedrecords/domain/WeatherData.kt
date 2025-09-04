@@ -1,4 +1,4 @@
-package be.hcpl.android.speedrecords.api
+package be.hcpl.android.speedrecords.domain
 
 data class WeatherData(
  val latitude :Double,

@@ -1,6 +1,7 @@
 package be.hcpl.android.speedrecords
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +16,7 @@ import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
 
-    // TODO add viewModel to get all weather data from API
+    // add viewModel to get all weather data from API
     private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +29,15 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        viewModel.state.observeForever(::handleState)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.update()
+    }
+
+    private fun handleState(state: MainViewModel.State){
+        Log.d("TAG", "new state received, $state")
     }
 }
