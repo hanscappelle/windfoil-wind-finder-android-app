@@ -1,20 +1,23 @@
 package be.hcpl.android.speedrecords.ui.screen
 
+import be.hcpl.android.speedrecords.R
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.domain.WeatherData
@@ -31,12 +34,8 @@ fun MainScreen(
         modifier = modifier
             .padding(8.dp)
     ) {
-        // TODO allow for managing favorite locations
-        // TODO translations needed here
-        Text(
-            text = "Your Favorite locations",
-            fontSize = 24.sp,
-        )
+
+        LocationsHeader()
 
         LocationOverview(model)
     }
@@ -44,7 +43,28 @@ fun MainScreen(
     // TODO on detail view of a location show all values per hour
 }
 
-// TODO allow configuration of threshold for warnings, colors, and what timeslots to include
+@Composable
+fun LocationsHeader() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = spacedBy(8.dp),
+    ) {
+
+        Text(
+            text = stringResource(id = R.string.title_favourite_locations),
+            fontSize = 24.sp,
+            modifier = Modifier.weight(1f)
+        )
+
+        // TODO allow for managing favorite locations
+        Icon(
+            painter = painterResource(android.R.drawable.ic_menu_edit),
+            contentDescription = stringResource(id = R.string.a11y_add_location)
+        )
+    }
+}
+
+// TODO allow configuration of threshold for warnings, colors, and what timeslots to include in detail
 
 @Composable
 fun LocationOverview(model: LocationUiModel) {

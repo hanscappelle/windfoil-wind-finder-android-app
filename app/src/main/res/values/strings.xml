@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Wind Forecast App</string>
+    <string name="a11y_add_location">Add a new location</string>
+    <string name="title_favourite_locations">Your Favourite locations</string>
 </resources>
