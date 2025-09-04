@@ -8,7 +8,7 @@ import retrofit2.Response
 
 interface WeatherRepository {
 
-    suspend fun forecast(): Result
+    suspend fun forecast(locationData: LocationData): Result
 
     sealed class Result {
         data class Success(val data: WeatherData) : Result()
@@ -24,9 +24,12 @@ class WeatherRepositoryImpl(
     // injected instead
     //val apiInterface = RetrofitInstance.getInstance().create(ApiInterface::class.java)
 
-    override suspend fun forecast(): Result {
+    override suspend fun forecast(locationData: LocationData): Result {
         // using coroutines
-        val response: Response<WeatherResponse> = weatherService.forecast()
+        val response: Response<WeatherResponse> = weatherService.forecast(
+            latitude = locationData.lat,
+            longitude = locationData.lng,
+        )
         return if (response.isSuccessful && response.body() != null) {
             Result.Success(transformer.transformForecast(response.body()))
         } else {

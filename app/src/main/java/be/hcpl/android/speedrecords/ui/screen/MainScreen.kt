@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
@@ -25,7 +26,7 @@ fun MainScreen(
         modifier = modifier
             .padding(8.dp)
     ) {
-        // TODO allow for picking favorite locations
+        // TODO allow for managing favorite locations
         // TODO translations needed here
         Text("Your Favorite locations")
 
@@ -34,6 +35,7 @@ fun MainScreen(
 
     // TODO on detail view of a location show all values per hour
 }
+
 // TODO on overview show per location and show min/max values for that day
 
 // TODO allow configuration of threshold for warnings, colors, and more
@@ -58,8 +60,10 @@ fun LocationItem(model: LocationItemUiModel) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = spacedBy(8.dp),
     ) {
-        
-        Text(model.locationName, modifier = Modifier.height(48.dp))
+
+        Text(model.locationName, modifier = Modifier.heightIn(min = 48.dp))
+
+        // TODO forecasts here
     }
 }
 

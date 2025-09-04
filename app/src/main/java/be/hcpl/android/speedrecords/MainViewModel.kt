@@ -35,7 +35,7 @@ class MainViewModel(
             val locations = locationRepository.getLocations()
             locations.forEach { location ->
                 // get forecast weather data
-                val result = weatherRepository.forecast()
+                val result = weatherRepository.forecast(location)
                 Log.d("TAG", "fetched result is $result")
                 when (result) {
                     is WeatherRepository.Result.Success -> {
@@ -49,7 +49,7 @@ class MainViewModel(
     }
 
     fun updateAllData() {
-        doInit()
+       // doInit()
     }
 
     private fun refreshUi(){
