@@ -38,7 +38,7 @@ fun MainScreen(
 
 // TODO on overview show per location and show min/max values for that day
 
-// TODO allow configuration of threshold for warnings, colors, and more
+// TODO allow configuration of threshold for warnings, colors, and what timeslots to include
 
 @Composable
 fun LocationOverview(model: LocationUiModel) {
@@ -48,6 +48,9 @@ fun LocationOverview(model: LocationUiModel) {
     ) {
         model.locations.forEach { location ->
             item {
+                Text(text = location.locationName, modifier = Modifier.heightIn(min = 48.dp))
+            }
+            item {
                 LocationItem(location)
             }
         }
@@ -56,14 +59,14 @@ fun LocationOverview(model: LocationUiModel) {
 
 @Composable
 fun LocationItem(model: LocationItemUiModel) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = spacedBy(8.dp),
-    ) {
-
-        Text(model.locationName, modifier = Modifier.heightIn(min = 48.dp))
-
-        // TODO forecasts here
+    model.hourlyForecast?.hourly?.forEach {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = spacedBy(8.dp),
+        ) {
+            Text(text = "${it.value.time}")
+            Text(text = "${it.value.windSpeedAt10m} knots")
+        }
     }
 }
 
