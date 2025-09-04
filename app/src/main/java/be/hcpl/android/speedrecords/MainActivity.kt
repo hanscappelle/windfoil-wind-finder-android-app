@@ -1,7 +1,6 @@
 package be.hcpl.android.speedrecords
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.activity.compose.setContent
-import be.hcpl.android.speedrecords.screen.MainScreen
+import be.hcpl.android.speedrecords.ui.screen.LocationUiModel
+import be.hcpl.android.speedrecords.ui.screen.MainScreen
 import be.hcpl.android.speedrecords.ui.theme.AppTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
@@ -22,22 +22,29 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        updateContent(LocationUiModel(locations = emptyList()))
+        viewModel.state.observeForever(::handleState)
+    }
+
+    private fun updateContent(locations: LocationUiModel) {
         setContent {
             AppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding))
+                    MainScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        model = locations,
+                    )
                 }
             }
         }
-        viewModel.state.observeForever(::handleState)
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.update()
+        viewModel.updateAllData()
     }
 
-    private fun handleState(state: MainViewModel.State){
-        Log.d("TAG", "new state received, $state")
+    private fun handleState(state: MainViewModel.State) {
+        updateContent(state.locations)
     }
 }

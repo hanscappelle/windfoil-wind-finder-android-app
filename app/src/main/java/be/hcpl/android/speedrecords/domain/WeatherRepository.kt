@@ -2,7 +2,7 @@ package be.hcpl.android.speedrecords.domain
 
 import be.hcpl.android.speedrecords.api.OpenWeatherService
 import be.hcpl.android.speedrecords.api.WeatherResponse
-import be.hcpl.android.speedrecords.api.WeatherTransformer
+import be.hcpl.android.speedrecords.api.transformer.WeatherTransformer
 import be.hcpl.android.speedrecords.domain.WeatherRepository.Result
 import retrofit2.Response
 

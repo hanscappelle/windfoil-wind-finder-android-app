@@ -1,5 +1,7 @@
-package be.hcpl.android.speedrecords.api
+package be.hcpl.android.speedrecords.api.transformer
 
+import be.hcpl.android.speedrecords.api.Hourly
+import be.hcpl.android.speedrecords.api.WeatherResponse
 import be.hcpl.android.speedrecords.domain.HourlyUnit
 import be.hcpl.android.speedrecords.domain.HourlyValue
 import be.hcpl.android.speedrecords.domain.WeatherData
