@@ -14,6 +14,7 @@ Initial app release
 - allow for easy location input when adding locations
 - improve UI
 - show weather as an icon, see wmo weather code
+- allow for custom colours, hours, warnings, thresholds, ...
 
 # Resources
 
