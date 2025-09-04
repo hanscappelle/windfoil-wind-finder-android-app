@@ -95,7 +95,14 @@ class MainViewModel(
     }
 
     fun deleteLocation(name: String) {
-        TODO("Not yet implemented")
+        val matchedLocation = weatherData.keys.find { it.name == name }
+        matchedLocation?.let {
+            when (locationRepository.dropLocation(matchedLocation)) {
+                is LocationRepository.Result.Data -> Unit
+                LocationRepository.Result.Failed -> Unit // TODO handle error
+                LocationRepository.Result.Success -> updateAllData()
+            }
+        }
     }
 
     data class State(
