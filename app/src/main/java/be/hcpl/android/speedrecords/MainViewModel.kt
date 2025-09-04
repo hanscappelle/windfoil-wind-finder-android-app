@@ -63,6 +63,8 @@ class MainViewModel(
             LocationRepository.Result.Success -> {
                 updateAllData()
             }
+
+            LocationRepository.Result.Failed -> Unit
         }
     }
 

@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.domain.WeatherData
+import be.hcpl.android.speedrecords.ui.view.InfoDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,45 +39,8 @@ fun MainScreen(
     model: LocationUiModel,
 ) {
 
-    // TODO extract dialog
-    val openDialog = remember { mutableStateOf(false) }
-
-    if (openDialog.value) {
-        androidx.compose.material3.AlertDialog(
-            onDismissRequest = { openDialog.value = false }
-        ) {
-            Surface(
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .wrapContentHeight(),
-                shape = MaterialTheme.shapes.large
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = spacedBy(8.dp),
-                    modifier = Modifier
-                    .padding(32.dp)
-
-                ) {
-                    Text(
-                        text = stringResource(R.string.info_add_location),
-                        fontSize = 20.sp,
-                        //textAlign = Alignment.CenterHorizontally,
-                    )
-                    Text(
-                        text = stringResource(R.string.info_add_location_extra),
-                        fontSize = 20.sp,
-                        //textAlign = Alignment.CenterHorizontally,
-                    )
-                    Button(
-                        onClick = { openDialog.value = false },
-                    ) {
-                        Text(text = stringResource(R.string.ok))
-                    }
-                }
-            }
-        }
-    }
+    val openInfoDialog = remember { mutableStateOf(false) }
+    InfoDialog(openInfoDialog)
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -85,7 +49,7 @@ fun MainScreen(
             .padding(8.dp)
     ) {
 
-        LocationsOverviewHeader({ openDialog.value = true })
+        LocationsOverviewHeader({ openInfoDialog.value = true })
 
         LocationOverview(model)
     }
