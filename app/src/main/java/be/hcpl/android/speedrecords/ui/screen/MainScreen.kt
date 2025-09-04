@@ -3,16 +3,23 @@ package be.hcpl.android.speedrecords.ui.screen
 import be.hcpl.android.speedrecords.R
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,11 +29,36 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.domain.WeatherData
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
     model: LocationUiModel,
 ) {
+
+    val openDialog = remember { mutableStateOf(false) }
+
+    if (openDialog.value) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { openDialog.value = false }
+        ) {
+            Surface(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .wrapContentHeight(),
+                shape = MaterialTheme.shapes.large
+            ) {
+                Column(modifier = Modifier.padding(32.dp)) {
+                    Text(
+                        text = stringResource(R.string.info_add_location),
+                        fontSize = 20.sp,
+                        //textAlign = Alignment.CenterHorizontally,
+                    )
+                    // TODO close button needed here
+                }
+            }
+        }
+    }
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -35,7 +67,7 @@ fun MainScreen(
             .padding(8.dp)
     ) {
 
-        LocationsHeader()
+        LocationsOverviewHeader({ openDialog.value = true })
 
         LocationOverview(model)
     }
@@ -44,7 +76,7 @@ fun MainScreen(
 }
 
 @Composable
-fun LocationsHeader() {
+fun LocationsOverviewHeader(onAddNewLocation: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = spacedBy(8.dp),
@@ -58,8 +90,9 @@ fun LocationsHeader() {
 
         // TODO allow for managing favorite locations
         Icon(
-            painter = painterResource(android.R.drawable.ic_menu_edit),
-            contentDescription = stringResource(id = R.string.a11y_add_location)
+            painter = painterResource(android.R.drawable.ic_menu_add),
+            contentDescription = stringResource(id = R.string.a11y_add_location),
+            modifier = Modifier.clickable(onClick = onAddNewLocation)
         )
     }
 }
@@ -81,6 +114,13 @@ fun LocationOverview(model: LocationUiModel) {
                         .heightIn(min = 48.dp)
                         .wrapContentHeight(align = Alignment.CenterVertically)
                 )
+                // TODO allow deletion of location here
+                // TODO add link to show location on map here
+                //String uri = "geo:" + latitude + ","
+                //+longitude + "?q=" + latitude
+                //+ "," + longitude;
+                //startActivity(new Intent(android.content.Intent.ACTION_VIEW,
+                //    Uri.parse(uri)));
             }
             item {
                 LocationItem(location)

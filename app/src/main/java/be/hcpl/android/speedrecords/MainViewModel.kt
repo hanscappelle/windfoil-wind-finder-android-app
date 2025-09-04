@@ -19,6 +19,7 @@ class MainViewModel(
 ) : ViewModel() {
 
     val state = MutableLiveData<State>()
+    val events = MutableLiveData<Event>()
 
     val weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
 
@@ -54,7 +55,15 @@ class MainViewModel(
         state.postValue(State(locations = uiModelTransformer.transform(weatherData)))
     }
 
+    fun onAddNewLocation() {
+        events.postValue(Event.AddNewLocationInfo)
+    }
+
     data class State(
         val locations: LocationUiModel = LocationUiModel(emptyList())
     )
+
+    sealed class Event{
+        data object AddNewLocationInfo : Event()
+    }
 }

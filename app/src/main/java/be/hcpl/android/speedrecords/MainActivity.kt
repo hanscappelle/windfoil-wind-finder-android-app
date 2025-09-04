@@ -24,6 +24,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         updateContent(LocationUiModel(locations = emptyList()))
         viewModel.state.observeForever(::handleState)
+        viewModel.events.observeForever(::handleEvent)
+    }
+
+    private fun handleEvent(event: MainViewModel.Event) {
+        when(event){
+            MainViewModel.Event.AddNewLocationInfo -> showLocationInfoPopUp()
+        }
+    }
+
+    private fun showLocationInfoPopUp() {
+
     }
 
     private fun updateContent(locations: LocationUiModel) {

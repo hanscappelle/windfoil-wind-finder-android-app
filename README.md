@@ -11,15 +11,13 @@ retrofit for network calls
 https://square.github.io/retrofit/
 https://medium.com/@pritam.karmahapatra/retrofit-in-android-with-kotlin-9af9f66a54a8
 
+## General Info
 
+wind speed at 10 vs 100m; altitude that is, see more info at https://www.nature.com/articles/s41598-025-88295-8
 
-## wind speed at 10 vs 100m
+lat lng for testing; Brussels: lat=50.85045&lng=4.34878
 
-altitude that is, see more info at https://www.nature.com/articles/s41598-025-88295-8
-
-## lat lng for testing
-
-Brussels: lat=50.85045&lng=4.34878
+info on using dialogs in compose https://stackoverflow.com/questions/68852110/show-custom-alert-dialog-in-jetpack-compose
 
 ## wmo weather code
 
