@@ -14,25 +14,28 @@ interface WeatherTransformer {
 
 class WeatherTransformerImpl() : WeatherTransformer {
 
-    override fun transformForecast(response: WeatherResponse?) = WeatherData(
-        latitude = response?.latitude ?: 0.0,
-        longitude = response?.longitude ?: 0.0,
-        timezone = response?.timezone ?: "",
-        units = response?.hourly_units?.let {
-            HourlyUnit(
-                time = it.time,
-                temperatureAt2m = it.temperature_2m,
-                precipitation = it.precipitation,
-                weatherCode = it.weather_code,
-                cloudCover = it.cloud_cover,
-                windSpeedAt10m = it.wind_speed_10m,
-                windDirectionAt10m = it.wind_direction_10m,
-                windGustsAt10m = it.wind_gusts_10m,
-            )
-        },
-        hourly = transformHourlyValues(response?.hourly),
-        daily = calculateDailyValues(response?.hourly),
-    )
+    override fun transformForecast(response: WeatherResponse?): WeatherData {
+        val hourly = transformHourlyValues(response?.hourly)
+        return WeatherData(
+            latitude = response?.latitude ?: 0.0,
+            longitude = response?.longitude ?: 0.0,
+            timezone = response?.timezone ?: "",
+            units = response?.hourly_units?.let {
+                HourlyUnit(
+                    time = it.time,
+                    temperatureAt2m = it.temperature_2m,
+                    precipitation = it.precipitation,
+                    weatherCode = it.weather_code,
+                    cloudCover = it.cloud_cover,
+                    windSpeedAt10m = it.wind_speed_10m,
+                    windDirectionAt10m = it.wind_direction_10m,
+                    windGustsAt10m = it.wind_gusts_10m,
+                )
+            },
+            hourly = hourly,
+            daily = calculateDailyValues(hourly),
+        )
+    }
 
     private fun transformHourlyValues(hourly: Hourly?): Map<String, HourlyValue> {
         return hourly?.time?.mapIndexedNotNull { index, value ->
@@ -49,8 +52,24 @@ class WeatherTransformerImpl() : WeatherTransformer {
         }?.toMap().orEmpty()
     }
 
-    private fun calculateDailyValues(hourly: Hourly?): Map<String, DailyValue> {
-        // TODO map all these values
-        return emptyMap()
+    private fun calculateDailyValues(hourly: Map<String, HourlyValue>): Map<String, DailyValue> {
+        return hourly.values
+            .filter { it.time != null } // Ensure time and value are not null
+            .groupBy {
+                it.time!!.substring(0, 10) // Extract date part "yyyy-MM-dd"
+            }
+            .mapValues { entry ->
+                // entry.key is the date string "yyyy-MM-dd"
+                // entry.value is List<HourlyValue> for that date
+                //val sumForDate = entry.value.sumOf { it.someIntValue!! } // Values are already filtered for non-null
+                DailyValue(
+                    time = entry.key,
+                    temperatureAt2mMin = entry.value.minOf { it.temperatureAt2m!! },
+                    temperatureAt2mMax = entry.value.maxOf { it.temperatureAt2m!! },
+                    windSpeedAt10mMin = entry.value.minOf { it.windSpeedAt10m!! },
+                    windSpeedAt10mMax = entry.value.maxOf { it.windSpeedAt10m!! },
+                    windGustsAt10mMax = entry.value.maxOf { it.windGustsAt10m!! },
+                )
+            }
     }
 }

@@ -38,7 +38,7 @@ data class DailyValue(
     val time: String?,
     val temperatureAt2mMin: Double?,
     val temperatureAt2mMax: Double?,
-    val weatherCodeAtNoon: Int?,
+    //val weatherCodeAtNoon: Int?,
     val windSpeedAt10mMin: Double?,
     val windSpeedAt10mMax: Double?,
     val windGustsAt10mMax: Double?,
