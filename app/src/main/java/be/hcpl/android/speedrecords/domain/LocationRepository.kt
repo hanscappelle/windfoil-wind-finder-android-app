@@ -28,7 +28,7 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
     val gson = Gson()
 
     // some initial valid data to start with for clean app
-    var localLocations = mutableListOf(
+    var localLocations = listOf(
         LocationData(
             "Espace Fun @ Lacs De l'Eau d'Heure",
             50.1890147,
@@ -42,24 +42,26 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
     )
 
     override fun addNewLocation(received: String?): Result {
-        // should be received as [50.1890147, 4.3504654]
-        // TODO allow adding a name to this location
+        // should be received as [50.1890147, 4.3504654] or [50.1890147, 4.3504654, location name]
+        // TODO allow adding a name to this location (also in UI)
         val split = received?.split(", ")
-        localLocations.add(
+        val changed = localLocations.toMutableList()
+        changed.add(
             LocationData(
-                name = received.orEmpty(),
+                name = if((split?.size ?: 0) > 2) split?.get(2).orEmpty() else received.orEmpty(),
                 lat = split?.get(0)?.toDouble() ?: 0.0,
                 lng = split?.get(1)?.toDouble() ?: 0.0,
             )
         )
         // and store in preferences
-        persistLocations()
+        persistLocations(changed)
         return Result.Success
     }
 
     override fun dropLocation(location: LocationData): Result {
-        return if (localLocations.remove(location)) {
-            persistLocations()
+        val changed = localLocations.toMutableList()
+        return if (changed.remove(location)) {
+            persistLocations(changed)
             Result.Success
         } else Result.Failed
     }
@@ -75,8 +77,8 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
         return Result.Data(localLocations)
     }
 
-    private fun persistLocations() {
-        sharedPref.edit().putString(PREF_KEY_STORED_LOCATIONS, gson.toJson(localLocations)).apply()
+    private fun persistLocations(locations: List<LocationData> = localLocations) {
+        sharedPref.edit().putString(PREF_KEY_STORED_LOCATIONS, gson.toJson(locations)).apply()
     }
 
     override fun renameLocation(oldName: String, newName: String): Result {
@@ -86,9 +88,10 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
             Result.Failed
         } else {
             var atIndex = localLocations.indexOf(matchedLocation)
-            localLocations.remove(matchedLocation)
-            localLocations.add(atIndex, matchedLocation.copy(name = newName))
-            persistLocations()
+            val changed = localLocations.toMutableList()
+            changed.remove(matchedLocation)
+            changed.add(atIndex, matchedLocation.copy(name = newName))
+            persistLocations(changed)
             Result.Success
         }
     }
