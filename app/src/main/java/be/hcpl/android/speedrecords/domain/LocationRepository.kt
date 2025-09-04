@@ -67,7 +67,10 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
     override fun retrieveLocations(): Result {
         val storedLocations = sharedPref.getString(PREF_KEY_STORED_LOCATIONS, null)
         if (storedLocations != null) {
-            localLocations = gson.fromJson<List<LocationData>>(storedLocations, listOfLocationsType).toMutableList()
+            val parsedLocations = gson.fromJson<List<LocationData>>(storedLocations, listOfLocationsType).toMutableList()
+            if (parsedLocations.isNotEmpty()) {
+                localLocations = parsedLocations
+            }
         }
         return Result.Data(localLocations)
     }
