@@ -3,8 +3,7 @@ package be.hcpl.android.speedrecords.domain
 import be.hcpl.android.speedrecords.api.OpenWeatherService
 import be.hcpl.android.speedrecords.api.WeatherResponse
 import be.hcpl.android.speedrecords.api.WeatherTransformer
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import be.hcpl.android.speedrecords.domain.WeatherRepository.Result
 import retrofit2.Response
 
 interface WeatherRepository {
@@ -25,16 +24,16 @@ class WeatherRepositoryImpl(
     // injected instead
     //val apiInterface = RetrofitInstance.getInstance().create(ApiInterface::class.java)
 
-    override suspend fun forecast(): WeatherRepository.Result {
+    override suspend fun forecast(): Result {
         // using coroutines
         val response: Response<WeatherResponse> = weatherService.forecast()
         return if (response.isSuccessful && response.body() != null) {
-            WeatherRepository.Result.Success(transformer.transformForecast(response.body()))
+            Result.Success(transformer.transformForecast(response.body()))
         } else {
-            WeatherRepository.Result.Failed(response.message())
+            Result.Failed(response.message())
         }
     }
-    // using callbacks
+    // alternative using callbacks
     //val call = weatherService.forecastWithCallback() : Call<WeatherResponse>
     //call.enqueue(object : Callback<WeatherResponse> {
     //    override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {

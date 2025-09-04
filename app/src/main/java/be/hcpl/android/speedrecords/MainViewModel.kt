@@ -18,6 +18,8 @@ class MainViewModel(
         doInit()
     }
 
+    // TODO pass location and date range
+
     private fun doInit() {
         viewModelScope.launch {
             val result = weatherRepository.forecast()
