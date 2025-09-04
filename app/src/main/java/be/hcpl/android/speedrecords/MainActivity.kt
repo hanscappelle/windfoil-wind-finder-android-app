@@ -59,6 +59,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding),
                         model = locations,
                         onRefresh = { viewModel.updateAllData() },
+                        onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName)}
                     )
                 }
             }

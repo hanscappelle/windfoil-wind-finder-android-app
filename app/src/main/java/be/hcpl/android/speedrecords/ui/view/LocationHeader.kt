@@ -19,7 +19,7 @@ import be.hcpl.android.speedrecords.ui.screen.LocationItemUiModel
 @Composable
 fun LocationHeader(
     location: LocationItemUiModel,
-    onShowLocation: () -> Unit = {},
+    onShowLocation: () -> Unit = {}, // TODO implement navigation to maps
     onRenameLocation: (String) -> Unit = {},
     onDeleteLocation: () -> Unit = {},
 ) {

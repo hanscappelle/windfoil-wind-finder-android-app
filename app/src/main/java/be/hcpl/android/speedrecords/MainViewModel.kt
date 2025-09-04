@@ -31,6 +31,7 @@ class MainViewModel(
     private fun doInit() {
         viewModelScope.launch {
             // for all configured locations
+            weatherData.clear()
             val locations = locationRepository.getLocations()
             locations.forEach { location ->
                 // get forecast weather data
@@ -60,11 +61,16 @@ class MainViewModel(
         Log.d("TEST", "received $sharedText")
         val result = locationRepository.addNewLocation(sharedText)
         when(result) {
-            LocationRepository.Result.Success -> {
-                updateAllData()
-            }
+            LocationRepository.Result.Success -> updateAllData()
+            LocationRepository.Result.Failed -> Unit // TODO handle errors
+        }
+    }
 
-            LocationRepository.Result.Failed -> Unit
+    fun updateLocationName(oldName: String, newName: String) {
+        val result = locationRepository.renameLocation(oldName, newName)
+        when(result) {
+            LocationRepository.Result.Success -> updateAllData()
+            LocationRepository.Result.Failed -> Unit // TODO handle errors
         }
     }
 

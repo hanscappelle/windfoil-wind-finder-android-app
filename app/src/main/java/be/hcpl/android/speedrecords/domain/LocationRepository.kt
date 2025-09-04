@@ -11,6 +11,7 @@ interface LocationRepository {
     fun getLocations(): List<LocationData>
     fun addNewLocation(string: String?): Result
     fun dropLocation(location: LocationData): Result
+    fun renameLocation(oldName: String, newName: String): Result
 
     sealed class Result {
         data object Success : Result()
@@ -20,7 +21,6 @@ interface LocationRepository {
 
 class LocationRepositoryImpl(context: Context) : LocationRepository {
 
-    // TODO store in shared prefs
     val sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
 
     // TODO inject gson instead
@@ -51,11 +51,16 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
             )
         )
         // and store in preferences
-        sharedPref.edit().putString(PREF_KEY_STORED_LOCATIONS, gson.toJson(localLocations)).apply()
+        persistLocations()
         return Result.Success
     }
 
-    override fun dropLocation(location: LocationData) = if (localLocations.remove(location)) Result.Success else Result.Failed
+    override fun dropLocation(location: LocationData): Result {
+        return if (localLocations.remove(location)) {
+            persistLocations()
+            Result.Success
+        } else Result.Failed
+    }
 
     override fun getLocations(): List<LocationData> {
         val storedLocations = sharedPref.getString(PREF_KEY_STORED_LOCATIONS, null)
@@ -64,6 +69,22 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
         }
         // TODO return Result instead here
         return localLocations
+    }
+
+    private fun persistLocations() {
+        sharedPref.edit().putString(PREF_KEY_STORED_LOCATIONS, gson.toJson(localLocations)).apply()
+    }
+
+    override fun renameLocation(oldName: String, newName: String): Result {
+        var matchedLocation = localLocations.find { it.name == oldName }
+        return if (matchedLocation == null) {
+            Result.Failed
+        } else {
+            localLocations.remove(matchedLocation)
+            localLocations.add(matchedLocation.copy(name = newName))
+            persistLocations()
+            Result.Success
+        }
     }
 }
 

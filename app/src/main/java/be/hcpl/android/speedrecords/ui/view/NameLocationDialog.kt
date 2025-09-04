@@ -31,11 +31,9 @@ import be.hcpl.android.speedrecords.R
 @Composable
 fun NameLocationDialog(
     openDialog: MutableState<Boolean>,
-    locationName: String = "",
+    locationName: MutableState<String>,
     onNameEntered: (String) -> Unit = {},
 ) {
-
-    val locationName = remember { mutableStateOf(locationName) }
 
     if (openDialog.value) {
         AlertDialog(
