@@ -1,5 +1,9 @@
 package be.hcpl.android.speedrecords
 
+import android.R
+import android.R.attr.action
+import android.R.attr.type
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
@@ -16,7 +20,6 @@ import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
 
-    // add viewModel to get all weather data from API
     private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,16 +28,30 @@ class MainActivity : ComponentActivity() {
         updateContent(LocationUiModel(locations = emptyList()))
         viewModel.state.observeForever(::handleState)
         viewModel.events.observeForever(::handleEvent)
+
+        checkForReceivedLocations()
+    }
+
+    private fun checkForReceivedLocations() {
+        val intent = intent
+        val action = intent.action
+        val type = intent.type
+
+        if (Intent.ACTION_SEND == action && type != null) {
+            if ("text/plain" == type) {
+                viewModel.receivedLocation(intent) // Handle text being sent
+            }
+        }
     }
 
     private fun handleEvent(event: MainViewModel.Event) {
         when(event){
-            MainViewModel.Event.AddNewLocationInfo -> showLocationInfoPopUp()
+            MainViewModel.Event.AddNewLocationInfo -> Unit
         }
     }
 
-    private fun showLocationInfoPopUp() {
-
+    private fun handleState(state: MainViewModel.State) {
+        updateContent(state.locations)
     }
 
     private fun updateContent(locations: LocationUiModel) {
@@ -52,10 +69,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateAllData()
+        //viewModel.updateAllData() // TODO refresh needed here?
     }
 
-    private fun handleState(state: MainViewModel.State) {
-        updateContent(state.locations)
-    }
 }

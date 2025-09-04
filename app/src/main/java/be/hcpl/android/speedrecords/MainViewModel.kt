@@ -1,5 +1,6 @@
 package be.hcpl.android.speedrecords
 
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,7 +29,6 @@ class MainViewModel(
     }
 
     private fun doInit() {
-
         viewModelScope.launch {
             // for all configured locations
             val locations = locationRepository.getLocations()
@@ -48,15 +48,22 @@ class MainViewModel(
     }
 
     fun updateAllData() {
-       // doInit()
+       doInit()
     }
 
     private fun refreshUi(){
         state.postValue(State(locations = uiModelTransformer.transform(weatherData)))
     }
 
-    fun onAddNewLocation() {
-        events.postValue(Event.AddNewLocationInfo)
+    fun receivedLocation(intent: Intent) {
+        var sharedText: String? = intent.getStringExtra(Intent.EXTRA_TEXT)
+        Log.d("TEST", "received $sharedText")
+        val result = locationRepository.addNewLocation(sharedText)
+        when(result) {
+            LocationRepository.Result.Success -> {
+                updateAllData()
+            }
+        }
     }
 
     data class State(

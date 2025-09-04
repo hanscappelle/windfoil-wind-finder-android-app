@@ -1,5 +1,6 @@
 package be.hcpl.android.speedrecords.ui.screen
 
+import android.graphics.Paint
 import be.hcpl.android.speedrecords.R
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +38,7 @@ fun MainScreen(
     model: LocationUiModel,
 ) {
 
+    // TODO extract dialog
     val openDialog = remember { mutableStateOf(false) }
 
     if (openDialog.value) {
@@ -48,13 +51,28 @@ fun MainScreen(
                     .wrapContentHeight(),
                 shape = MaterialTheme.shapes.large
             ) {
-                Column(modifier = Modifier.padding(32.dp)) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = spacedBy(8.dp),
+                    modifier = Modifier
+                    .padding(32.dp)
+
+                ) {
                     Text(
                         text = stringResource(R.string.info_add_location),
                         fontSize = 20.sp,
                         //textAlign = Alignment.CenterHorizontally,
                     )
-                    // TODO close button needed here
+                    Text(
+                        text = stringResource(R.string.info_add_location_extra),
+                        fontSize = 20.sp,
+                        //textAlign = Alignment.CenterHorizontally,
+                    )
+                    Button(
+                        onClick = { openDialog.value = false },
+                    ) {
+                        Text(text = stringResource(R.string.ok))
+                    }
                 }
             }
         }
