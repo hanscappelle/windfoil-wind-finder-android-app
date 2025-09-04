@@ -77,12 +77,14 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
     }
 
     override fun renameLocation(oldName: String, newName: String): Result {
+        // TODO we should really work with an ID instead of matching on name
         var matchedLocation = localLocations.find { it.name == oldName }
         return if (matchedLocation == null) {
             Result.Failed
         } else {
+            var atIndex = localLocations.indexOf(matchedLocation)
             localLocations.remove(matchedLocation)
-            localLocations.add(matchedLocation.copy(name = newName))
+            localLocations.add(atIndex, matchedLocation.copy(name = newName))
             persistLocations()
             Result.Success
         }

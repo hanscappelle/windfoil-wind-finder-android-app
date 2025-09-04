@@ -31,7 +31,7 @@ fun MainScreen(
 
     val addLocationDialog = remember { mutableStateOf(false) }
     val locationNameState = remember { mutableStateOf("") }
-    // TODO should work with an id instead
+    // TODO should work with an ID instead...
     val oldNameValueState = remember { mutableStateOf("") }
     NameLocationDialog(
         openDialog = addLocationDialog,
