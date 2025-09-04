@@ -20,6 +20,7 @@ class MainViewModel(
 ) : ViewModel() {
 
     val state = MutableLiveData<State>()
+    // TODO not in use yet
     val events = MutableLiveData<Event>()
 
     val weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
@@ -32,27 +33,37 @@ class MainViewModel(
         viewModelScope.launch {
             // for all configured locations
             weatherData.clear()
-            val locations = locationRepository.getLocations()
-            locations.forEach { location ->
-                // get forecast weather data
-                val result = weatherRepository.forecast(location)
-                Log.d("TAG", "fetched result is $result")
-                when (result) {
-                    is WeatherRepository.Result.Success -> {
-                        weatherData.put(location, result.data)
-                        refreshUi()
-                    }
-                    is WeatherRepository.Result.Failed -> Log.d("TAG", "failed to get data with error ${result.reason}")
+            val data = locationRepository.retrieveLocations()
+            when (data) {
+                is LocationRepository.Result.Data -> handleReceivedLocations(data.locations)
+                LocationRepository.Result.Failed,
+                LocationRepository.Result.Success,
+                    -> Unit
+            }
+        }
+    }
+
+    suspend fun handleReceivedLocations(locations: List<LocationData>) {
+        locations.forEach { location ->
+            // get forecast weather data
+            val result = weatherRepository.forecast(location)
+            Log.d("TAG", "fetched result is $result")
+            when (result) {
+                is WeatherRepository.Result.Success -> {
+                    weatherData.put(location, result.data)
+                    refreshUi()
                 }
+
+                is WeatherRepository.Result.Failed -> Log.d("TAG", "failed to get data with error ${result.reason}")
             }
         }
     }
 
     fun updateAllData() {
-       doInit()
+        doInit()
     }
 
-    private fun refreshUi(){
+    private fun refreshUi() {
         state.postValue(State(locations = uiModelTransformer.transform(weatherData)))
     }
 
@@ -60,25 +71,27 @@ class MainViewModel(
         var sharedText: String? = intent.getStringExtra(Intent.EXTRA_TEXT)
         Log.d("TEST", "received $sharedText")
         val result = locationRepository.addNewLocation(sharedText)
-        when(result) {
+        when (result) {
             LocationRepository.Result.Success -> updateAllData()
             LocationRepository.Result.Failed -> Unit // TODO handle errors
+            is LocationRepository.Result.Data -> Unit
         }
     }
 
     fun updateLocationName(oldName: String, newName: String) {
         val result = locationRepository.renameLocation(oldName, newName)
-        when(result) {
+        when (result) {
             LocationRepository.Result.Success -> updateAllData()
             LocationRepository.Result.Failed -> Unit // TODO handle errors
+            is LocationRepository.Result.Data -> Unit
         }
     }
 
     data class State(
-        val locations: LocationUiModel = LocationUiModel(emptyList())
+        val locations: LocationUiModel = LocationUiModel(emptyList()),
     )
 
-    sealed class Event{
+    sealed class Event {
         data object AddNewLocationInfo : Event()
     }
 }

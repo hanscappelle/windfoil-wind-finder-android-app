@@ -8,12 +8,13 @@ import com.google.gson.reflect.TypeToken
 
 interface LocationRepository {
 
-    fun getLocations(): List<LocationData>
+    fun retrieveLocations(): Result
     fun addNewLocation(string: String?): Result
     fun dropLocation(location: LocationData): Result
     fun renameLocation(oldName: String, newName: String): Result
 
     sealed class Result {
+        data class Data(val locations: List<LocationData>) : Result()
         data object Success : Result()
         data object Failed : Result()
     }
@@ -26,6 +27,7 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
     // TODO inject gson instead
     val gson = Gson()
 
+    // some initial valid data to start with for clean app
     var localLocations = mutableListOf(
         LocationData(
             "Espace Fun @ Lacs De l'Eau d'Heure",
@@ -62,13 +64,12 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
         } else Result.Failed
     }
 
-    override fun getLocations(): List<LocationData> {
+    override fun retrieveLocations(): Result {
         val storedLocations = sharedPref.getString(PREF_KEY_STORED_LOCATIONS, null)
         if (storedLocations != null) {
             localLocations = gson.fromJson<List<LocationData>>(storedLocations, listOfLocationsType).toMutableList()
         }
-        // TODO return Result instead here
-        return localLocations
+        return Result.Data(localLocations)
     }
 
     private fun persistLocations() {
