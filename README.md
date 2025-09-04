@@ -3,6 +3,18 @@
 An overview of wind forecast for given (favorites) location for the coming 10 days
 plus a detail view of the hourly forecast for each given location
 
+# Version History
+
+## 0.1.0
+
+Initial app release
+
+# TODO
+
+- allow for easy location input when adding locations
+- improve UI
+- show weather as an icon, see wmo weather code
+
 # Resources
 
 ## Dependencies
