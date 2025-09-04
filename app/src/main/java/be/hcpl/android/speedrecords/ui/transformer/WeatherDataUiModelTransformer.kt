@@ -2,8 +2,8 @@ package be.hcpl.android.speedrecords.ui.transformer
 
 import be.hcpl.android.speedrecords.domain.LocationData
 import be.hcpl.android.speedrecords.domain.WeatherData
-import be.hcpl.android.speedrecords.ui.screen.LocationItemUiModel
-import be.hcpl.android.speedrecords.ui.screen.LocationUiModel
+import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
+import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 
 interface WeatherDataUiModelTransformer {
     fun transform(map: MutableMap<LocationData, WeatherData>): LocationUiModel

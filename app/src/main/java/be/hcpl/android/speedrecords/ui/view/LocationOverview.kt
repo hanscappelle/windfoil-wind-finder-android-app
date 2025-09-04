@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
-import be.hcpl.android.speedrecords.ui.screen.LocationUiModel
+import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 
 @Composable
 fun LocationOverview(

@@ -3,16 +3,20 @@ package be.hcpl.android.speedrecords.ui.screen
 import be.hcpl.android.speedrecords.R
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import be.hcpl.android.speedrecords.domain.WeatherData
+import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.view.ConfirmDialog
 import be.hcpl.android.speedrecords.ui.view.InfoDialog
 import be.hcpl.android.speedrecords.ui.view.LocationOverview
@@ -63,6 +67,13 @@ fun MainScreen(
             onRefresh = onRefresh,
         )
 
+        HorizontalDivider (
+            color = Color.White,
+            modifier = Modifier
+                .height(1.dp)
+                .fillMaxWidth()
+        )
+
         LocationOverview(
             model = model,
             onRenameLocation = { name ->
@@ -81,15 +92,3 @@ fun MainScreen(
     // TODO on detail view of a location show all values per hour
     // TODO allow configuration of threshold for warnings, colors, and what timeslots to include in detail
 }
-
-
-data class LocationUiModel(
-    val locations: List<LocationItemUiModel>,
-)
-
-data class LocationItemUiModel(
-    val locationName: String,
-    val lat: Double,
-    val lng: Double,
-    val hourlyForecast: WeatherData?,
-)

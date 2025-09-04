@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.R
-import be.hcpl.android.speedrecords.ui.screen.LocationItemUiModel
+import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
 
 @Composable
 fun LocationHeader(

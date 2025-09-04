@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import be.hcpl.android.speedrecords.ui.screen.LocationItemUiModel
+import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
 
 @Composable
 fun LocationItem(model: LocationItemUiModel) {
