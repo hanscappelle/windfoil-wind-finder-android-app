@@ -1,6 +1,7 @@
 package be.hcpl.android.speedrecords
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +21,6 @@ class MainViewModel(
 ) : ViewModel() {
 
     val state = MutableLiveData<State>()
-    // TODO not in use yet
     val events = MutableLiveData<Event>()
 
     val weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
@@ -87,11 +87,22 @@ class MainViewModel(
         }
     }
 
+    fun showLocation(name: String) {
+        val matchedLocation = weatherData.keys.find { it.name == name }
+        matchedLocation?.let {
+            events.postValue(Event.ShowLocationOnMap(uri = Uri.parse("https://maps.google.com/maps?q=loc:" + matchedLocation.lat + "," + matchedLocation.lng + " (" + matchedLocation.name + ")")))
+        }
+    }
+
+    fun deleteLocation(name: String) {
+        TODO("Not yet implemented")
+    }
+
     data class State(
         val locations: LocationUiModel = LocationUiModel(emptyList()),
     )
 
     sealed class Event {
-        data object AddNewLocationInfo : Event()
+        data class ShowLocationOnMap(val uri: Uri) : Event()
     }
 }

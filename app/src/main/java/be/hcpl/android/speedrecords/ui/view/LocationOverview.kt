@@ -11,6 +11,8 @@ import be.hcpl.android.speedrecords.ui.screen.LocationUiModel
 fun LocationOverview(
     model: LocationUiModel,
     onRenameLocation: (String) -> Unit = {},
+    onShowLocation: (String) -> Unit = {},
+    onDeleteLocation: (String) -> Unit = {},
 ) {
     LazyColumn(
         horizontalAlignment = Alignment.Start,
@@ -21,6 +23,8 @@ fun LocationOverview(
                 LocationHeader(
                     location = location,
                     onRenameLocation = { onRenameLocation(location.locationName) },
+                    onShowLocation = { onShowLocation(location.locationName) },
+                    onDeleteLocation = { onDeleteLocation(location.locationName) },
                 )
             }
             item {

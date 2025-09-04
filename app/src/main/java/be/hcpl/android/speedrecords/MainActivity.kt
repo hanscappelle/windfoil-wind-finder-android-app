@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         val type = intent.type
 
         if (Intent.ACTION_SEND == action && type != null) {
-            if ("text/plain" == type) {
+            if (TYPE_TEXT_PLAIN == type) {
                 viewModel.receivedLocation(intent) // Handle text being sent
             }
         }
@@ -43,7 +43,9 @@ class MainActivity : ComponentActivity() {
 
     private fun handleEvent(event: MainViewModel.Event) {
         when (event) {
-            MainViewModel.Event.AddNewLocationInfo -> Unit
+            is MainViewModel.Event.ShowLocationOnMap -> {
+                startActivity(Intent(Intent.ACTION_VIEW, event.uri))
+            }
         }
     }
 
@@ -59,7 +61,9 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding),
                         model = locations,
                         onRefresh = { viewModel.updateAllData() },
-                        onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName)}
+                        onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
+                        onShowLocation = { name -> viewModel.showLocation(name) },
+                        onDeleteLocation = { name -> viewModel.deleteLocation(name) },
                     )
                 }
             }
@@ -68,7 +72,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        //viewModel.updateAllData() // TODO refresh needed here?
+        // TODO no need to refresh on each resime, instead added a refresh button on top
+        //viewModel.updateAllData()
     }
 
 }
+
+private const val TYPE_TEXT_PLAIN = "text/plain"

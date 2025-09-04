@@ -24,6 +24,8 @@ fun MainScreen(
     model: LocationUiModel,
     onRefresh: () -> Unit = {},
     onUpdateLocationName: (String, String) -> Unit = { _, _ -> },
+    onShowLocation: (String) -> Unit = {},
+    onDeleteLocation: (String) -> Unit = {},
 ) {
     // some dialogs
     val openInfoDialog = remember { mutableStateOf(false) }
@@ -57,7 +59,9 @@ fun MainScreen(
                 locationNameState.value = name
                 oldNameValueState.value = name
                 addLocationDialog.value = true
-            }
+            },
+            onShowLocation = onShowLocation,
+            onDeleteLocation = onDeleteLocation,
         )
     }
 
