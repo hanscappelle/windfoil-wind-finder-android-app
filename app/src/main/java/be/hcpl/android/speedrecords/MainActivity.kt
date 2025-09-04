@@ -1,8 +1,5 @@
 package be.hcpl.android.speedrecords
 
-import android.R
-import android.R.attr.action
-import android.R.attr.type
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -45,7 +42,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleEvent(event: MainViewModel.Event) {
-        when(event){
+        when (event) {
             MainViewModel.Event.AddNewLocationInfo -> Unit
         }
     }
@@ -61,6 +58,7 @@ class MainActivity : ComponentActivity() {
                     MainScreen(
                         modifier = Modifier.padding(innerPadding),
                         model = locations,
+                        onRefresh = { viewModel.updateAllData() },
                     )
                 }
             }

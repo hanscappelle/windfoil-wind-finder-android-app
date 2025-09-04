@@ -1,6 +1,5 @@
 package be.hcpl.android.speedrecords.ui.screen
 
-import android.graphics.Paint
 import be.hcpl.android.speedrecords.R
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -8,16 +7,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -30,79 +23,63 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.domain.WeatherData
+import be.hcpl.android.speedrecords.ui.view.NameLocationDialog
 import be.hcpl.android.speedrecords.ui.view.InfoDialog
+import be.hcpl.android.speedrecords.ui.view.LocationHeader
+import be.hcpl.android.speedrecords.ui.view.LocationsOverviewHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
     model: LocationUiModel,
+    onRefresh: () -> Unit = {},
 ) {
-
+    // some dialogs
     val openInfoDialog = remember { mutableStateOf(false) }
     InfoDialog(openInfoDialog)
 
+    val addLocationDialog = remember { mutableStateOf(false) }
+    NameLocationDialog(addLocationDialog)
+
+    // content
     Column(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = spacedBy(8.dp),
-        modifier = modifier
-            .padding(8.dp)
+        modifier = modifier.padding(8.dp),
     ) {
 
-        LocationsOverviewHeader({ openInfoDialog.value = true })
+        LocationsOverviewHeader(
+            onAddNewLocation = { openInfoDialog.value = true },
+            onRefresh = onRefresh,
+        )
 
-        LocationOverview(model)
+        LocationOverview(
+            model = model,
+            onRenameLocation = { addLocationDialog.value = true }
+        )
     }
 
     // TODO on detail view of a location show all values per hour
 }
 
-@Composable
-fun LocationsOverviewHeader(onAddNewLocation: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = spacedBy(8.dp),
-    ) {
-
-        Text(
-            text = stringResource(id = R.string.title_favourite_locations),
-            fontSize = 24.sp,
-            modifier = Modifier.weight(1f)
-        )
-
-        // TODO allow for managing favorite locations
-        Icon(
-            painter = painterResource(android.R.drawable.ic_menu_add),
-            contentDescription = stringResource(id = R.string.a11y_add_location),
-            modifier = Modifier.clickable(onClick = onAddNewLocation)
-        )
-    }
-}
-
 // TODO allow configuration of threshold for warnings, colors, and what timeslots to include in detail
 
 @Composable
-fun LocationOverview(model: LocationUiModel) {
+fun LocationOverview(
+    model: LocationUiModel,
+    onRenameLocation: (String) -> Unit = {},
+) {
     LazyColumn(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = spacedBy(8.dp),
     ) {
         model.locations.forEach { location ->
             item {
-                Text(
-                    text = location.locationName,
-                    fontSize = 20.sp,
-                    modifier = Modifier
-                        .heightIn(min = 48.dp)
-                        .wrapContentHeight(align = Alignment.CenterVertically)
+                LocationHeader(
+                    location = location,
+                    onRenameLocation = { onRenameLocation(location.locationName) },
                 )
-                // TODO allow deletion of location here
-                // TODO add link to show location on map here
-                //String uri = "geo:" + latitude + ","
-                //+longitude + "?q=" + latitude
-                //+ "," + longitude;
-                //startActivity(new Intent(android.content.Intent.ACTION_VIEW,
-                //    Uri.parse(uri)));
             }
             item {
                 LocationItem(location)
