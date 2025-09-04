@@ -1,5 +1,6 @@
 package be.hcpl.android.speedrecords.ui.screen
 
+import be.hcpl.android.speedrecords.R
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -9,9 +10,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import be.hcpl.android.speedrecords.domain.LocationData
 import be.hcpl.android.speedrecords.domain.WeatherData
+import be.hcpl.android.speedrecords.ui.view.ConfirmDialog
 import be.hcpl.android.speedrecords.ui.view.InfoDialog
 import be.hcpl.android.speedrecords.ui.view.LocationOverview
 import be.hcpl.android.speedrecords.ui.view.LocationsOverviewHeader
@@ -41,6 +43,14 @@ fun MainScreen(
         onNameEntered = { newName -> onUpdateLocationName(oldNameValueState.value, locationNameState.value) }
     )
 
+    val confirmDialog = remember { mutableStateOf(false) }
+    ConfirmDialog(
+        confirmDialog,
+        message = stringResource(R.string.confirm_delete),
+        onConfirm = { onDeleteLocation(oldNameValueState.value) },
+        onCancel = {},
+    )
+
     // content
     Column(
         horizontalAlignment = Alignment.Start,
@@ -61,7 +71,10 @@ fun MainScreen(
                 addLocationDialog.value = true
             },
             onShowLocation = onShowLocation,
-            onDeleteLocation = onDeleteLocation,
+            onDeleteLocation = { name ->
+                oldNameValueState.value = name
+                confirmDialog.value = true
+            },
         )
     }
 
