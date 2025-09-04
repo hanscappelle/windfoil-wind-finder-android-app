@@ -2,6 +2,7 @@ package be.hcpl.android.speedrecords.api.transformer
 
 import be.hcpl.android.speedrecords.api.Hourly
 import be.hcpl.android.speedrecords.api.WeatherResponse
+import be.hcpl.android.speedrecords.domain.DailyValue
 import be.hcpl.android.speedrecords.domain.HourlyUnit
 import be.hcpl.android.speedrecords.domain.HourlyValue
 import be.hcpl.android.speedrecords.domain.WeatherData
@@ -30,6 +31,7 @@ class WeatherTransformerImpl() : WeatherTransformer {
             )
         },
         hourly = transformHourlyValues(response?.hourly),
+        daily = calculateDailyValues(response?.hourly),
     )
 
     private fun transformHourlyValues(hourly: Hourly?): Map<String, HourlyValue> {
@@ -45,5 +47,10 @@ class WeatherTransformerImpl() : WeatherTransformer {
                 windGustsAt10m = hourly.wind_gusts_10m?.get(index),
             )
         }?.toMap().orEmpty()
+    }
+
+    private fun calculateDailyValues(hourly: Hourly?): Map<String, DailyValue> {
+        // TODO map all these values
+        return emptyMap()
     }
 }

@@ -5,6 +5,9 @@ import be.hcpl.android.speedrecords.api.WeatherResponse
 import be.hcpl.android.speedrecords.api.transformer.WeatherTransformer
 import be.hcpl.android.speedrecords.domain.WeatherRepository.Result
 import retrofit2.Response
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 interface WeatherRepository {
 
@@ -21,14 +24,18 @@ class WeatherRepositoryImpl(
     private val transformer: WeatherTransformer,
 ) : WeatherRepository {
 
-    // injected instead
-    //val apiInterface = RetrofitInstance.getInstance().create(ApiInterface::class.java)
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
     override suspend fun forecast(locationData: LocationData): Result {
-        // using coroutines
+        // using coroutines, always give the results for today + 10 days
+        val today = Calendar.getInstance()
+        val endDate = Calendar.getInstance()
+        endDate.add(Calendar.DAY_OF_YEAR, 10)
         val response: Response<WeatherResponse> = weatherService.forecast(
             latitude = locationData.lat,
             longitude = locationData.lng,
+            startDate = dateFormat.format(today.time),
+            endDate = dateFormat.format(endDate.time),
         )
         return if (response.isSuccessful && response.body() != null) {
             Result.Success(transformer.transformForecast(response.body()))
@@ -36,17 +43,5 @@ class WeatherRepositoryImpl(
             Result.Failed(response.message())
         }
     }
-    // alternative using callbacks
-    //val call = weatherService.forecastWithCallback() : Call<WeatherResponse>
-    //call.enqueue(object : Callback<WeatherResponse> {
-    //    override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
-    //        if (response.isSuccessful && response.body()!=null){
-    //            WeatherRepository.Result.Success(transformer.transformForecast(response.body()))
-    //        }
-    //    }
-    //
-    //    override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-    //        WeatherRepository.Result.Failed(t.message.toString())
-    //    }
-    //})
+
 }

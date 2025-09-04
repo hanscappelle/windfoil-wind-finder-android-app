@@ -6,6 +6,7 @@ data class WeatherData(
     val timezone: String,
     val units: HourlyUnit?,
     val hourly: Map<String, HourlyValue>,
+    val daily: Map<String, DailyValue>,
 )
 
 data class HourlyUnit(
@@ -28,4 +29,17 @@ data class HourlyValue(
     val windSpeedAt10m: Double?,
     val windDirectionAt10m: Int?,
     val windGustsAt10m: Double?,
+)
+
+/**
+ * min and max values stored per day & calculated by transformer
+ */
+data class DailyValue(
+    val time: String?,
+    val temperatureAt2mMin: Double?,
+    val temperatureAt2mMax: Double?,
+    val weatherCodeAtNoon: Int?,
+    val windSpeedAt10mMin: Double?,
+    val windSpeedAt10mMax: Double?,
+    val windGustsAt10mMax: Double?,
 )

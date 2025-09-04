@@ -26,8 +26,6 @@ class MainViewModel(
         doInit()
     }
 
-    // TODO pass location and date range
-
     private fun doInit() {
 
         viewModelScope.launch {
