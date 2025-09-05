@@ -27,6 +27,7 @@ fun LocationItem(
             horizontalArrangement = spacedBy(8.dp),
             modifier = Modifier
                 .clickable { onOpenDetail(model.locationName, it.value.time.orEmpty()) }
+                .padding(4.dp)
                 .border(BorderStroke(width = 1.dp, Color.LightGray))
                 .padding(4.dp)
             ,

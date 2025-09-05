@@ -48,11 +48,9 @@ class DetailActivity : ComponentActivity() {
     private fun updateContent(hourlyUiModel: HourlyUiModel) {
         setContent {
             AppTheme {
-                Scaffold(
-                    modifier = Modifier.Companion.fillMaxSize(),
-                ) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     DetailScreen(
-                        modifier = Modifier.Companion.padding(innerPadding),
+                        modifier = Modifier.padding(innerPadding),
                         model = hourlyUiModel,
                     )
                 }

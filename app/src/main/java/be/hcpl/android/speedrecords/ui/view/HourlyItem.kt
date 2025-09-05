@@ -5,12 +5,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.domain.HourlyValue
@@ -24,12 +26,14 @@ fun HourlyItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = spacedBy(4.dp),
         modifier = Modifier
+            .padding(4.dp)
             .border(BorderStroke(width = 1.dp, Color.LightGray))
             .padding(4.dp),
     ) {
         // TODO allow for reducing hourly range from here by dropping rows + reset option
         Text(
             text = "${model.time?.substring(11, 13)}h",
+            modifier = Modifier.weight(1f),
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -39,7 +43,9 @@ fun HourlyItem(
             Text(text = "gusts ${model.windGustsAt10m} kts")
         }
         Text(
-            text = "${model.windDirectionAt10m} °"
+            text = "${model.windDirectionAt10m} °",
+            modifier = Modifier.weight(1f),
+            textAlign = TextAlign.Center,
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -49,7 +55,8 @@ fun HourlyItem(
             Text(text = "${model.precipitation} mm")
         }
         Text(
-            text = "${model.temperatureAt2m} °C"
+            text = "${model.temperatureAt2m} °C",
+            modifier = Modifier.weight(1f),
         )
     }
 }
