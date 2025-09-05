@@ -21,7 +21,7 @@ import be.hcpl.android.speedrecords.ui.dialog.ConfirmDialog
 import be.hcpl.android.speedrecords.ui.dialog.InfoDialog
 import be.hcpl.android.speedrecords.ui.view.LocationOverview
 import be.hcpl.android.speedrecords.ui.view.LocationsOverviewHeader
-import be.hcpl.android.speedrecords.ui.view.NameLocationDialog
+import be.hcpl.android.speedrecords.ui.dialog.NameLocationDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
