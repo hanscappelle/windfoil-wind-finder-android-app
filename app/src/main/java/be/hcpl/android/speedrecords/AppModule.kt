@@ -2,12 +2,14 @@ package be.hcpl.android.speedrecords
 
 import be.hcpl.android.speedrecords.api.OpenWeatherService
 import be.hcpl.android.speedrecords.api.RetrofitInstance
-import be.hcpl.android.speedrecords.domain.WeatherRepository
-import be.hcpl.android.speedrecords.domain.WeatherRepositoryImpl
 import be.hcpl.android.speedrecords.api.transformer.WeatherTransformer
 import be.hcpl.android.speedrecords.api.transformer.WeatherTransformerImpl
+import be.hcpl.android.speedrecords.domain.ConfigRepository
+import be.hcpl.android.speedrecords.domain.ConfigRepositoryImpl
 import be.hcpl.android.speedrecords.domain.LocationRepository
 import be.hcpl.android.speedrecords.domain.LocationRepositoryImpl
+import be.hcpl.android.speedrecords.domain.WeatherRepository
+import be.hcpl.android.speedrecords.domain.WeatherRepositoryImpl
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformerImpl
 import org.koin.core.module.dsl.bind
@@ -28,4 +30,5 @@ val appModule = module {
 
     singleOf(::WeatherRepositoryImpl) { bind<WeatherRepository>() }
     singleOf(::LocationRepositoryImpl) { bind<LocationRepository>() }
+    factoryOf(::ConfigRepositoryImpl) { bind<ConfigRepository>() }
 }

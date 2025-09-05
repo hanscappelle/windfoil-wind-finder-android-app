@@ -1,7 +1,7 @@
 package be.hcpl.android.speedrecords.domain
 
-import be.hcpl.android.speedrecords.R
 import android.content.Context
+import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.domain.LocationRepository.Result
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -23,13 +23,13 @@ interface LocationRepository {
 
 class LocationRepositoryImpl(context: Context) : LocationRepository {
 
-    val sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+    private val sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
 
     // TODO inject gson instead
-    val gson = Gson()
+    private val gson = Gson()
 
     // some initial valid data to start with for clean app
-    var localLocations = listOf(
+    private var localLocations = listOf(
         LocationData(
             "Espace Fun @ Lacs De l'Eau d'Heure",
             50.1890147,

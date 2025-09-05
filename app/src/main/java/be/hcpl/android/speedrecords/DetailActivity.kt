@@ -52,6 +52,8 @@ class DetailActivity : ComponentActivity() {
                     DetailScreen(
                         modifier = Modifier.padding(innerPadding),
                         model = hourlyUiModel,
+                        onRestoreAllHours = { viewModel.clearIgnoredHours() },
+                        onIgnoreHour = { time -> viewModel.onIgnoreHour(time) },
                     )
                 }
             }

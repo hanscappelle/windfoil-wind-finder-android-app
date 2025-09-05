@@ -1,0 +1,56 @@
+package be.hcpl.android.speedrecords.domain
+
+import android.content.Context
+import be.hcpl.android.speedrecords.R
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
+interface ConfigRepository {
+
+    fun getIgnoredHours(): Result
+    fun ignoreHour(time: String): Result
+    fun clearIgnoredHours(): Result
+
+    sealed class Result {
+        data class Data(val ignoredHours: List<String>) : Result()
+        data object Success : Result()
+        data object Failed : Result()
+    }
+}
+
+class ConfigRepositoryImpl(context: Context) : ConfigRepository {
+
+    private val sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+
+    // TODO inject gson instead
+    private val gson = Gson()
+
+    private var ignoredHours = mutableListOf<String>()
+
+    override fun getIgnoredHours(): ConfigRepository.Result {
+        return sharedPref.getString(PREF_KEY_IGNORED_HOURS, null)?.let { json ->
+            ignoredHours = gson.fromJson(json, listOfHoursType)
+            ConfigRepository.Result.Data(ignoredHours)
+        } ?: ConfigRepository.Result.Failed
+    }
+
+    override fun ignoreHour(time: String): ConfigRepository.Result {
+        ignoredHours.add(time.substring(11,13))
+        updateSharedPrefs()
+        return ConfigRepository.Result.Success
+    }
+
+    override fun clearIgnoredHours(): ConfigRepository.Result {
+        ignoredHours.clear()
+        updateSharedPrefs()
+        return ConfigRepository.Result.Success
+    }
+
+    private fun updateSharedPrefs(hours: List<String> = ignoredHours) {
+        sharedPref.edit().putString(PREF_KEY_IGNORED_HOURS, gson.toJson(hours)).apply()
+    }
+}
+
+private val listOfHoursType = object : TypeToken<List<String>>() {}.type
+private const val PREF_KEY_IGNORED_HOURS = "key_ignored_hours"
+

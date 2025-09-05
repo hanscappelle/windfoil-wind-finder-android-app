@@ -2,25 +2,31 @@ package be.hcpl.android.speedrecords.ui.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.domain.HourlyValue
 import kotlin.math.roundToInt
 
 @Composable
 fun HourlyItem(
     model: HourlyValue,
+    onIgnoreHour: (String) -> Unit = {},
 ) {
 
     Row(
@@ -31,7 +37,6 @@ fun HourlyItem(
             .border(BorderStroke(width = 1.dp, Color.LightGray))
             .padding(4.dp),
     ) {
-        // TODO allow for reducing hourly range from here by dropping rows + reset option
         Text(
             text = "${model.displayTime}h",
             modifier = Modifier.weight(1f),
@@ -58,6 +63,11 @@ fun HourlyItem(
         Text(
             text = "${model.temperatureAt2m?.roundToInt() ?: "-"} °C",
             modifier = Modifier.weight(1f),
+        )
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = stringResource(id = R.string.a11y_hide_this_hour),
+            modifier = Modifier.clickable(onClick = { onIgnoreHour(model.time.orEmpty()) })
         )
     }
 }

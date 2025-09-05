@@ -2,6 +2,7 @@ package be.hcpl.android.speedrecords
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import be.hcpl.android.speedrecords.domain.ConfigRepository
 import be.hcpl.android.speedrecords.domain.LocationData
 import be.hcpl.android.speedrecords.domain.LocationRepository
 import be.hcpl.android.speedrecords.domain.WeatherData
@@ -12,6 +13,7 @@ import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
 class DetailViewModel(
     private val locationRepository: LocationRepository,
     private val weatherRepository: WeatherRepository,
+    private val configRepository: ConfigRepository,
     private val transformer: WeatherDataUiModelTransformer,
 ) : ViewModel() {
 
@@ -58,6 +60,27 @@ class DetailViewModel(
                     )
                 )
             )
+        }
+    }
+
+    fun clearIgnoredHours() {
+        when (configRepository.clearIgnoredHours()) {
+            is ConfigRepository.Result.Data,
+            ConfigRepository.Result.Failed,
+                -> Unit
+
+            ConfigRepository.Result.Success -> refreshUi()
+        }
+
+    }
+
+    fun onIgnoreHour(time: String) {
+        when (configRepository.ignoreHour(time)) {
+            is ConfigRepository.Result.Data,
+            ConfigRepository.Result.Failed,
+                -> Unit
+
+            ConfigRepository.Result.Success -> refreshUi()
         }
     }
 

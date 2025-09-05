@@ -7,20 +7,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
+import be.hcpl.android.speedrecords.ui.view.HourlyHeader
 import be.hcpl.android.speedrecords.ui.view.HourlyItem
 
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
     model: HourlyUiModel,
+    onRestoreAllHours: () -> Unit = {},
+    onIgnoreHour: (String) -> Unit = {},
 ) {
 
     Column(
@@ -29,12 +30,9 @@ fun DetailScreen(
         modifier = modifier.padding(8.dp),
     ) {
 
-        Text(
-            text = model.locationName,
-            fontSize = 24.sp,
-            modifier = Modifier
-                //TODO from here also navigation to map?
-                //.clickable(onClick = onShowLocation)
+        HourlyHeader(
+            model = model,
+            onRestoreAllHours = onRestoreAllHours,
         )
 
         HorizontalDivider(
@@ -50,7 +48,10 @@ fun DetailScreen(
         ) {
             model.hourly.forEach { hour, data ->
                 item {
-                    HourlyItem(data)
+                    HourlyItem(
+                        model = data,
+                        onIgnoreHour = onIgnoreHour,
+                    )
                 }
             }
         }

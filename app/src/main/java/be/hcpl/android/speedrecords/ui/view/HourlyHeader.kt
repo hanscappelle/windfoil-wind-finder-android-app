@@ -3,8 +3,8 @@ package be.hcpl.android.speedrecords.ui.view
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -15,32 +15,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.R
+import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
 
 @Composable
-fun LocationsOverviewHeader(
-    onAddNewLocation: () -> Unit,
-    onRefresh: () -> Unit = {},
+fun HourlyHeader(
+    model: HourlyUiModel,
+    onRestoreAllHours: () -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = spacedBy(8.dp),
+        horizontalArrangement = spacedBy(4.dp),
+        modifier = Modifier.heightIn(min = 48.dp)
     ) {
-
         Text(
-            text = stringResource(id = R.string.title_favourite_locations),
+            text = model.locationName,
             fontSize = 24.sp,
-            modifier = Modifier.weight(1f)
-        )
-
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = stringResource(id = R.string.a11y_add_location),
-            modifier = Modifier.clickable(onClick = onAddNewLocation)
+            modifier = Modifier
+                .weight(1f)
+            //TODO from here also navigation to map?
+            //.clickable(onClick = onShowLocation)
         )
         Icon(
             imageVector = Icons.Default.Refresh,
-            contentDescription = stringResource(id = R.string.a11y_update_data),
-            modifier = Modifier.clickable(onClick = onRefresh)
+            contentDescription = stringResource(id = R.string.a11y_restore_all_hours),
+            modifier = Modifier.clickable(onClick = onRestoreAllHours)
         )
     }
 }

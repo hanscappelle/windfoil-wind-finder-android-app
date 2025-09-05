@@ -13,4 +13,6 @@
     <string name="a11y_update_data">refresh forecast information for current locations</string>
     <string name="cancel">Cancel</string>
     <string name="confirm_delete">Are you sure you want to delete this location?</string>
+    <string name="a11y_restore_all_hours">Restore all 24 hours display</string>
+    <string name="a11y_hide_this_hour">Hide this hour from now on</string>
 </resources>
