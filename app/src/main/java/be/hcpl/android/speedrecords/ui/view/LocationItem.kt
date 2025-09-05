@@ -32,7 +32,7 @@ fun LocationItem(
                 .padding(4.dp)
             ,
         ) {
-            // TODO include day of week
+            // TODO include name day of week here
             Text(
                 text = "${it.value.time}",
                 modifier = Modifier.weight(1f),

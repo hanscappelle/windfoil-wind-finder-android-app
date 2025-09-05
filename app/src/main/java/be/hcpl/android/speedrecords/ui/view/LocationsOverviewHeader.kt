@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -36,12 +39,12 @@ fun LocationsOverviewHeader(
         )
 
         Icon(
-            painter = painterResource(android.R.drawable.ic_menu_add),
+            imageVector = Icons.Default.Add,
             contentDescription = stringResource(id = R.string.a11y_add_location),
             modifier = Modifier.clickable(onClick = onAddNewLocation)
         )
         Icon(
-            painter = painterResource(android.R.drawable.ic_menu_rotate),
+            imageVector = Icons.Default.Refresh,
             contentDescription = stringResource(id = R.string.a11y_update_data),
             modifier = Modifier.clickable(onClick = onRefresh)
         )

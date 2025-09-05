@@ -4,7 +4,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,15 +38,14 @@ fun LocationHeader(
             modifier = Modifier
                 .weight(1f)
                 .clickable(onClick = onShowLocation)
-            //.wrapContentHeight(align = Alignment.CenterVertically)
         )
         Icon(
-            painter = painterResource(android.R.drawable.ic_menu_edit),
+            imageVector = Icons.Default.Edit,
             contentDescription = stringResource(id = R.string.a11y_edit_location),
             modifier = Modifier.clickable(onClick = { onRenameLocation(location.locationName) })
         )
         Icon(
-            painter = painterResource(android.R.drawable.ic_menu_delete),
+            imageVector = Icons.Default.Delete,
             contentDescription = stringResource(id = R.string.a11y_delete_location),
             modifier = Modifier.clickable(onClick = onDeleteLocation)
         )
