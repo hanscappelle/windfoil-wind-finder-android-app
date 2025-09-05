@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
+import be.hcpl.android.speedrecords.ui.view.HourlyItem
 
 @Composable
 fun DetailScreen(
@@ -30,7 +31,7 @@ fun DetailScreen(
 
         Text(
             text = model.locationName,
-            fontSize = 20.sp,
+            fontSize = 24.sp,
             modifier = Modifier
                 //TODO from here also navigation to map?
                 //.clickable(onClick = onShowLocation)
@@ -43,14 +44,13 @@ fun DetailScreen(
                 .fillMaxWidth()
         )
 
-        // TODO render hourly overview here for that day/location
         LazyColumn(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = spacedBy(8.dp),
         ) {
-            model.hourly.keys.forEach { hour ->
+            model.hourly.forEach { hour, data ->
                 item {
-                    Text("$hour")
+                    HourlyItem(data)
                 }
             }
         }
