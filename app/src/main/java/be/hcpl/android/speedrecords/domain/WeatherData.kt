@@ -22,6 +22,7 @@ data class HourlyUnit(
 
 data class HourlyValue(
     val time: String?,
+    val displayTime: String?,
     val temperatureAt2m: Double?,
     val precipitation: Double?,
     val weatherCode: Int?,
@@ -36,6 +37,7 @@ data class HourlyValue(
  */
 data class DailyValue(
     val time: String?,
+    val displayDay: String?,
     val temperatureAt2mMin: Double?,
     val temperatureAt2mMax: Double?,
     //val weatherCodeAtNoon: Int?,

@@ -6,6 +6,9 @@ import be.hcpl.android.speedrecords.domain.DailyValue
 import be.hcpl.android.speedrecords.domain.HourlyUnit
 import be.hcpl.android.speedrecords.domain.HourlyValue
 import be.hcpl.android.speedrecords.domain.WeatherData
+import java.text.SimpleDateFormat
+import java.util.Locale
+import kotlin.text.substring
 
 interface WeatherTransformer {
 
@@ -13,6 +16,9 @@ interface WeatherTransformer {
 }
 
 class WeatherTransformerImpl() : WeatherTransformer {
+
+    private val dateFormatDisplay = SimpleDateFormat("EEEE", Locale.getDefault())
+    private val dateFormatParse = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     override fun transformForecast(response: WeatherResponse?): WeatherData {
         val hourly = transformHourlyValues(response?.hourly)
@@ -41,6 +47,7 @@ class WeatherTransformerImpl() : WeatherTransformer {
         return hourly?.time?.mapIndexedNotNull { index, value ->
             value to HourlyValue(
                 time = value,
+                displayTime = if (value.length >= 13) value.substring(11, 13) else value,
                 temperatureAt2m = hourly.temperature_2m?.get(index),
                 precipitation = hourly.precipitation?.get(index),
                 weatherCode = hourly.weather_code?.get(index),
@@ -64,6 +71,7 @@ class WeatherTransformerImpl() : WeatherTransformer {
                 //val sumForDate = entry.value.sumOf { it.someIntValue!! } // Values are already filtered for non-null
                 DailyValue(
                     time = entry.key,
+                    displayDay = dateFormatParse.parse(entry.key)?.let { dateFormatDisplay.format(it) } ?: "",
                     temperatureAt2mMin = entry.value.minOf { it.temperatureAt2m!! },
                     temperatureAt2mMax = entry.value.maxOf { it.temperatureAt2m!! },
                     windSpeedAt10mMin = entry.value.minOf { it.windSpeedAt10m!! },

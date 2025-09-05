@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.domain.HourlyValue
+import kotlin.math.roundToInt
 
 @Composable
 fun HourlyItem(
@@ -32,15 +33,15 @@ fun HourlyItem(
     ) {
         // TODO allow for reducing hourly range from here by dropping rows + reset option
         Text(
-            text = "${model.time?.substring(11, 13)}h",
+            text = "${model.displayTime}h",
             modifier = Modifier.weight(1f),
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = spacedBy(2.dp),
         ) {
-            Text(text = "wind ${model.windSpeedAt10m} kts")
-            Text(text = "gusts ${model.windGustsAt10m} kts")
+            Text(text = "wind ${model.windSpeedAt10m?.roundToInt() ?: "-"} kts")
+            Text(text = "gusts ${model.windGustsAt10m?.roundToInt() ?: "-"} kts")
         }
         Text(
             text = "${model.windDirectionAt10m} °",
@@ -55,7 +56,7 @@ fun HourlyItem(
             Text(text = "${model.precipitation} mm")
         }
         Text(
-            text = "${model.temperatureAt2m} °C",
+            text = "${model.temperatureAt2m?.roundToInt() ?: "-"} °C",
             modifier = Modifier.weight(1f),
         )
     }
@@ -67,6 +68,7 @@ fun HourlyItemPreview() {
     HourlyItem(
         HourlyValue(
             time = "2025-12-30T12:00",
+            displayTime = "12",
             temperatureAt2m = 16.0,
             precipitation = 0.2,
             weatherCode = 2,

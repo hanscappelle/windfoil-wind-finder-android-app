@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
+import kotlin.math.roundToInt
 
 @Composable
 fun LocationItem(
@@ -33,18 +34,22 @@ fun LocationItem(
             ,
         ) {
             // TODO include name day of week here
-            Text(
-                text = "${it.value.time}",
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = spacedBy(2.dp),
                 modifier = Modifier.weight(1f),
-            )
+            ) {
+                Text(text = "${it.value.time}")
+                Text(text = "${it.value.displayDay}")
+            }
             // display min and max wind speeds
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = spacedBy(2.dp),
                 modifier = Modifier.weight(1f),
             ) {
-                Text(text = "min ${it.value.windSpeedAt10mMin} knots")
-                Text(text = "max ${it.value.windSpeedAt10mMax} knots")
+                Text(text = "min ${it.value.windSpeedAt10mMin?.roundToInt() ?: "-"} kts")
+                Text(text = "max ${it.value.windSpeedAt10mMax?.roundToInt() ?: "-"} kts")
             }
             // display min and max temperatures
             Column(
@@ -52,8 +57,8 @@ fun LocationItem(
                 verticalArrangement = spacedBy(2.dp),
                 modifier = Modifier.weight(1f),
             ) {
-                Text(text = "min ${it.value.temperatureAt2mMin} °C")
-                Text(text = "max ${it.value.temperatureAt2mMax} °C")
+                Text(text = "min ${it.value.temperatureAt2mMin?.roundToInt() ?: "-"} °C")
+                Text(text = "max ${it.value.temperatureAt2mMax?.roundToInt() ?: "-"} °C")
             }
         }
     }
