@@ -21,9 +21,11 @@ Initial app release
 
 ## Dependencies
 
-retrofit for network calls
-https://square.github.io/retrofit/
-https://medium.com/@pritam.karmahapatra/retrofit-in-android-with-kotlin-9af9f66a54a8
+retrofit for network calls: https://square.github.io/retrofit/
+
+also: https://medium.com/@pritam.karmahapatra/retrofit-in-android-with-kotlin-9af9f66a54a8
+
+weather forecast api: https://open-meteo.com/en/docs/ecmwf-api
 
 ## General Info
 
@@ -33,11 +35,15 @@ lat lng for testing; Brussels: lat=50.85045&lng=4.34878
 
 info on using dialogs in compose https://stackoverflow.com/questions/68852110/show-custom-alert-dialog-in-jetpack-compose
 
+Some Data sources
+- "ecmwf" European Centre for Medium-Range Weather Forecasts, global
+- "noaa" The National Oceanic and Atmospheric Administration, global except some smaller places
+
 ## wmo weather code
 
-https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
+General information on these codes: https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
 
-example of mapping these codes to descriptions and images
+Example of mapping these codes to descriptions and images
 https://gist.github.com/stellasphere/9490c195ed2b53c707087c8c2db4ec0c
 
 ## Available "free" wind API
@@ -45,6 +51,7 @@ https://gist.github.com/stellasphere/9490c195ed2b53c707087c8c2db4ec0c
 ### open-meteo.com
 
 similar providers listed as stormglass.io api
+
 opensource and free
 
 documentation: https://open-meteo.com/en/docs/ecmwf-api
@@ -77,7 +84,9 @@ https://content.meteoblue.com/en/business-solutions/weather-apis/forecast-api
 
 10 requests per day are free, that is too limited for actual use, even personal only
 plus pricing plans are per month and quite expensive, starting at 19 EUR/m for 500 requests
+
 documentation: https://docs.stormglass.io/#/authentication
+
 available params: 
 
 ```
@@ -90,35 +99,3 @@ waterTemperature, waveDirection, waveHeight, wavePeriod,
 windDirection, windDirection1000hpa, windDirection100m, windDirection200hpa, windDirection20m, windDirection30m, windDirection40m, windDirection500hpa, windDirection50m, windDirection800hpa, windDirection80m, 
 windSpeed, windSpeed1000hpa, windSpeed100m, windSpeed200hpa, windSpeed20m, windSpeed30m, windSpeed40m, windSpeed500hpa, windSpeed50m, windSpeed800hpa, windSpeed80m, windWaveDirection, windWaveHeight, windWavePeriod"
 ```
-
-The ones I need
-```
-airTemperature,waterTemperature,cloudCover,precipitation,swellDirection,windSpeed,windDirection,gust
-```
-
-Curl request (w/o api key)
-```
-curl --location 'https://api.stormglass.io/v2/weather/point?lat=50.85045&lng=4.34878&params=airTemperature%2CwaterTemperature%2CcloudCover%2Crain%2CswellDirection%2CwindSpeed%2CwindDirection' \
---header 'Authorization: API_KEY_HERE'
-```
-
-note that not all sources have all attributes
-
-https://docs.stormglass.io/#/sources?id=attributes-per-source
-
-Some more info on output
-
-```
-"windSpeed": {
-                "dwd": 4.48,
-                "ecmwf": 4.64,
-                "ecmwf:aifs": 4.79,
-                "noaa": 6.82,
-                "sg": 4.64
-            }
-```
-these are all different data sources, 
-- "sg" is stormglass itself
-- "ecmwf" European Centre for Medium-Range Weather Forecasts, global
-- "noaa" The National Oceanic and Atmospheric Administration, global except some smaller places
-
