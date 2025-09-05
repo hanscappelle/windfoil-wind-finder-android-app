@@ -33,7 +33,6 @@ fun LocationItem(
                 .padding(4.dp)
             ,
         ) {
-            // TODO include name day of week here
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = spacedBy(2.dp),
