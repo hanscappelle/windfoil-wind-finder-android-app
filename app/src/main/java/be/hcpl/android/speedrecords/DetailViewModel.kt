@@ -48,7 +48,6 @@ class DetailViewModel(
     }
 
     private fun refreshUi() {
-        // TODO render weather forecast hourly for given date
         if (listOf(locationData, selectedDate, weatherData).none { it == null }) {
             state.postValue(
                 State(
@@ -61,7 +60,6 @@ class DetailViewModel(
             )
         }
     }
-
 
     data class State(
         val model: HourlyUiModel,

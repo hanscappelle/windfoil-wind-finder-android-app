@@ -53,7 +53,7 @@ class DetailActivity : ComponentActivity() {
             AppTheme {
                 Scaffold(
                     modifier = Modifier.Companion.fillMaxSize(),
-                    topBar = {
+                    /*topBar = {
                         CenterAlignedTopAppBar(
                             title = {
                                 Text("Navigation example")
@@ -67,7 +67,7 @@ class DetailActivity : ComponentActivity() {
                                 }
                             },
                         )
-                    },
+                    },*/
                 ) { innerPadding ->
                     DetailScreen(
                         modifier = Modifier.Companion.padding(innerPadding),

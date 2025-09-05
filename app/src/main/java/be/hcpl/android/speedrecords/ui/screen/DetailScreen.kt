@@ -22,7 +22,6 @@ fun DetailScreen(
     model: HourlyUiModel,
 ) {
 
-    // content
     Column(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = spacedBy(8.dp),
@@ -33,7 +32,7 @@ fun DetailScreen(
             text = model.locationName,
             fontSize = 20.sp,
             modifier = Modifier
-                .weight(1f)
+                //TODO from here also navigation to map?
                 //.clickable(onClick = onShowLocation)
         )
 

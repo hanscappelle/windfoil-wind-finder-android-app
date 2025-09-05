@@ -32,7 +32,7 @@ class WeatherDataUiModelTransformerImpl() : WeatherDataUiModelTransformer {
     ) = HourlyUiModel(
         locationName = location.name,
         date = date,
-        hourly = weather.hourly,
+        hourly = weather.hourly.filter { it.key.startsWith(date) },
 
         )
 }
