@@ -2,7 +2,6 @@ package be.hcpl.android.speedrecords.ui.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.domain.HourlyValue
-import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
-import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
+import be.hcpl.android.speedrecords.ui.theme.AppTheme
 
 @Composable
 fun HourlyItem(
@@ -30,19 +29,21 @@ fun HourlyItem(
             .border(BorderStroke(width = 1.dp, Color.LightGray)),
     ) {
         // hour indication
-        // TODO allow for reducing hourly range here
+        // TODO allow for reducing hourly range from here by dropping rows + reset option
         Text(
-            text = "${model.time?.substring(11,13)}h",
-            //modifier = Modifier.weight(1f),
+            text = "${model.time?.substring(11, 13)}h",
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = spacedBy(2.dp),
             modifier = Modifier.weight(1f),
         ) {
-            Text(text = "wind ${model.windSpeedAt10m} knots")
-            Text(text = "gusts ${model.windGustsAt10m} knots")
+            Text(text = "wind ${model.windSpeedAt10m} kts")
+            Text(text = "gusts ${model.windGustsAt10m} kts")
         }
+        Text(
+            text = "${model.windDirectionAt10m} °"
+        )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = spacedBy(2.dp),
@@ -55,4 +56,21 @@ fun HourlyItem(
             text = "${model.temperatureAt2m} °C"
         )
     }
+}
+
+@Composable
+@Preview
+fun HourlyItemPreview() {
+    HourlyItem(
+        HourlyValue(
+            time = "2025-12-30T12:00",
+            temperatureAt2m = 16.0,
+            precipitation = 0.2,
+            weatherCode = 2,
+            cloudCover = 66,
+            windSpeedAt10m = 10.0,
+            windDirectionAt10m = 180,
+            windGustsAt10m = 12.4,
+        )
+    )
 }
