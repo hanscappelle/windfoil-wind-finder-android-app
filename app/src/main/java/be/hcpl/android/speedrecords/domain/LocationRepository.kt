@@ -21,12 +21,12 @@ interface LocationRepository {
     }
 }
 
-class LocationRepositoryImpl(context: Context) : LocationRepository {
+class LocationRepositoryImpl(
+    context: Context,
+    private val gson: Gson,
+) : LocationRepository {
 
     private val sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-
-    // TODO inject gson instead
-    private val gson = Gson()
 
     // some initial valid data to start with for clean app
     private var localLocations = listOf(

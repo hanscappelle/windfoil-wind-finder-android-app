@@ -18,12 +18,12 @@ interface ConfigRepository {
     }
 }
 
-class ConfigRepositoryImpl(context: Context) : ConfigRepository {
+class ConfigRepositoryImpl(
+    context: Context,
+    private val gson: Gson,
+) : ConfigRepository {
 
     private val sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-
-    // TODO inject gson instead
-    private val gson = Gson()
 
     private var ignoredHours = mutableListOf<String>()
 
@@ -35,7 +35,7 @@ class ConfigRepositoryImpl(context: Context) : ConfigRepository {
     }
 
     override fun ignoreHour(time: String): ConfigRepository.Result {
-        ignoredHours.add(time.substring(11,13))
+        ignoredHours.add(time.substring(11, 13))
         updateSharedPrefs()
         return ConfigRepository.Result.Success
     }

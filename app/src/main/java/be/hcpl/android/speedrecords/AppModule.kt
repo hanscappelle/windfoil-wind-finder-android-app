@@ -12,6 +12,7 @@ import be.hcpl.android.speedrecords.domain.WeatherRepository
 import be.hcpl.android.speedrecords.domain.WeatherRepositoryImpl
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformerImpl
+import com.google.gson.Gson
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -31,4 +32,6 @@ val appModule = module {
     singleOf(::WeatherRepositoryImpl) { bind<WeatherRepository>() }
     singleOf(::LocationRepositoryImpl) { bind<LocationRepository>() }
     factoryOf(::ConfigRepositoryImpl) { bind<ConfigRepository>() }
+
+    singleOf(::Gson)
 }
