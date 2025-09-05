@@ -1,27 +1,16 @@
 package be.hcpl.android.speedrecords
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.LiveData
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
-import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
-import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.screen.DetailScreen
-import be.hcpl.android.speedrecords.ui.screen.MainScreen
 import be.hcpl.android.speedrecords.ui.theme.AppTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,6 +22,9 @@ class DetailActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // add back navigation the old way
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
         // get selected location from intent
         val location = intent.getStringExtra(KEY_SELECTED_LOCATION)
         val date = intent.getStringExtra(KEY_SELECTED_DATE)
@@ -41,33 +33,23 @@ class DetailActivity : ComponentActivity() {
         viewModel.state.observe(this, ::handleState)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun handleState(state: DetailViewModel.State) {
         updateContent(state.model)
     }
 
-    // TODO fix back handling from toolbar
-
-    @OptIn(ExperimentalMaterial3Api::class)
     private fun updateContent(hourlyUiModel: HourlyUiModel) {
         setContent {
             AppTheme {
                 Scaffold(
                     modifier = Modifier.Companion.fillMaxSize(),
-                    /*topBar = {
-                        CenterAlignedTopAppBar(
-                            title = {
-                                Text("Navigation example")
-                            },
-                            navigationIcon = {
-                                IconButton(onClick = { finish() }) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = "Localized description"
-                                    )
-                                }
-                            },
-                        )
-                    },*/
                 ) { innerPadding ->
                     DetailScreen(
                         modifier = Modifier.Companion.padding(innerPadding),
