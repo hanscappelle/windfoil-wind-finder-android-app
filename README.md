@@ -3,8 +3,8 @@
 An overview of wind forecast for given (favorites) location for the coming 10 days
 plus a detail view of the hourly forecast for each given location
 
-![release/Screenshot_20250905_230546.png](attachment:release/Screenshot_20250905_230546.png)
-https://github.com/hanscappelle/windfoil-wind-finder-android-app/blob/main/release/Screenshot_20250905_230537.png
+![screenshot](release/Screenshot_20250905_230546.png)
+![screenshot](release/Screenshot_20250905_230537.png)
 
 # Version History
 
