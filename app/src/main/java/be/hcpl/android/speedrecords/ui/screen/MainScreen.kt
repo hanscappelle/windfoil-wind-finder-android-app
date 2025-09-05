@@ -91,6 +91,5 @@ fun MainScreen(
         )
     }
 
-    // TODO on detail view of a location show all values per hour
     // TODO allow configuration of threshold for warnings, colors, and what timeslots to include in detail
 }

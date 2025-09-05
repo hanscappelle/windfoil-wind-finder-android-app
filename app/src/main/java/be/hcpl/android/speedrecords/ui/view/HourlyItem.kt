@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.domain.HourlyValue
-import be.hcpl.android.speedrecords.ui.theme.AppTheme
 
 @Composable
 fun HourlyItem(
@@ -23,12 +22,11 @@ fun HourlyItem(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = spacedBy(8.dp),
+        horizontalArrangement = spacedBy(4.dp),
         modifier = Modifier
-            .padding(4.dp)
-            .border(BorderStroke(width = 1.dp, Color.LightGray)),
+            .border(BorderStroke(width = 1.dp, Color.LightGray))
+            .padding(4.dp),
     ) {
-        // hour indication
         // TODO allow for reducing hourly range from here by dropping rows + reset option
         Text(
             text = "${model.time?.substring(11, 13)}h",
@@ -36,7 +34,6 @@ fun HourlyItem(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = spacedBy(2.dp),
-            modifier = Modifier.weight(1f),
         ) {
             Text(text = "wind ${model.windSpeedAt10m} kts")
             Text(text = "gusts ${model.windGustsAt10m} kts")
@@ -47,7 +44,6 @@ fun HourlyItem(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = spacedBy(2.dp),
-            modifier = Modifier.weight(1f),
         ) {
             Text(text = "cover ${model.cloudCover} %")
             Text(text = "${model.precipitation} mm")

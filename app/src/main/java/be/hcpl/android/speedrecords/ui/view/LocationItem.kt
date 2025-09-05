@@ -26,9 +26,10 @@ fun LocationItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = spacedBy(8.dp),
             modifier = Modifier
-                .padding(4.dp)
                 .clickable { onOpenDetail(model.locationName, it.value.time.orEmpty()) }
-                .border(BorderStroke(width = 1.dp, Color.LightGray)),
+                .border(BorderStroke(width = 1.dp, Color.LightGray))
+                .padding(4.dp)
+            ,
         ) {
             // TODO include day of week
             Text(
