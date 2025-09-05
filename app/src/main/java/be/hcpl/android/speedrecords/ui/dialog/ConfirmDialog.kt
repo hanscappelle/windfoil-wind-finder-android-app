@@ -1,4 +1,4 @@
-package be.hcpl.android.speedrecords.ui.view
+package be.hcpl.android.speedrecords.ui.dialog
 
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
