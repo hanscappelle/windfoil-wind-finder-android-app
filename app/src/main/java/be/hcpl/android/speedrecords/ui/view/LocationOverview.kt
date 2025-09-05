@@ -13,6 +13,7 @@ fun LocationOverview(
     onRenameLocation: (String) -> Unit = {},
     onShowLocation: (String) -> Unit = {},
     onDeleteLocation: (String) -> Unit = {},
+    onOpenDetail: (String, String) -> Unit = { _, _ -> },
 ) {
     LazyColumn(
         horizontalAlignment = Alignment.Start,
@@ -28,7 +29,10 @@ fun LocationOverview(
                 )
             }
             item {
-                LocationItem(location)
+                LocationItem(
+                    location,
+                    onOpenDetail = onOpenDetail,
+                )
             }
         }
     }

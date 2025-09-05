@@ -43,9 +43,13 @@ class MainActivity : ComponentActivity() {
 
     private fun handleEvent(event: MainViewModel.Event) {
         when (event) {
-            is MainViewModel.Event.ShowLocationOnMap -> {
-                startActivity(Intent(Intent.ACTION_VIEW, event.uri))
-            }
+            is MainViewModel.Event.ShowLocationOnMap -> startActivity(Intent(Intent.ACTION_VIEW, event.uri))
+            is MainViewModel.Event.OpenDetail -> startActivity(
+                Intent(this, DetailActivity::class.java).putExtra(
+                    DetailActivity.KEY_SELECTED_LOCATION,
+                    event.locationName
+                ).putExtra(DetailActivity.KEY_SELECTED_DATE, event.selectedDate)
+            )
         }
     }
 
@@ -64,6 +68,7 @@ class MainActivity : ComponentActivity() {
                         onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
                         onShowLocation = { name -> viewModel.showLocation(name) },
                         onDeleteLocation = { name -> viewModel.deleteLocation(name) },
+                        onOpenDetail = {name, date -> viewModel.openLocationDetail(name, date)}
                     )
                 }
             }
@@ -72,8 +77,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        // TODO no need to refresh on each resime, instead added a refresh button on top
+        // TODO no need to refresh on each resume, instead added a refresh button on top
         //viewModel.updateAllData()
+        // TODO or put it here but then remove it from init
     }
 
 }

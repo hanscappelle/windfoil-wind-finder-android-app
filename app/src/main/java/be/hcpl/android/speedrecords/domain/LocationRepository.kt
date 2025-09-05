@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken
 interface LocationRepository {
 
     fun retrieveLocations(): Result
+    fun locationByName(name: String): Result
     fun addNewLocation(string: String?): Result
     fun dropLocation(location: LocationData): Result
     fun renameLocation(oldName: String, newName: String): Result
@@ -41,6 +42,9 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
         )
     )
 
+    override fun locationByName(name: String) =
+        localLocations.find { it.name == name }?.let { Result.Data(listOf(it)) } ?: Result.Failed
+
     override fun addNewLocation(received: String?): Result {
         // should be received as [50.1890147, 4.3504654] or [50.1890147, 4.3504654, location name]
         // TODO allow adding a name to this location (also in UI)
@@ -48,7 +52,7 @@ class LocationRepositoryImpl(context: Context) : LocationRepository {
         val changed = localLocations.toMutableList()
         changed.add(
             LocationData(
-                name = if((split?.size ?: 0) > 2) split?.get(2).orEmpty() else received.orEmpty(),
+                name = if ((split?.size ?: 0) > 2) split?.get(2).orEmpty() else received.orEmpty(),
                 lat = split?.get(0)?.toDouble() ?: 0.0,
                 lng = split?.get(1)?.toDouble() ?: 0.0,
             )

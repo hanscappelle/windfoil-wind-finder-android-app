@@ -2,6 +2,7 @@ package be.hcpl.android.speedrecords.ui.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,13 +16,18 @@ import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
 
 @Composable
-fun LocationItem(model: LocationItemUiModel) {
+fun LocationItem(
+    model: LocationItemUiModel,
+    onOpenDetail: (String, String) -> Unit = { _, _ -> },
+) {
+
     model.hourlyForecast?.daily?.forEach {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = spacedBy(8.dp),
             modifier = Modifier
                 .padding(4.dp)
+                .clickable { onOpenDetail(model.locationName, it.value.time.orEmpty()) }
                 .border(BorderStroke(width = 1.dp, Color.LightGray)),
         ) {
             // TODO include day of week

@@ -5,13 +5,15 @@ import be.hcpl.android.speedrecords.api.WeatherResponse
 import be.hcpl.android.speedrecords.api.transformer.WeatherTransformer
 import be.hcpl.android.speedrecords.domain.WeatherRepository.Result
 import retrofit2.Response
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 interface WeatherRepository {
 
     suspend fun forecast(locationData: LocationData): Result
+
+    fun cachedForecastFor(locationData: LocationData): Result
 
     sealed class Result {
         data class Success(val data: WeatherData) : Result()
@@ -24,7 +26,9 @@ class WeatherRepositoryImpl(
     private val transformer: WeatherTransformer,
 ) : WeatherRepository {
 
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+    private val cachedData: MutableMap<LocationData, WeatherData> = mutableMapOf()
 
     override suspend fun forecast(locationData: LocationData): Result {
         // using coroutines, always give the results for today + 10 days
@@ -38,10 +42,14 @@ class WeatherRepositoryImpl(
             endDate = dateFormat.format(endDate.time),
         )
         return if (response.isSuccessful && response.body() != null) {
-            Result.Success(transformer.transformForecast(response.body()))
+            val weatherData = transformer.transformForecast(response.body())
+            cachedData.put(locationData, weatherData)
+            Result.Success(weatherData)
         } else {
             Result.Failed(response.message())
         }
     }
 
+    override fun cachedForecastFor(locationData: LocationData) =
+        cachedData.get(locationData)?.let { Result.Success(it) } ?: Result.Failed("no cached data")
 }

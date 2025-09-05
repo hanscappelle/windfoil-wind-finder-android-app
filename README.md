@@ -11,8 +11,9 @@ Initial app release
 
 # TODO
 
-- allow for easy location input when adding locations
-- improve UI
+- allow for easy location input when adding locations, pick from map in app
+- add information about data source for example
+- improve UI (more graphics and colours)
 - show weather as an icon, see wmo weather code
 - allow for custom colours, hours, warnings, thresholds, ...
 

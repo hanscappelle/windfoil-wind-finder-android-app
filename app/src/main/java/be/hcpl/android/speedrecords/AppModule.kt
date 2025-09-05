@@ -12,6 +12,7 @@ import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformerImpl
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -20,9 +21,11 @@ val appModule = module {
     factory<OpenWeatherService> { RetrofitInstance.newInstance().create(OpenWeatherService::class.java) }
 
     viewModelOf(::MainViewModel)
+    viewModelOf(::DetailViewModel)
 
     factoryOf(::WeatherTransformerImpl) { bind<WeatherTransformer>() }
-    factoryOf(::WeatherRepositoryImpl) { bind<WeatherRepository>() }
-    factoryOf(::LocationRepositoryImpl) { bind<LocationRepository>() }
     factoryOf(::WeatherDataUiModelTransformerImpl) { bind<WeatherDataUiModelTransformer>() }
+
+    singleOf(::WeatherRepositoryImpl) { bind<WeatherRepository>() }
+    singleOf(::LocationRepositoryImpl) { bind<LocationRepository>() }
 }

@@ -64,7 +64,7 @@ class MainViewModel(
     }
 
     private fun refreshUi() {
-        state.postValue(State(locations = uiModelTransformer.transform(weatherData)))
+        state.postValue(State(locations = uiModelTransformer.transformLocations(weatherData)))
     }
 
     fun receivedLocation(intent: Intent) {
@@ -105,11 +105,16 @@ class MainViewModel(
         }
     }
 
+    fun openLocationDetail(name: String, date: String) {
+        events.postValue(Event.OpenDetail(name, date))
+    }
+
     data class State(
         val locations: LocationUiModel = LocationUiModel(emptyList()),
     )
 
     sealed class Event {
         data class ShowLocationOnMap(val uri: Uri) : Event()
+        data class OpenDetail(val locationName: String, val selectedDate: String) : Event()
     }
 }

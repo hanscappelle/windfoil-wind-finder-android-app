@@ -32,6 +32,7 @@ fun MainScreen(
     onUpdateLocationName: (String, String) -> Unit = { _, _ -> },
     onShowLocation: (String) -> Unit = {},
     onDeleteLocation: (String) -> Unit = {},
+    onOpenDetail: (String, String) -> Unit = { _, _ -> },
 ) {
     // some dialogs
     val openInfoDialog = remember { mutableStateOf(false) }
@@ -86,6 +87,7 @@ fun MainScreen(
                 oldNameValueState.value = name
                 confirmDialog.value = true
             },
+            onOpenDetail = onOpenDetail,
         )
     }
 

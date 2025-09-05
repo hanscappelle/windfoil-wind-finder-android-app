@@ -1,13 +1,60 @@
 package be.hcpl.android.speedrecords.ui.screen
 
+import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
 
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
-    model: LocationItemUiModel,
-){
+    model: HourlyUiModel,
+) {
+
+    // content
+    Column(
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = spacedBy(8.dp),
+        modifier = modifier.padding(8.dp),
+    ) {
+
+        Text(
+            text = model.locationName,
+            fontSize = 20.sp,
+            modifier = Modifier
+                .weight(1f)
+                //.clickable(onClick = onShowLocation)
+        )
+
+        HorizontalDivider(
+            color = Color.White,
+            modifier = Modifier
+                .height(1.dp)
+                .fillMaxWidth()
+        )
+
+        // TODO render hourly overview here for that day/location
+        LazyColumn(
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = spacedBy(8.dp),
+        ) {
+            model.hourly.keys.forEach { hour ->
+                item {
+                    Text("$hour")
+                }
+            }
+        }
+    }
 
 }
