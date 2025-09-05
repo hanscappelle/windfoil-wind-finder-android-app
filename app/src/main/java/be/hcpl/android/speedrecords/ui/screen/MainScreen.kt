@@ -17,8 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
-import be.hcpl.android.speedrecords.ui.view.ConfirmDialog
-import be.hcpl.android.speedrecords.ui.view.InfoDialog
+import be.hcpl.android.speedrecords.ui.dialog.ConfirmDialog
+import be.hcpl.android.speedrecords.ui.dialog.InfoDialog
 import be.hcpl.android.speedrecords.ui.view.LocationOverview
 import be.hcpl.android.speedrecords.ui.view.LocationsOverviewHeader
 import be.hcpl.android.speedrecords.ui.view.NameLocationDialog
