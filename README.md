@@ -4,6 +4,8 @@ An overview of wind speed forecasts for given (favorites) locations
 for the coming 10 days (configurable). Plus a detail view of the hourly 
 forecast for each given location.
 
+![app feature image](release/NIacapvf6iTa_1024_500.png)
+
 Available from Google Play: https://play.google.com/store/apps/details?id=be.hcpl.android.speedrecords 
 
 ![screenshot](release/Screenshot_20250905_230546.png)
