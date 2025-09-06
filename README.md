@@ -91,6 +91,10 @@ also: https://medium.com/@pritam.karmahapatra/retrofit-in-android-with-kotlin-9a
 
 weather forecast api: https://open-meteo.com/en/docs/ecmwf-api
 
+google play store art created with: https://hotpot.ai/design/google-play-feature-graphic?id=34
+
+logo with: https://hotpot.ai/logo-generator/create and https://romannurik.github.io/AndroidAssetStudio/
+
 ## General Info
 
 wind speed at 10 vs 100m; altitude that is, see more info at https://www.nature.com/articles/s41598-025-88295-8
