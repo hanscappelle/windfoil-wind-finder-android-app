@@ -59,9 +59,8 @@ Initial app release
 - improve UI (more graphics and colours)
 - show weather as an icon, see wmo weather code
 - allow for custom colours, hours, warnings, thresholds, ...
-- add selected date on top of hourly detail view
 - add about information
-- explain how to add locations
+- explain how to add locations, also in app
 - allow for different units
 - on removing ignored hours add a confirmation dialog
 - update store listing

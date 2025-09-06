@@ -28,7 +28,7 @@ fun HourlyHeader(
         modifier = Modifier.heightIn(min = 48.dp)
     ) {
         Text(
-            text = model.locationName,
+            text = "${model.locationName} - ${model.date}",
             fontSize = 24.sp,
             modifier = Modifier
                 .weight(1f)
