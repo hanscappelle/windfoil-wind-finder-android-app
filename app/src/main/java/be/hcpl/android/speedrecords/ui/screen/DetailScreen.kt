@@ -8,10 +8,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import be.hcpl.android.speedrecords.R
+import be.hcpl.android.speedrecords.ui.dialog.ConfirmDialog
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
 import be.hcpl.android.speedrecords.ui.view.HourlyHeader
 import be.hcpl.android.speedrecords.ui.view.HourlyItem
@@ -24,6 +29,14 @@ fun DetailScreen(
     onIgnoreHour: (String) -> Unit = {},
 ) {
 
+    val confirmDialog = remember { mutableStateOf(false) }
+    ConfirmDialog(
+        confirmDialog,
+        message = stringResource(R.string.confirm_restore_all_hours),
+        onConfirm = { onRestoreAllHours() },
+        onCancel = {},
+    )
+
     Column(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = spacedBy(8.dp),
@@ -32,7 +45,7 @@ fun DetailScreen(
 
         HourlyHeader(
             model = model,
-            onRestoreAllHours = onRestoreAllHours,
+            onRestoreAllHours = { confirmDialog.value = true },
         )
 
         HorizontalDivider(
