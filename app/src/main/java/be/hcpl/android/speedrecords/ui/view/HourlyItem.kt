@@ -31,11 +31,11 @@ fun HourlyItem(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = spacedBy(4.dp),
+        horizontalArrangement = spacedBy(8.dp),
         modifier = Modifier
             .padding(4.dp)
             .border(BorderStroke(width = 1.dp, Color.LightGray))
-            .padding(4.dp),
+            .padding(4.dp)
     ) {
         Text(
             text = "${model.displayTime}h",
