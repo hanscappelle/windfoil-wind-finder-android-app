@@ -65,10 +65,11 @@ Initial app release
 
 - allow for easy location input when adding locations, pick from map in app
 - improve UI (more graphics and colours)
-- show weather as an icon, see wmo weather code
-- allow for custom colours, hours, warnings, thresholds, ...
-- add about information to app, api info and libs
-- explain how to add locations, also in app
+  - allow for custom colours, hours, warnings, thresholds, ...
+  - show weather as an icon, see wmo weather code
+- add about information to app
+  - api info and libs
+  - explain how to add locations, also in app
 - allow for different units from config
 - update store listing & app icon
 
@@ -76,7 +77,9 @@ Initial app release
 
 - fix system bar colors lost
 - fix missing translations
-- delete locations isn't always working
+- rename locations isn't always working
+- reset shown hours reverts back to all hours first
+- all back handling now OK? even with rotation?
 
 # Resources
 
