@@ -13,8 +13,8 @@ Available from Google Play: https://play.google.com/store/apps/details?id=be.hcp
 
 ### Adding locations
 
-You can add locations by sharing text in format: `lat,lng,locationName` 
-with locationName being optional. For example: 
+You can add locations by sharing text in format: `lat, lng, locationName` 
+with locationName being optional. The separator is important: `, ` For example: 
 
 ```
 50.85045, 4.34878, Brussels BE
