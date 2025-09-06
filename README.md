@@ -46,6 +46,13 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 # Version History
 
+## 0.1.1
+
+- fixed back handling
+- add selected date on top for detail view
+- fix adding locations in other formats
+- 
+
 ## 0.1.0
 
 Initial app release
@@ -55,24 +62,19 @@ Initial app release
 ## Features
 
 - allow for easy location input when adding locations, pick from map in app
-- add information about data source for example
 - improve UI (more graphics and colours)
 - show weather as an icon, see wmo weather code
 - allow for custom colours, hours, warnings, thresholds, ...
-- add about information
+- add about information to app, api info and libs
 - explain how to add locations, also in app
-- allow for different units
+- allow for different units from config
 - on removing ignored hours add a confirmation dialog
-- update store listing
-- app icon
+- update store listing & app icon
 
 ## Bugs
 
 - fix system bar colors lost
 - fix missing translations
-- on rotation detail is shown again (intent data)
-- back navigation isn't working as expected
-- depending on system language locations can be shared as 12,1212121, 12,121212 breaking
 - delete locations isn't always working
 
 # Resources

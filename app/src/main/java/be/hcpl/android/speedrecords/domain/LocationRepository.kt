@@ -48,19 +48,22 @@ class LocationRepositoryImpl(
     override fun addNewLocation(received: String?): Result {
         // should be received as [50.1890147, 4.3504654] or [50.1890147, 4.3504654, location name]
         // TODO allow adding a name to this location (also in UI)
-        val split = received?.split(", ")
         val changed = localLocations.toMutableList()
-        changed.add(
-            LocationData(
-                name = if ((split?.size ?: 0) > 2) split?.get(2).orEmpty() else received.orEmpty(),
-                lat = split?.get(0)?.toDouble() ?: 0.0,
-                lng = split?.get(1)?.toDouble() ?: 0.0,
-            )
-        )
+        val split = received?.split(", ")
+        val newLocation = extractLocationInfo(split, received)
+        changed.add(newLocation)
         // and store in preferences
         persistLocations(changed)
         return Result.Success
     }
+
+    // 89.98089, 12.90909, Name
+    private fun extractLocationInfo(split: List<String>?, received: String?) =
+        LocationData(
+            name = if ((split?.size ?: 0) > 2) split?.get(2).orEmpty() else received.orEmpty(),
+            lat = split?.get(0)?.replace(",",".")?.toDouble() ?: 0.0,
+            lng = split?.get(1)?.replace(",",".")?.toDouble() ?: 0.0,
+        )
 
     override fun dropLocation(location: LocationData): Result {
         val changed = localLocations.toMutableList()
