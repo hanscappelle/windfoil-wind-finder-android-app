@@ -64,6 +64,8 @@ Initial app release
 - explain how to add locations
 - allow for different units
 - on removing ignored hours add a confirmation dialog
+- update store listing
+- app icon
 
 ## Bugs
 
@@ -72,6 +74,7 @@ Initial app release
 - on rotation detail is shown again (intent data)
 - back navigation isn't working as expected
 - depending on system language locations can be shared as 12,1212121, 12,121212 breaking
+- delete locations isn't always working
 
 # Resources
 
