@@ -93,6 +93,7 @@ Initial app release
   - selectable weather source (currently only open-meteo)
   - OK number of hours to show
   - select different units
+- long press to mark a moment
 
 ## Bugs
 
