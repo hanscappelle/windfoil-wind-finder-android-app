@@ -100,6 +100,9 @@ Initial app release
 
 # Resources
 
+For release sign with v1 key
+And bundle as APK for now
+
 ## Dependencies
 
 retrofit for network calls: https://square.github.io/retrofit/
