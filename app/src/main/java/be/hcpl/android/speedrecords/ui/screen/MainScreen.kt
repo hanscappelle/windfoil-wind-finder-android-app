@@ -1,6 +1,5 @@
 package be.hcpl.android.speedrecords.ui.screen
 
-import be.hcpl.android.speedrecords.R
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,15 +12,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import be.hcpl.android.speedrecords.ui.model.LocationUiModel
+import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.ui.dialog.ConfirmDialog
 import be.hcpl.android.speedrecords.ui.dialog.InfoDialog
+import be.hcpl.android.speedrecords.ui.dialog.NameLocationDialog
+import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.view.LocationOverview
 import be.hcpl.android.speedrecords.ui.view.LocationsOverviewHeader
-import be.hcpl.android.speedrecords.ui.dialog.NameLocationDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,7 +68,6 @@ fun MainScreen(
         )
 
         HorizontalDivider (
-            color = Color.White,
             modifier = Modifier
                 .height(1.dp)
                 .fillMaxWidth()
