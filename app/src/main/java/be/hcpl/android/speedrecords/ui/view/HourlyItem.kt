@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,7 +45,12 @@ fun HourlyItem(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = spacedBy(2.dp),
             ) {
-                Text(text = "wind ${model.windSpeedAt10m?.roundToInt() ?: "-"} kts")
+                Text(
+                    text = "wind ${model.windSpeedAt10m?.roundToInt() ?: "-"} kts",
+                    // TODO move this logic to transformer!?
+                    fontWeight = if ((model.windSpeedAt10m ?: 0.0) >= 10) FontWeight.Bold else FontWeight.Normal,
+                    fontStyle = if ((model.windSpeedAt10m ?: 0.0) >= 10) FontStyle.Italic else FontStyle.Normal,
+                )
                 Text(text = "gusts ${model.windGustsAt10m?.roundToInt() ?: "-"} kts")
             }
             Text(
@@ -73,7 +80,7 @@ fun HourlyItem(
 
 @Composable
 @Preview
-fun HourlyItemPreview() {
+fun HourlyItemPreviewMarked() {
     HourlyItem(
         HourlyValue(
             time = "2025-12-30T12:00",
@@ -83,6 +90,24 @@ fun HourlyItemPreview() {
             weatherCode = 2,
             cloudCover = 66,
             windSpeedAt10m = 10.0,
+            windDirectionAt10m = 180,
+            windGustsAt10m = 12.4,
+        )
+    )
+}
+
+@Composable
+@Preview
+fun HourlyItemPreviewLowValue() {
+    HourlyItem(
+        HourlyValue(
+            time = "2025-12-30T12:00",
+            displayTime = "12",
+            temperatureAt2m = 16.0,
+            precipitation = 0.2,
+            weatherCode = 2,
+            cloudCover = 66,
+            windSpeedAt10m = 9.0,
             windDirectionAt10m = 180,
             windGustsAt10m = 12.4,
         )
