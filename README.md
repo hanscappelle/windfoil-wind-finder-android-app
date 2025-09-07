@@ -29,6 +29,10 @@ Note that if the pin resolves as a known location it tries to share as a
 Google maps link instead which won't work. Alternative option is to share
 from any text based app where you enter in the above format. 
 
+Video showing this procedure:
+
+![video](release/screen-20250906-175206.mp4)
+
 ### Exploring Forecast
 
 For each added location the daily forecast for the coming 10 days is shown 
