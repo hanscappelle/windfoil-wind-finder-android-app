@@ -27,6 +27,10 @@ class ConfigRepositoryImpl(
 
     private var ignoredHours = mutableListOf<String>()
 
+    init {
+        getIgnoredHours()
+    }
+
     override fun getIgnoredHours(): ConfigRepository.Result {
         return sharedPref.getString(PREF_KEY_IGNORED_HOURS, null)?.let { json ->
             ignoredHours = gson.fromJson(json, listOfHoursType)

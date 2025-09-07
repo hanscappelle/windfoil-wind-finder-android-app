@@ -57,7 +57,7 @@ fun DetailScreen(
 
         LazyColumn(
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = spacedBy(8.dp),
+            //verticalArrangement = spacedBy(8.dp),
         ) {
             model.hourly.forEach { hour, data ->
                 item {

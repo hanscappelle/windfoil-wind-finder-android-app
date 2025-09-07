@@ -58,6 +58,7 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 - improved app icon
 - layout improvements
+- bugfix dropping hours from detail
 
 ## 0.1.1
 
@@ -72,12 +73,13 @@ Initial app release
 
 # TODO
 
-## Features
+## Features & TODO 
 
 - allow for easy location input from in app map
 - improve UI (more graphics and colours)
   - allow for custom colours, hours, warnings, thresholds, ...
   - show weather as an icon, see wmo weather code
+  - optimize width 
 - add about information to app
   - api info and libs
   - explain how to add locations, also in app
@@ -94,8 +96,6 @@ Initial app release
 
 - fix system bar colors lost
 - fix missing translations
-- rename locations isn't always working
-- reset shown hours reverts back to all hours first
 - all back handling now OK? even with rotation?
 
 # Resources
