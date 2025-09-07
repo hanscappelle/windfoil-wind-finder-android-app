@@ -9,6 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.domain.DailyValue
@@ -46,8 +48,16 @@ fun LocationItem(
                     verticalArrangement = spacedBy(2.dp),
                     modifier = Modifier.weight(1f),
                 ) {
-                    Text(text = "min ${it.value.windSpeedAt10mMin?.roundToInt() ?: "-"} kts")
-                    Text(text = "max ${it.value.windSpeedAt10mMax?.roundToInt() ?: "-"} kts")
+                    Text(
+                        text = "min ${it.value.windSpeedAt10mMin?.roundToInt() ?: "-"} kts",
+                        fontWeight = if ((it.value.windSpeedAt10mMin?.roundToInt() ?: 0) >= 10) FontWeight.Bold else FontWeight.Normal,
+                        fontStyle = if ((it.value.windSpeedAt10mMin?.roundToInt() ?: 0) >= 10) FontStyle.Italic else FontStyle.Normal,
+                    )
+                    Text(
+                        text = "max ${it.value.windSpeedAt10mMax?.roundToInt() ?: "-"} kts",
+                        fontWeight = if ((it.value.windSpeedAt10mMax?.roundToInt() ?: 0) >= 10) FontWeight.Bold else FontWeight.Normal,
+                        fontStyle = if ((it.value.windSpeedAt10mMax?.roundToInt() ?: 0) >= 10) FontStyle.Italic else FontStyle.Normal,
+                        )
                 }
                 // display min and max temperatures
                 Column(
@@ -77,8 +87,8 @@ fun LocationItemPreview(){
             longitude = 0.0,
             timezone = "GMT",
             units = null,
-            daily = mapOf("sqdsqd" to DailyValue(
-                time = "sqdsqd",
+            daily = mapOf("date" to DailyValue(
+                time = "date",
                 displayDay = "10h",
                 windSpeedAt10mMin = 11.0,
                 windSpeedAt10mMax = 16.0,
