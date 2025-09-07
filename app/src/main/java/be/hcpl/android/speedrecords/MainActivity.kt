@@ -3,12 +3,12 @@ package be.hcpl.android.speedrecords
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.activity.compose.setContent
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.screen.MainScreen
 import be.hcpl.android.speedrecords.ui.theme.AppTheme
@@ -19,12 +19,17 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModel()
 
+    private var recovered = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         updateContent(LocationUiModel(locations = emptyList()))
-        viewModel.state.observeForever(::handleState)
-        viewModel.events.observeForever(::handleEvent)
+
+        recovered = savedInstanceState != null
+
+        viewModel.state.observe(this, ::handleState)
+        viewModel.events.observe(this, ::handleEvent)
 
         checkForReceivedLocations()
     }
@@ -42,6 +47,11 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleEvent(event: MainViewModel.Event) {
+        if( recovered ) {
+            // FIXME fix for now for handling events received on recovered
+            recovered = false
+            return
+        }
         when (event) {
             is MainViewModel.Event.ShowLocationOnMap -> startActivity(Intent(Intent.ACTION_VIEW, event.uri))
             is MainViewModel.Event.OpenDetail -> startActivity(

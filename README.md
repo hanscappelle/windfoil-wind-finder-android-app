@@ -59,6 +59,7 @@ If you later want to bring back some hours you can use the refresh icon on top s
 - improved app icon
 - layout improvements
 - bugfix dropping hours from detail
+- bugfix navigation on rotation
 
 ## 0.1.1
 
@@ -96,7 +97,6 @@ Initial app release
 
 - fix system bar colors lost
 - fix missing translations
-- all back handling now OK? even with rotation?
 
 # Resources
 

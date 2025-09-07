@@ -35,7 +35,8 @@ class DetailActivity : ComponentActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressedDispatcher.onBackPressed()
+            //onBackPressedDispatcher.onBackPressed()
+            finish()
             return true
         }
         return super.onOptionsItemSelected(item)
