@@ -8,6 +8,9 @@ espressoCore = "3.7.0"
 activityCompose = "1.10.1"
 composeBom = "2024.04.01"
 koin = "4.0.2"
+uiToolingPreviewAndroid = "1.7.8"
+uiTooling = "1.7.8"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -19,8 +22,10 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "uiToolingPreviewAndroid" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
