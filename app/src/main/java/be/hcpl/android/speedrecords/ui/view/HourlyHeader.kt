@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.R
@@ -41,4 +42,16 @@ fun HourlyHeader(
             modifier = Modifier.clickable(onClick = onRestoreAllHours)
         )
     }
+}
+
+@Composable
+@Preview
+fun HourlyHeaderPreview() {
+    HourlyHeader(
+        model = HourlyUiModel(
+            locationName = "Brussels",
+            date = "2025-08-27",
+            hourly = emptyMap(),
+        )
+    )
 }

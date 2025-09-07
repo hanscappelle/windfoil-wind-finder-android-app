@@ -1,7 +1,5 @@
 package be.hcpl.android.speedrecords.ui.view
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
@@ -9,12 +7,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,46 +27,47 @@ fun HourlyItem(
     onIgnoreHour: (String) -> Unit = {},
 ) {
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = spacedBy(8.dp),
-        modifier = Modifier
-            .padding(4.dp)
-            .border(BorderStroke(width = 1.dp, Color.LightGray))
-            .padding(4.dp)
+    Card(
+        modifier = Modifier.padding(4.dp),
     ) {
-        Text(
-            text = "${model.displayTime}h",
-            modifier = Modifier.weight(1f),
-        )
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = spacedBy(2.dp),
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = spacedBy(8.dp),
+            modifier = Modifier.padding(4.dp),
         ) {
-            Text(text = "wind ${model.windSpeedAt10m?.roundToInt() ?: "-"} kts")
-            Text(text = "gusts ${model.windGustsAt10m?.roundToInt() ?: "-"} kts")
+            Text(
+                text = "${model.displayTime}h",
+                modifier = Modifier.weight(1f),
+            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = spacedBy(2.dp),
+            ) {
+                Text(text = "wind ${model.windSpeedAt10m?.roundToInt() ?: "-"} kts")
+                Text(text = "gusts ${model.windGustsAt10m?.roundToInt() ?: "-"} kts")
+            }
+            Text(
+                text = "${model.windDirectionAt10m} °",
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center,
+            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = spacedBy(2.dp),
+            ) {
+                Text(text = "cover ${model.cloudCover} %")
+                Text(text = "${model.precipitation} mm")
+            }
+            Text(
+                text = "${model.temperatureAt2m?.roundToInt() ?: "-"} °C",
+                modifier = Modifier.weight(1f),
+            )
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = stringResource(id = R.string.a11y_hide_this_hour),
+                modifier = Modifier.clickable(onClick = { onIgnoreHour(model.time.orEmpty()) })
+            )
         }
-        Text(
-            text = "${model.windDirectionAt10m} °",
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center,
-        )
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = spacedBy(2.dp),
-        ) {
-            Text(text = "cover ${model.cloudCover} %")
-            Text(text = "${model.precipitation} mm")
-        }
-        Text(
-            text = "${model.temperatureAt2m?.roundToInt() ?: "-"} °C",
-            modifier = Modifier.weight(1f),
-        )
-        Icon(
-            imageVector = Icons.Default.Delete,
-            contentDescription = stringResource(id = R.string.a11y_hide_this_hour),
-            modifier = Modifier.clickable(onClick = { onIgnoreHour(model.time.orEmpty()) })
-        )
     }
 }
 

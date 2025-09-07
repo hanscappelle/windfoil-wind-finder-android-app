@@ -57,6 +57,7 @@ If you later want to bring back some hours you can use the refresh icon on top s
 ## 0.2.0
 
 - improved app icon
+- layout improvements
 
 ## 0.1.1
 
