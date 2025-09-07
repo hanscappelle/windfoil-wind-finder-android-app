@@ -50,6 +50,10 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 # Version History
 
+## 0.2.0
+
+- improved app icon
+
 ## 0.1.1
 
 - fixed back handling
@@ -65,15 +69,21 @@ Initial app release
 
 ## Features
 
-- allow for easy location input when adding locations, pick from map in app
+- allow for easy location input from in app map
 - improve UI (more graphics and colours)
   - allow for custom colours, hours, warnings, thresholds, ...
   - show weather as an icon, see wmo weather code
 - add about information to app
   - api info and libs
   - explain how to add locations, also in app
-- allow for different units from config
-- update store listing & app icon
+- Custom Config Options
+  - disable or enable refresh on resume of overview
+  - set number of days to fetch in the future
+  - (opt) how many days in the past
+  - threshold for marking values in colours
+  - selectable weather source (currently only open-meteo)
+  - OK number of hours to show
+  - select different units
 
 ## Bugs
 
