@@ -54,6 +54,10 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 # Version History
 
+## 0.3.0
+
+- icons for weather indication
+
 ## 0.2.0
 
 - improved app icon
@@ -80,7 +84,6 @@ Initial app release
 - allow for easy location input from in app map
 - improve UI (more graphics and colours)
   - allow for custom colours, hours, warnings, thresholds, ...
-  - show weather as an icon, see wmo weather code
   - optimize width 
 - add about information to app
   - api info and libs
@@ -108,9 +111,11 @@ And bundle as APK for now
 
 retrofit for network calls: https://square.github.io/retrofit/
 
-also: https://medium.com/@pritam.karmahapatra/retrofit-in-android-with-kotlin-9af9f66a54a8
+see also: https://medium.com/@pritam.karmahapatra/retrofit-in-android-with-kotlin-9af9f66a54a8
 
 weather forecast api: https://open-meteo.com/en/docs/ecmwf-api
+
+weather icons from https://openweathermap.org
 
 google play store art created with: https://hotpot.ai/design/google-play-feature-graphic?id=34
 

@@ -47,7 +47,6 @@ class WeatherTransformerImpl() : WeatherTransformer {
         return hourly?.time?.mapIndexedNotNull { index, value ->
             value to HourlyValue(
                 time = value,
-                displayTime = if (value.length >= 13) value.substring(11, 13) else value,
                 temperatureAt2m = hourly.temperature_2m?.get(index),
                 precipitation = hourly.precipitation?.get(index),
                 weatherCode = hourly.weather_code?.get(index),

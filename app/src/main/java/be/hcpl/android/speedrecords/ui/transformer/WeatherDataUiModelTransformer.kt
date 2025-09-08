@@ -1,11 +1,14 @@
 package be.hcpl.android.speedrecords.ui.transformer
 
+import be.hcpl.android.speedrecords.domain.AssetRepository
 import be.hcpl.android.speedrecords.domain.ConfigRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.WeatherData
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
+import be.hcpl.android.speedrecords.ui.model.HourlyValueUiModel
 import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
+import kotlin.math.roundToInt
 
 interface WeatherDataUiModelTransformer {
     fun transformLocations(map: MutableMap<LocationData, WeatherData>): LocationUiModel
@@ -14,6 +17,7 @@ interface WeatherDataUiModelTransformer {
 
 class WeatherDataUiModelTransformerImpl(
     private val configRepository: ConfigRepository,
+    private val assetRepository: AssetRepository,
 ) : WeatherDataUiModelTransformer {
 
     override fun transformLocations(map: MutableMap<LocationData, WeatherData>) = LocationUiModel(
@@ -24,7 +28,6 @@ class WeatherDataUiModelTransformerImpl(
                 lng = it.key.lng,
                 hourlyForecast = it.value,
             )
-
         }
     )
 
@@ -45,8 +48,24 @@ class WeatherDataUiModelTransformerImpl(
             hourly = weather.hourly.filter {
                 // filter on selected date
                 it.key.startsWith(date) &&
-                // and on ignored hours
-                !ignoredHours.contains(it.key.substring(11,13)) },
+                        // and on ignored hours
+                        !ignoredHours.contains(it.key.substring(11, 13))
+            }
+                .mapValues {
+                    HourlyValueUiModel(
+                        time = it.value.time,
+                        displayTime = if ((it.value.time?.length ?: 0) >= 13) it.value.time?.substring(11, 13) ?: "" else "",
+                        temperatureAt2m = it.value.temperatureAt2m?.roundToInt(),
+                        precipitation = it.value.precipitation,
+                        cloudCover = it.value.cloudCover,
+                        windSpeedAt10m = it.value.windSpeedAt10m?.roundToInt(),
+                        windDirectionAt10m = it.value.windDirectionAt10m,
+                        windGustsAt10m = it.value.windGustsAt10m?.roundToInt(),
+                        weatherIcon = assetRepository.getWeatherIcon(it.value.weatherCode),
+                        weatherDescription = assetRepository.getWeatherDescription(it.value.weatherCode),
+                    )
+                },
         )
     }
+
 }
