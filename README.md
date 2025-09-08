@@ -8,8 +8,7 @@ forecast for each given location.
 
 Available from Google Play: https://play.google.com/store/apps/details?id=be.hcpl.android.speedrecords 
 
-<img width="200" src="release/Screenshot_20250908_215921.png"/>
-<img width="200" src="release/Screenshot_20250908_215933.png"/>
+<img width="320" src="release/Screenshot_20250908_215921.png"/> <img width="320" src="release/Screenshot_20250908_215933.png"/>
 
 ## How to Use
 
