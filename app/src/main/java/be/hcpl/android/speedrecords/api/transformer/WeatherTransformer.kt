@@ -6,8 +6,6 @@ import be.hcpl.android.speedrecords.domain.model.DailyValue
 import be.hcpl.android.speedrecords.domain.model.HourlyUnit
 import be.hcpl.android.speedrecords.domain.model.HourlyValue
 import be.hcpl.android.speedrecords.domain.model.WeatherData
-import java.text.SimpleDateFormat
-import java.util.Locale
 import kotlin.text.substring
 
 interface WeatherTransformer {
@@ -16,9 +14,6 @@ interface WeatherTransformer {
 }
 
 class WeatherTransformerImpl() : WeatherTransformer {
-
-    private val dateFormatDisplay = SimpleDateFormat("EEEE", Locale.getDefault())
-    private val dateFormatParse = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     override fun transformForecast(response: WeatherResponse?): WeatherData {
         val hourly = transformHourlyValues(response?.hourly)
@@ -70,13 +65,20 @@ class WeatherTransformerImpl() : WeatherTransformer {
                 //val sumForDate = entry.value.sumOf { it.someIntValue!! } // Values are already filtered for non-null
                 DailyValue(
                     time = entry.key,
-                    displayDay = dateFormatParse.parse(entry.key)?.let { dateFormatDisplay.format(it) } ?: "",
                     temperatureAt2mMin = entry.value.minOf { it.temperatureAt2m!! },
                     temperatureAt2mMax = entry.value.maxOf { it.temperatureAt2m!! },
                     windSpeedAt10mMin = entry.value.minOf { it.windSpeedAt10m!! },
                     windSpeedAt10mMax = entry.value.maxOf { it.windSpeedAt10m!! },
                     windGustsAt10mMax = entry.value.maxOf { it.windGustsAt10m!! },
+                    // use weather code that is most common of that day (first)
+                    weatherCode = resolveMostCommonWeatherCode(entry.value.map { it.weatherCode }),
                 )
             }
+    }
+
+    private fun resolveMostCommonWeatherCode(values: List<Int?>): Int? {
+        val frequencies = values.groupingBy { it }.eachCount()
+        val maxFrequency = frequencies.values.maxOrNull() ?: 0
+        return frequencies.filter { it.value == maxFrequency }.keys.firstOrNull()
     }
 }

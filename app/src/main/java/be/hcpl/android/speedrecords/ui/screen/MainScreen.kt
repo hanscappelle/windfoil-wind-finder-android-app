@@ -89,5 +89,4 @@ fun MainScreen(
         )
     }
 
-    // TODO allow configuration of threshold for warnings, colors, and what timeslots to include in detail
 }

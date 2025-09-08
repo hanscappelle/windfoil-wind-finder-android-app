@@ -1,22 +1,25 @@
 package be.hcpl.android.speedrecords.ui.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import be.hcpl.android.speedrecords.domain.model.DailyValue
-import be.hcpl.android.speedrecords.domain.model.WeatherData
+import be.hcpl.android.speedrecords.R
+import be.hcpl.android.speedrecords.ui.model.DailyValueUiModel
 import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
-import kotlin.math.roundToInt
+import be.hcpl.android.speedrecords.ui.model.WeatherDataUiModel
 
 @Composable
 fun LocationItem(
@@ -49,15 +52,22 @@ fun LocationItem(
                     modifier = Modifier.weight(1f),
                 ) {
                     Text(
-                        text = "min ${it.value.windSpeedAt10mMin?.roundToInt() ?: "-"} kts",
-                        fontWeight = if ((it.value.windSpeedAt10mMin?.roundToInt() ?: 0) >= 10) FontWeight.Bold else FontWeight.Normal,
-                        fontStyle = if ((it.value.windSpeedAt10mMin?.roundToInt() ?: 0) >= 10) FontStyle.Italic else FontStyle.Normal,
+                        text = "min ${it.value.windSpeedAt10mMin ?: "-"} kts",
+                        fontWeight = if ((it.value.windSpeedAt10mMin ?: 0) >= 10) FontWeight.Bold else FontWeight.Normal,
+                        fontStyle = if ((it.value.windSpeedAt10mMin ?: 0) >= 10) FontStyle.Italic else FontStyle.Normal,
                     )
                     Text(
-                        text = "max ${it.value.windSpeedAt10mMax?.roundToInt() ?: "-"} kts",
-                        fontWeight = if ((it.value.windSpeedAt10mMax?.roundToInt() ?: 0) >= 10) FontWeight.Bold else FontWeight.Normal,
-                        fontStyle = if ((it.value.windSpeedAt10mMax?.roundToInt() ?: 0) >= 10) FontStyle.Italic else FontStyle.Normal,
-                        )
+                        text = "max ${it.value.windSpeedAt10mMax ?: "-"} kts",
+                        fontWeight = if ((it.value.windSpeedAt10mMax ?: 0) >= 10) FontWeight.Bold else FontWeight.Normal,
+                        fontStyle = if ((it.value.windSpeedAt10mMax ?: 0) >= 10) FontStyle.Italic else FontStyle.Normal,
+                    )
+                }
+                it.value.weatherIcon?.let{icon ->
+                    Image(
+                        painter = painterResource(id = icon),
+                        contentDescription = it.value.weatherDescription,
+                        modifier = Modifier.size(32.dp)
+                    )
                 }
                 // display min and max temperatures
                 Column(
@@ -65,8 +75,8 @@ fun LocationItem(
                     verticalArrangement = spacedBy(2.dp),
                     modifier = Modifier.weight(1f),
                 ) {
-                    Text(text = "min ${it.value.temperatureAt2mMin?.roundToInt() ?: "-"} °C")
-                    Text(text = "max ${it.value.temperatureAt2mMax?.roundToInt() ?: "-"} °C")
+                    Text(text = "min ${it.value.temperatureAt2mMin ?: "-"} °C")
+                    Text(text = "max ${it.value.temperatureAt2mMax ?: "-"} °C")
                 }
             }
         }
@@ -75,30 +85,30 @@ fun LocationItem(
 
 @Composable
 @Preview
-fun LocationItemPreview(){
+fun LocationItemPreview() {
     LocationItem(
 
-    model= LocationItemUiModel(
-        locationName = "Brussels",
-        lat = 0.0,
-        lng = 0.0,
-        hourlyForecast = WeatherData(
-            latitude = 0.0,
-            longitude = 0.0,
-            timezone = "GMT",
-            units = null,
-            daily = mapOf("date" to DailyValue(
-                time = "date",
-                displayDay = "10h",
-                windSpeedAt10mMin = 11.0,
-                windSpeedAt10mMax = 16.0,
-                temperatureAt2mMin = 18.0,
-                temperatureAt2mMax = 22.0,
-                windGustsAt10mMax = 20.0,
-
-            )),
-            hourly = mapOf(),
+        model = LocationItemUiModel(
+            locationName = "Brussels",
+            lat = 0.0,
+            lng = 0.0,
+            hourlyForecast = WeatherDataUiModel(
+                latitude = 0.0,
+                longitude = 0.0,
+                daily = mapOf(
+                    "date" to DailyValueUiModel(
+                        time = "date",
+                        displayDay = "10h",
+                        windSpeedAt10mMin = 11,
+                        windSpeedAt10mMax = 16,
+                        temperatureAt2mMin = 18,
+                        temperatureAt2mMax = 22,
+                        weatherIcon = R.drawable.wmo_02d,
+                        weatherDescription = "weather description",
+                    )
+                ),
+                //hourly = mapOf(),
+            ),
         ),
-    ),
     )
 }

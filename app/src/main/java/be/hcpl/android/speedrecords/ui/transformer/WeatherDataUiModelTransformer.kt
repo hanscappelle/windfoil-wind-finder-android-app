@@ -4,10 +4,14 @@ import be.hcpl.android.speedrecords.domain.AssetRepository
 import be.hcpl.android.speedrecords.domain.ConfigRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.WeatherData
+import be.hcpl.android.speedrecords.ui.model.DailyValueUiModel
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
 import be.hcpl.android.speedrecords.ui.model.HourlyValueUiModel
 import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
+import be.hcpl.android.speedrecords.ui.model.WeatherDataUiModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 import kotlin.math.roundToInt
 
 interface WeatherDataUiModelTransformer {
@@ -20,13 +24,31 @@ class WeatherDataUiModelTransformerImpl(
     private val assetRepository: AssetRepository,
 ) : WeatherDataUiModelTransformer {
 
+    private val dateFormatDisplay = SimpleDateFormat("EEEE", Locale.getDefault())
+    private val dateFormatParse = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
     override fun transformLocations(map: MutableMap<LocationData, WeatherData>) = LocationUiModel(
         locations = map.map {
             LocationItemUiModel(
                 locationName = it.key.name,
                 lat = it.key.lat,
                 lng = it.key.lng,
-                hourlyForecast = it.value,
+                hourlyForecast = WeatherDataUiModel(
+                    latitude = it.value.latitude,
+                    longitude = it.value.longitude,
+                    daily = it.value.daily.mapValues {
+                        DailyValueUiModel(
+                            time = it.key,
+                            displayDay = dateFormatParse.parse(it.key)?.let { dateFormatDisplay.format(it) } ?: "",
+                            temperatureAt2mMin = it.value.temperatureAt2mMin?.toInt(),
+                            temperatureAt2mMax = it.value.temperatureAt2mMax?.toInt(),
+                            windSpeedAt10mMin = it.value.windSpeedAt10mMin?.toInt(),
+                            windSpeedAt10mMax = it.value.windSpeedAt10mMax?.toInt(),
+                            weatherIcon = assetRepository.getWeatherIcon(it.value.weatherCode),
+                            weatherDescription = assetRepository.getWeatherDescription(it.value.weatherCode),
+                        )
+                    }
+                )
             )
         }
     )
