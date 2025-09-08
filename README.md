@@ -57,6 +57,7 @@ If you later want to bring back some hours you can use the refresh icon on top s
 ## 0.3.0
 
 - icons for weather indication
+- show wind direction with icon
 
 ## 0.2.0
 
@@ -84,7 +85,7 @@ Initial app release
 - allow for easy location input from in app map
 - improve UI (more graphics and colours)
   - allow for custom colours, hours, warnings, thresholds, ...
-  - optimize width 
+  - optimize use of screen width 
 - add about information to app
   - api info and libs
   - explain how to add locations, also in app

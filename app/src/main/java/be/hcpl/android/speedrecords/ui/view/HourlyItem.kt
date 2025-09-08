@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -54,11 +56,21 @@ fun HourlyItem(
                 )
                 Text(text = "gusts ${model.windGustsAt10m ?: "-"} kts")
             }
-            Text(
-                text = "${model.windDirectionAt10m} °",
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = spacedBy(2.dp),
                 modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center,
-            )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowUp,
+                    contentDescription = null,
+                    modifier = Modifier.rotate(model.windDirectionAt10m?.toFloat() ?: 0f)
+                )
+                Text(
+                    text = "${model.windDirectionAt10m} °",
+                    textAlign = TextAlign.Center,
+                )
+            }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = spacedBy(2.dp),
@@ -121,7 +133,7 @@ fun HourlyItemPreviewLowValue() {
             precipitation = 0.2,
             cloudCover = 66,
             windSpeedAt10m = 9,
-            windDirectionAt10m = 180,
+            windDirectionAt10m = 40,
             windGustsAt10m = 12,
             weatherIcon = R.drawable.wmo_10d,
             weatherDescription = "weather description",
