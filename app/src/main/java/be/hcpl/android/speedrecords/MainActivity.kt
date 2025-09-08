@@ -2,6 +2,7 @@ package be.hcpl.android.speedrecords
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -60,6 +61,8 @@ class MainActivity : ComponentActivity() {
                     event.locationName
                 ).putExtra(DetailActivity.KEY_SELECTED_DATE, event.selectedDate)
             )
+
+            is MainViewModel.Event.ShowError -> Toast.makeText(this, event.message, Toast.LENGTH_LONG).show()
         }
     }
 

@@ -2,10 +2,10 @@ package be.hcpl.android.speedrecords
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import be.hcpl.android.speedrecords.MainViewModel.Event.ShowError
 import be.hcpl.android.speedrecords.domain.LocationRepository
 import be.hcpl.android.speedrecords.domain.WeatherRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
@@ -42,7 +42,7 @@ class MainViewModel(
                 is LocationRepository.Result.Data -> handleReceivedLocations(data.locations)
                 LocationRepository.Result.Failed,
                 LocationRepository.Result.Success,
-                    -> Unit
+                    -> handleError()
             }
         }
     }
@@ -57,8 +57,7 @@ class MainViewModel(
                     refreshing = false
                     refreshUi()
                 }
-                // TODO handle errors
-                is WeatherRepository.Result.Failed -> Log.d("TAG", "failed to get data with error ${result.reason}")
+                is WeatherRepository.Result.Failed -> handleError(result.reason)
             }
         }
     }
@@ -80,17 +79,16 @@ class MainViewModel(
         val result = locationRepository.addNewLocation(sharedText)
         when (result) {
             LocationRepository.Result.Success -> updateAllData()
-            LocationRepository.Result.Failed -> Unit // TODO handle errors
-            is LocationRepository.Result.Data -> Unit
-        }
+            LocationRepository.Result.Failed,
+            is LocationRepository.Result.Data -> handleError()        }
     }
 
     fun updateLocationName(oldName: String, newName: String) {
         val result = locationRepository.renameLocation(oldName, newName)
         when (result) {
             LocationRepository.Result.Success -> updateAllData()
-            LocationRepository.Result.Failed -> Unit // TODO handle errors
-            is LocationRepository.Result.Data -> Unit
+            LocationRepository.Result.Failed,
+            is LocationRepository.Result.Data -> handleError()
         }
     }
 
@@ -105,15 +103,21 @@ class MainViewModel(
         val matchedLocation = weatherData.keys.find { it.name == name }
         matchedLocation?.let {
             when (locationRepository.dropLocation(matchedLocation)) {
-                is LocationRepository.Result.Data -> Unit
-                LocationRepository.Result.Failed -> Unit // TODO handle error
                 LocationRepository.Result.Success -> updateAllData()
+                is LocationRepository.Result.Data,
+                LocationRepository.Result.Failed -> handleError()
             }
         }
     }
 
     fun openLocationDetail(name: String, date: String) {
         events.postValue(Event.OpenDetail(name, date))
+    }
+
+    fun handleError(message: String? = null){
+        refreshing = false
+        refreshUi()
+        events.postValue(ShowError(uiModelTransformer.transformError(message)))
     }
 
     data class State(
@@ -125,5 +129,6 @@ class MainViewModel(
     sealed class Event {
         data class ShowLocationOnMap(val uri: Uri) : Event()
         data class OpenDetail(val locationName: String, val selectedDate: String) : Event()
+        data class ShowError(val message: String) : Event()
     }
 }

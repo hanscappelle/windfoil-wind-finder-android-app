@@ -1,5 +1,7 @@
 package be.hcpl.android.speedrecords.ui.transformer
 
+import android.content.Context
+import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.domain.AssetRepository
 import be.hcpl.android.speedrecords.domain.ConfigRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
@@ -17,11 +19,13 @@ import kotlin.math.roundToInt
 interface WeatherDataUiModelTransformer {
     fun transformLocations(map: MutableMap<LocationData, WeatherData>): LocationUiModel
     fun transformDetail(location: LocationData, date: String, weather: WeatherData): HourlyUiModel
+    fun transformError(string: String?): String
 }
 
 class WeatherDataUiModelTransformerImpl(
     private val configRepository: ConfigRepository,
     private val assetRepository: AssetRepository,
+    private val context: Context,
 ) : WeatherDataUiModelTransformer {
 
     private val dateFormatDisplay = SimpleDateFormat("EEEE", Locale.getDefault())
@@ -91,4 +95,5 @@ class WeatherDataUiModelTransformerImpl(
         )
     }
 
+    override fun transformError(message: String?)= message ?: context.getString(R.string.error_update_failed)
 }

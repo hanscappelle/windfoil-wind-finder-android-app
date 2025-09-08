@@ -59,6 +59,7 @@ If you later want to bring back some hours you can use the refresh icon on top s
 - icons for weather indication
 - show wind direction with icon
 - added pull to refresh
+- show error on problems
 
 ## 0.2.0
 
