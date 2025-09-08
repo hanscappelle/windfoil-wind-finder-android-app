@@ -28,7 +28,7 @@ class DetailViewModel(
         locationName?.let { name ->
             when (val result = locationRepository.locationByName(name)) {
                 is LocationRepository.Result.Data -> updateLocation(result)
-                LocationRepository.Result.Failed,
+                is LocationRepository.Result.Failed,
                 LocationRepository.Result.Success,
                     -> Unit
             }

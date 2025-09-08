@@ -53,6 +53,10 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 # Version History
 
+## 0.40
+
+- show error when parsing location failed
+
 ## 0.3.0
 
 - icons for weather indication

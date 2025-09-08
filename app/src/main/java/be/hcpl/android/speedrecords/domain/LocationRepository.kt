@@ -18,7 +18,7 @@ interface LocationRepository {
     sealed class Result {
         data class Data(val locations: List<LocationData>) : Result()
         data object Success : Result()
-        data object Failed : Result()
+        data class Failed(val message: String? = null) : Result()
     }
 }
 
@@ -44,18 +44,22 @@ class LocationRepositoryImpl(
     )
 
     override fun locationByName(name: String) =
-        localLocations.find { it.name == name }?.let { Result.Data(listOf(it)) } ?: Result.Failed
+        localLocations.find { it.name == name }?.let { Result.Data(listOf(it)) } ?: Result.Failed()
 
     override fun addNewLocation(received: String?): Result {
         // should be received as [50.1890147, 4.3504654] or [50.1890147, 4.3504654, location name]
         // TODO allow adding a name to this location (also in UI)
-        val changed = localLocations.toMutableList()
-        val split = received?.split(", ")
-        val newLocation = extractLocationInfo(split, received)
-        changed.add(newLocation)
-        // and store in preferences
-        persistLocations(changed)
-        return Result.Success
+        return try {
+            val changed = localLocations.toMutableList()
+            val split = received?.split(", ")
+            val newLocation = extractLocationInfo(split, received)
+            changed.add(newLocation)
+            // and store in preferences
+            persistLocations(changed)
+            Result.Success
+        } catch (_: Exception) {
+            Result.Failed("wrong location format")
+        }
     }
 
     // 89.98089, 12.90909, Name
@@ -66,12 +70,13 @@ class LocationRepositoryImpl(
             lng = split?.get(1)?.replace(",", ".")?.toDouble() ?: 0.0,
         )
 
+
     override fun dropLocation(location: LocationData): Result {
         val changed = localLocations.toMutableList()
         return if (changed.remove(location)) {
             persistLocations(changed)
             Result.Success
-        } else Result.Failed
+        } else Result.Failed()
     }
 
     override fun retrieveLocations(): Result {
@@ -93,7 +98,7 @@ class LocationRepositoryImpl(
         // TODO we should really work with an ID instead of matching on name
         var matchedLocation = localLocations.find { it.name == oldName }
         return if (matchedLocation == null) {
-            Result.Failed
+            Result.Failed()
         } else {
             var atIndex = localLocations.indexOf(matchedLocation)
             val changed = localLocations.toMutableList()

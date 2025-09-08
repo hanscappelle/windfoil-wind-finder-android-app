@@ -39,7 +39,7 @@ class MainViewModel(
             val data = locationRepository.retrieveLocations()
             when (data) {
                 is LocationRepository.Result.Data -> handleReceivedLocations(data.locations)
-                LocationRepository.Result.Failed,
+                is LocationRepository.Result.Failed,
                 LocationRepository.Result.Success,
                     -> handleError()
             }
@@ -56,6 +56,7 @@ class MainViewModel(
                     refreshing = false
                     refreshUi()
                 }
+
                 is WeatherRepository.Result.Failed -> handleError(result.reason)
             }
         }
@@ -78,15 +79,16 @@ class MainViewModel(
         val result = locationRepository.addNewLocation(sharedText)
         when (result) {
             LocationRepository.Result.Success -> updateAllData()
-            LocationRepository.Result.Failed,
-            is LocationRepository.Result.Data -> handleError()        }
+            is LocationRepository.Result.Failed -> handleError(result.message)
+            is LocationRepository.Result.Data -> handleError()
+        }
     }
 
     fun updateLocationName(oldName: String, newName: String) {
         val result = locationRepository.renameLocation(oldName, newName)
         when (result) {
             LocationRepository.Result.Success -> updateAllData()
-            LocationRepository.Result.Failed,
+            is LocationRepository.Result.Failed -> handleError(result.message)
             is LocationRepository.Result.Data -> handleError()
         }
     }
@@ -104,7 +106,8 @@ class MainViewModel(
             when (locationRepository.dropLocation(matchedLocation)) {
                 LocationRepository.Result.Success -> updateAllData()
                 is LocationRepository.Result.Data,
-                LocationRepository.Result.Failed -> handleError()
+                is LocationRepository.Result.Failed,
+                    -> handleError()
             }
         }
     }
@@ -113,7 +116,7 @@ class MainViewModel(
         events.postValue(Event.OpenDetail(name, date))
     }
 
-    fun handleError(message: String? = null){
+    fun handleError(message: String? = null) {
         refreshing = false
         refreshUi()
         events.postValue(Event.ShowError(uiModelTransformer.transformError(message)))
