@@ -11,4 +11,5 @@ data class DailyValue(
     val windSpeedAt10mMax: Double?,
     val windGustsAt10mMax: Double?,
     val weatherCode: Int?,
+    val windDirectionAt10m: Int?,
 )

@@ -46,6 +46,7 @@ class WeatherDataUiModelTransformerImpl(
                             windSpeedAt10mMax = it.value.windSpeedAt10mMax?.toInt(),
                             weatherIcon = assetRepository.getWeatherIcon(it.value.weatherCode),
                             weatherDescription = assetRepository.getWeatherDescription(it.value.weatherCode),
+                            windDirectionAt10m = it.value.windDirectionAt10m,
                         )
                     }
                 )

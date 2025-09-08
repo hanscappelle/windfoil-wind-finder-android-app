@@ -9,4 +9,5 @@ class DailyValueUiModel(
     val windSpeedAt10mMax: Int?,
     val weatherIcon: Int?,
     val weatherDescription: String?,
+    val windDirectionAt10m: Int?,
 )

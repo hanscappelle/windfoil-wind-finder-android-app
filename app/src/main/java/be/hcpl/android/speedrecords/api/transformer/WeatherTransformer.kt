@@ -71,12 +71,13 @@ class WeatherTransformerImpl() : WeatherTransformer {
                     windSpeedAt10mMax = entry.value.maxOf { it.windSpeedAt10m!! },
                     windGustsAt10mMax = entry.value.maxOf { it.windGustsAt10m!! },
                     // use weather code that is most common of that day (first)
-                    weatherCode = resolveMostCommonWeatherCode(entry.value.map { it.weatherCode }),
+                    weatherCode = resolveMostCommonValueFor(entry.value.map { it.weatherCode }),
+                    windDirectionAt10m = resolveMostCommonValueFor(entry.value.map { it.windDirectionAt10m }),
                 )
             }
     }
 
-    private fun resolveMostCommonWeatherCode(values: List<Int?>): Int? {
+    private fun resolveMostCommonValueFor(values: List<Int?>): Int? {
         val frequencies = values.groupingBy { it }.eachCount()
         val maxFrequency = frequencies.values.maxOrNull() ?: 0
         return frequencies.filter { it.value == maxFrequency }.keys.firstOrNull()
