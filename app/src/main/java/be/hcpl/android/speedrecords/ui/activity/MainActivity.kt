@@ -1,4 +1,4 @@
-package be.hcpl.android.speedrecords
+package be.hcpl.android.speedrecords.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -57,9 +57,9 @@ class MainActivity : ComponentActivity() {
             is MainViewModel.Event.ShowLocationOnMap -> startActivity(Intent(Intent.ACTION_VIEW, event.uri))
             is MainViewModel.Event.OpenDetail -> startActivity(
                 Intent(this, DetailActivity::class.java).putExtra(
-                    DetailActivity.KEY_SELECTED_LOCATION,
+                    DetailActivity.Companion.KEY_SELECTED_LOCATION,
                     event.locationName
-                ).putExtra(DetailActivity.KEY_SELECTED_DATE, event.selectedDate)
+                ).putExtra(DetailActivity.Companion.KEY_SELECTED_DATE, event.selectedDate)
             )
 
             is MainViewModel.Event.ShowError -> Toast.makeText(this, event.message, Toast.LENGTH_LONG).show()

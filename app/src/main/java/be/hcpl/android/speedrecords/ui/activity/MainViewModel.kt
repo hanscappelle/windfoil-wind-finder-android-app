@@ -1,11 +1,10 @@
-package be.hcpl.android.speedrecords
+package be.hcpl.android.speedrecords.ui.activity
 
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import be.hcpl.android.speedrecords.MainViewModel.Event.ShowError
 import be.hcpl.android.speedrecords.domain.LocationRepository
 import be.hcpl.android.speedrecords.domain.WeatherRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
@@ -117,7 +116,7 @@ class MainViewModel(
     fun handleError(message: String? = null){
         refreshing = false
         refreshUi()
-        events.postValue(ShowError(uiModelTransformer.transformError(message)))
+        events.postValue(Event.ShowError(uiModelTransformer.transformError(message)))
     }
 
     data class State(

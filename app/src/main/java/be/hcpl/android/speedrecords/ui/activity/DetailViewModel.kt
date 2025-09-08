@@ -1,4 +1,4 @@
-package be.hcpl.android.speedrecords
+package be.hcpl.android.speedrecords.ui.activity
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

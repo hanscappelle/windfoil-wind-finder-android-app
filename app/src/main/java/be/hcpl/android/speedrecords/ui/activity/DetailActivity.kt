@@ -1,5 +1,6 @@
-package be.hcpl.android.speedrecords
+package be.hcpl.android.speedrecords.ui.activity
 
+import android.R
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.ComponentActivity
@@ -34,7 +35,7 @@ class DetailActivity : ComponentActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
+        if (item.itemId == R.id.home) {
             //onBackPressedDispatcher.onBackPressed()
             finish()
             return true

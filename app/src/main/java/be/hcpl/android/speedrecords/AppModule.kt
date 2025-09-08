@@ -12,6 +12,8 @@ import be.hcpl.android.speedrecords.domain.LocationRepository
 import be.hcpl.android.speedrecords.domain.LocationRepositoryImpl
 import be.hcpl.android.speedrecords.domain.WeatherRepository
 import be.hcpl.android.speedrecords.domain.WeatherRepositoryImpl
+import be.hcpl.android.speedrecords.ui.activity.DetailViewModel
+import be.hcpl.android.speedrecords.ui.activity.MainViewModel
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformerImpl
 import com.google.gson.Gson
