@@ -71,7 +71,7 @@ fun LocationItem(
                         fontStyle = if ((it.value.windSpeedAt10mMax ?: 0) >= 10) FontStyle.Italic else FontStyle.Normal,
                     )
                 }
-                it.value.weatherIcon?.let{icon ->
+                it.value.weatherIcon?.let { icon ->
                     Image(
                         painter = painterResource(id = icon),
                         contentDescription = it.value.weatherDescription,
@@ -84,8 +84,8 @@ fun LocationItem(
                     verticalArrangement = spacedBy(2.dp),
                     modifier = Modifier.weight(1f),
                 ) {
-                    Text(text = "min ${it.value.temperatureAt2mMin ?: "-"} °C")
-                    Text(text = "max ${it.value.temperatureAt2mMax ?: "-"} °C")
+                    Text(text = "min ${it.value.tempMin}")
+                    Text(text = "max ${it.value.tempMax}")
                 }
             }
         }
@@ -110,8 +110,8 @@ fun LocationItemPreview() {
                         displayDay = "10h",
                         windSpeedAt10mMin = 11,
                         windSpeedAt10mMax = 16,
-                        temperatureAt2mMin = 18,
-                        temperatureAt2mMax = 22,
+                        tempMin = "18 °C",
+                        tempMax = "22 °C",
                         weatherIcon = R.drawable.wmo_02d,
                         weatherDescription = "weather description",
                         windDirectionAt10m = 100,

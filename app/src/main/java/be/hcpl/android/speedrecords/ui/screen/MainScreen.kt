@@ -32,6 +32,7 @@ fun MainScreen(
     onShowLocation: (String) -> Unit = {},
     onDeleteLocation: (String) -> Unit = {},
     onOpenDetail: (String, String) -> Unit = { _, _ -> },
+    onChangeUnit: () -> Unit = {},
 ) {
     // some dialogs
     val openInfoDialog = remember { mutableStateOf(false) }
@@ -65,6 +66,7 @@ fun MainScreen(
         LocationsOverviewHeader(
             onAddNewLocation = { openInfoDialog.value = true },
             onRefresh = onRefresh,
+            onChangeUnit = onChangeUnit,
         )
 
         HorizontalDivider(

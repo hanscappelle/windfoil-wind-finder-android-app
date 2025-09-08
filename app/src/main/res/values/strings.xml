@@ -17,4 +17,5 @@
     <string name="a11y_hide_this_hour">Hide this hour from now on</string>
     <string name="confirm_restore_all_hours">Restore back to showing all hours? You can drop hours again once they show using the bin icon.</string>
     <string name="error_update_failed">Update failed</string>
+    <string name="a11y_access_settings">App Settings</string>
 </resources>

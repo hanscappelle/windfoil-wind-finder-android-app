@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import be.hcpl.android.speedrecords.domain.ConfigRepository
 import be.hcpl.android.speedrecords.domain.LocationRepository
 import be.hcpl.android.speedrecords.domain.WeatherRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val locationRepository: LocationRepository,
     private val weatherRepository: WeatherRepository,
+    private val configRepository: ConfigRepository,
     private val uiModelTransformer: WeatherDataUiModelTransformer,
 ) : ViewModel() {
 
@@ -24,6 +26,7 @@ class MainViewModel(
 
     val weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
     var refreshing = true
+    var convertToFahrenheit = configRepository.shouldConvertUnits().convertUnits
 
     init {
         doInit()
@@ -120,6 +123,12 @@ class MainViewModel(
         refreshing = false
         refreshUi()
         events.postValue(Event.ShowError(uiModelTransformer.transformError(message)))
+    }
+
+    fun changeUnit() {
+        // TODO implement full settings screen with more options
+        convertToFahrenheit = configRepository.toggleConvertUnits(convertToFahrenheit).convertUnits
+        refreshUi()
     }
 
     data class State(

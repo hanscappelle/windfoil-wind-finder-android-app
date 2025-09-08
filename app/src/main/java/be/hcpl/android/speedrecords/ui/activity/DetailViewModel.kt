@@ -66,6 +66,7 @@ class DetailViewModel(
     fun clearIgnoredHours() {
         when (configRepository.clearIgnoredHours()) {
             is ConfigRepository.Result.Data,
+            is ConfigRepository.Result.Settings,
             ConfigRepository.Result.Failed,
                 -> Unit
 
@@ -77,6 +78,7 @@ class DetailViewModel(
     fun onIgnoreHour(time: String) {
         when (configRepository.ignoreHour(time)) {
             is ConfigRepository.Result.Data,
+            is ConfigRepository.Result.Settings,
             ConfigRepository.Result.Failed,
                 -> Unit
 

@@ -91,7 +91,7 @@ fun HourlyItem(
                     )
                 }
                 Text(
-                    text = "${model.temperatureAt2m ?: "-"} °C",
+                    text = model.temperature,
                 )
             }
             Icon(
@@ -110,7 +110,7 @@ fun HourlyItemPreviewMarked() {
         HourlyValueUiModel(
             time = "2025-12-30T12:00",
             displayTime = "12",
-            temperatureAt2m = 16,
+            temperature = "16 °C",
             precipitation = 0.2,
             cloudCover = 66,
             windSpeedAt10m = 10,
@@ -129,7 +129,7 @@ fun HourlyItemPreviewLowValue() {
         HourlyValueUiModel(
             time = "2025-12-30T12:00",
             displayTime = "12",
-            temperatureAt2m = 16,
+            temperature = "20°C",
             precipitation = 0.2,
             cloudCover = 66,
             windSpeedAt10m = 9,

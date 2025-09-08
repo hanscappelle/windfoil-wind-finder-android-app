@@ -56,6 +56,8 @@ If you later want to bring back some hours you can use the refresh icon on top s
 ## 0.40
 
 - show error when parsing location failed
+- added support for fahrenheit
+- also show name of day in detail view
 
 ## 0.3.0
 
@@ -99,7 +101,6 @@ Initial app release
   - (opt) how many days in the past
   - threshold for marking values in colours
   - selectable weather source (currently only open-meteo)
-  - select different units
 - long press to mark a moment
 
 ## Bugs

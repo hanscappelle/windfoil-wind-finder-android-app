@@ -3,7 +3,7 @@ package be.hcpl.android.speedrecords.ui.model
 data class HourlyValueUiModel(
     val time: String?,
     val displayTime: String,
-    val temperatureAt2m: Int?,
+    val temperature: String,
     val precipitation: Double?,
     val cloudCover: Int?,
     val windSpeedAt10m: Int?,

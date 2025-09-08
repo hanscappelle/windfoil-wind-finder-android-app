@@ -81,7 +81,8 @@ class MainActivity : ComponentActivity() {
                         onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
                         onShowLocation = { name -> viewModel.showLocation(name) },
                         onDeleteLocation = { name -> viewModel.deleteLocation(name) },
-                        onOpenDetail = {name, date -> viewModel.openLocationDetail(name, date)}
+                        onOpenDetail = {name, date -> viewModel.openLocationDetail(name, date)},
+                        onChangeUnit = { viewModel.changeUnit() },
                     )
                 }
             }
