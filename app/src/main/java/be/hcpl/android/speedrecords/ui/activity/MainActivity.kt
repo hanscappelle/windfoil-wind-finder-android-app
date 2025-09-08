@@ -56,10 +56,10 @@ class MainActivity : ComponentActivity() {
         when (event) {
             is MainViewModel.Event.ShowLocationOnMap -> startActivity(Intent(Intent.ACTION_VIEW, event.uri))
             is MainViewModel.Event.OpenDetail -> startActivity(
-                Intent(this, DetailActivity::class.java).putExtra(
-                    DetailActivity.Companion.KEY_SELECTED_LOCATION,
-                    event.locationName
-                ).putExtra(DetailActivity.Companion.KEY_SELECTED_DATE, event.selectedDate)
+                Intent(this, DetailActivity::class.java)
+                    .putExtra(DetailActivity.Companion.KEY_SELECTED_LOCATION, event.locationName)
+                    .putExtra(DetailActivity.Companion.KEY_SELECTED_DATE, event.selectedDate)
+                    .putExtra(DetailActivity.Companion.KEY_SELECTED_DAY, event.selectedDay)
             )
 
             is MainViewModel.Event.ShowError -> Toast.makeText(this, event.message, Toast.LENGTH_LONG).show()
@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
                         onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
                         onShowLocation = { name -> viewModel.showLocation(name) },
                         onDeleteLocation = { name -> viewModel.deleteLocation(name) },
-                        onOpenDetail = {name, date -> viewModel.openLocationDetail(name, date)},
+                        onOpenDetail = {name, date, day -> viewModel.openLocationDetail(name, date, day)},
                         onChangeUnit = { viewModel.changeUnit() },
                     )
                 }

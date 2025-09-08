@@ -29,7 +29,7 @@ fun HourlyHeader(
         modifier = Modifier.heightIn(min = 48.dp)
     ) {
         Text(
-            text = "${model.locationName} - ${model.date}",
+            text = "${model.locationName} - ${model.date} - ${model.day}",
             fontSize = 24.sp,
             modifier = Modifier
                 .weight(1f)
@@ -51,6 +51,7 @@ fun HourlyHeaderPreview() {
         model = HourlyUiModel(
             locationName = "Brussels",
             date = "2025-08-27",
+            day = "Sunday",
             hourly = emptyMap(),
         )
     )

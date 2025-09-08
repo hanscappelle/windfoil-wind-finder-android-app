@@ -20,11 +20,13 @@ class DetailViewModel(
     val state = MutableLiveData<State>()
 
     private var selectedDate: String? = null
+    private var selectedDay: String? = null
     private var locationData: LocationData? = null
     private var weatherData: WeatherData? = null
 
-    fun updateLocation(locationName: String?, date: String?) {
+    fun updateLocation(locationName: String?, date: String?, day: String?) {
         date?.let { selectedDate = it }
+        day?.let { selectedDay = it }
         locationName?.let { name ->
             when (val result = locationRepository.locationByName(name)) {
                 is LocationRepository.Result.Data -> updateLocation(result)
@@ -50,12 +52,13 @@ class DetailViewModel(
     }
 
     private fun refreshUi() {
-        if (listOf(locationData, selectedDate, weatherData).none { it == null }) {
+        if (listOf(locationData, selectedDate, selectedDay, weatherData).none { it == null }) {
             state.postValue(
                 State(
                     model = transformer.transformDetail(
                         location = locationData!!,
                         date = selectedDate!!,
+                        day = selectedDay!!,
                         weather = weatherData!!
                     )
                 )

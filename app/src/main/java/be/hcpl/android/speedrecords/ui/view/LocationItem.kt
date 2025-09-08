@@ -28,13 +28,13 @@ import be.hcpl.android.speedrecords.ui.model.WeatherDataUiModel
 @Composable
 fun LocationItem(
     model: LocationItemUiModel,
-    onOpenDetail: (String, String) -> Unit = { _, _ -> },
+    onOpenDetail: (String, String, String) -> Unit = { _, _, _ -> },
 ) {
 
     model.hourlyForecast?.daily?.forEach {
         Card(
             modifier = Modifier.padding(4.dp),
-            onClick = { onOpenDetail(model.locationName, it.value.time.orEmpty()) },
+            onClick = { onOpenDetail(model.locationName, it.value.time.orEmpty(), it.value.displayDay.orEmpty()) },
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

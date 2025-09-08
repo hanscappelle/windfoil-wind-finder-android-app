@@ -29,7 +29,8 @@ class DetailActivity : ComponentActivity() {
         // get selected location from intent
         val location = intent.getStringExtra(KEY_SELECTED_LOCATION)
         val date = intent.getStringExtra(KEY_SELECTED_DATE)
-        viewModel.updateLocation(location, date)
+        val day = intent.getStringExtra(KEY_SELECTED_DAY)
+        viewModel.updateLocation(location, date, day)
 
         viewModel.state.observe(this, ::handleState)
     }
@@ -64,6 +65,7 @@ class DetailActivity : ComponentActivity() {
 
     companion object {
         const val KEY_SELECTED_DATE = "key_selected_date"
+        const val KEY_SELECTED_DAY = "key_selected_day"
         const val KEY_SELECTED_LOCATION = "key_selected_location"
     }
 

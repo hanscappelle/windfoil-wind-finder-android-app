@@ -19,7 +19,7 @@ fun LocationOverview(
     onRenameLocation: (String) -> Unit = {},
     onShowLocation: (String) -> Unit = {},
     onDeleteLocation: (String) -> Unit = {},
-    onOpenDetail: (String, String) -> Unit = { _, _ -> },
+    onOpenDetail: (String, String, String) -> Unit = { _, _, _ -> },
 ) {
     PullToRefreshBox(
         isRefreshing = model.isRefreshing,

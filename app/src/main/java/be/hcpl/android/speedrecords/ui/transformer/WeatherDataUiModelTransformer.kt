@@ -18,7 +18,7 @@ import kotlin.math.roundToInt
 
 interface WeatherDataUiModelTransformer {
     fun transformLocations(map: MutableMap<LocationData, WeatherData>): LocationUiModel
-    fun transformDetail(location: LocationData, date: String, weather: WeatherData): HourlyUiModel
+    fun transformDetail(location: LocationData, date: String, day: String, weather: WeatherData): HourlyUiModel
     fun transformError(string: String?): String
 }
 
@@ -70,6 +70,7 @@ class WeatherDataUiModelTransformerImpl(
     override fun transformDetail(
         location: LocationData,
         date: String,
+        day: String,
         weather: WeatherData,
     ): HourlyUiModel {
         val shouldConvert = configRepository.shouldConvertUnits().convertUnits
@@ -83,6 +84,7 @@ class WeatherDataUiModelTransformerImpl(
         return HourlyUiModel(
             locationName = location.name,
             date = date,
+            day = day,
             hourly = weather.hourly.filter {
                 // filter on selected date
                 it.key.startsWith(date) &&

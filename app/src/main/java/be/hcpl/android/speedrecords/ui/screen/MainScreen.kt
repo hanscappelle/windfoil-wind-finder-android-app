@@ -31,7 +31,7 @@ fun MainScreen(
     onUpdateLocationName: (String, String) -> Unit = { _, _ -> },
     onShowLocation: (String) -> Unit = {},
     onDeleteLocation: (String) -> Unit = {},
-    onOpenDetail: (String, String) -> Unit = { _, _ -> },
+    onOpenDetail: (String, String, String) -> Unit = { _, _, _ -> },
     onChangeUnit: () -> Unit = {},
 ) {
     // some dialogs
