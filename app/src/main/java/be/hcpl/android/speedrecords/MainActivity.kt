@@ -85,13 +85,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        // TODO no need to refresh on each resume, instead added a refresh button on top
-        //viewModel.updateAllData()
-        // TODO or put it here but then remove it from init
-    }
-
 }
 
 private const val TYPE_TEXT_PLAIN = "text/plain"

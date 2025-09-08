@@ -24,6 +24,7 @@ class MainViewModel(
     val events = MutableLiveData<Event>()
 
     val weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
+    var refreshing = true
 
     init {
         doInit()
@@ -31,8 +32,11 @@ class MainViewModel(
 
     private fun doInit() {
         viewModelScope.launch {
-            // for all configured locations
+            // show loading state
+            refreshing = true
             weatherData.clear()
+            refreshUi()
+            // for all configured locations get update
             val data = locationRepository.retrieveLocations()
             when (data) {
                 is LocationRepository.Result.Data -> handleReceivedLocations(data.locations)
@@ -47,13 +51,13 @@ class MainViewModel(
         locations.forEach { location ->
             // get forecast weather data
             val result = weatherRepository.forecast(location)
-            Log.d("TAG", "fetched result is $result")
             when (result) {
                 is WeatherRepository.Result.Success -> {
                     weatherData.put(location, result.data)
+                    refreshing = false
                     refreshUi()
                 }
-
+                // TODO handle errors
                 is WeatherRepository.Result.Failed -> Log.d("TAG", "failed to get data with error ${result.reason}")
             }
         }
@@ -64,12 +68,15 @@ class MainViewModel(
     }
 
     private fun refreshUi() {
-        state.postValue(State(locations = uiModelTransformer.transformLocations(weatherData)))
+        state.postValue(
+            State(
+                locations = uiModelTransformer.transformLocations(weatherData).copy(isRefreshing = refreshing),
+            )
+        )
     }
 
     fun receivedLocation(intent: Intent) {
         var sharedText: String? = intent.getStringExtra(Intent.EXTRA_TEXT)
-        Log.d("TEST", "received $sharedText")
         val result = locationRepository.addNewLocation(sharedText)
         when (result) {
             LocationRepository.Result.Success -> updateAllData()
@@ -110,7 +117,9 @@ class MainViewModel(
     }
 
     data class State(
-        val locations: LocationUiModel = LocationUiModel(emptyList()),
+        val locations: LocationUiModel = LocationUiModel(
+            locations = emptyList(), isRefreshing = true
+        ),
     )
 
     sealed class Event {

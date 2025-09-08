@@ -67,7 +67,7 @@ fun MainScreen(
             onRefresh = onRefresh,
         )
 
-        HorizontalDivider (
+        HorizontalDivider(
             modifier = Modifier
                 .height(1.dp)
                 .fillMaxWidth()
@@ -75,6 +75,7 @@ fun MainScreen(
 
         LocationOverview(
             model = model,
+            onRefresh = onRefresh,
             onRenameLocation = { name ->
                 locationNameState.value = name
                 oldNameValueState.value = name

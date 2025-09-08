@@ -58,6 +58,7 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 - icons for weather indication
 - show wind direction with icon
+- added pull to refresh
 
 ## 0.2.0
 
@@ -90,12 +91,10 @@ Initial app release
   - api info and libs
   - explain how to add locations, also in app
 - Custom Config Options
-  - disable or enable refresh on resume of overview
   - set number of days to fetch in the future
   - (opt) how many days in the past
   - threshold for marking values in colours
   - selectable weather source (currently only open-meteo)
-  - OK number of hours to show
   - select different units
 - long press to mark a moment
 
@@ -121,6 +120,8 @@ weather icons from https://openweathermap.org
 google play store art created with: https://hotpot.ai/design/google-play-feature-graphic?id=34
 
 logo with: https://hotpot.ai/logo-generator/create and https://romannurik.github.io/AndroidAssetStudio/
+
+pull to refresh implementation: https://developer.android.com/develop/ui/compose/components/pull-to-refresh
 
 ## General Info
 
