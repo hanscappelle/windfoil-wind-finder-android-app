@@ -3,6 +3,7 @@ package be.hcpl.android.speedrecords.domain
 import android.content.Context
 import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.domain.LocationRepository.Result
+import be.hcpl.android.speedrecords.domain.model.LocationData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -61,8 +62,8 @@ class LocationRepositoryImpl(
     private fun extractLocationInfo(split: List<String>?, received: String?) =
         LocationData(
             name = if ((split?.size ?: 0) > 2) split?.get(2).orEmpty() else received.orEmpty(),
-            lat = split?.get(0)?.replace(",",".")?.toDouble() ?: 0.0,
-            lng = split?.get(1)?.replace(",",".")?.toDouble() ?: 0.0,
+            lat = split?.get(0)?.replace(",", ".")?.toDouble() ?: 0.0,
+            lng = split?.get(1)?.replace(",", ".")?.toDouble() ?: 0.0,
         )
 
     override fun dropLocation(location: LocationData): Result {

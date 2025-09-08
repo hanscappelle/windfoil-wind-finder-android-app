@@ -1,5 +1,6 @@
 package be.hcpl.android.speedrecords.api
 
+import be.hcpl.android.speedrecords.api.contract.WeatherResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

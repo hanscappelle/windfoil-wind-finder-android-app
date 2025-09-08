@@ -6,10 +6,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import be.hcpl.android.speedrecords.domain.LocationData
 import be.hcpl.android.speedrecords.domain.LocationRepository
-import be.hcpl.android.speedrecords.domain.WeatherData
 import be.hcpl.android.speedrecords.domain.WeatherRepository
+import be.hcpl.android.speedrecords.domain.model.LocationData
+import be.hcpl.android.speedrecords.domain.model.WeatherData
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
 import kotlinx.coroutines.launch

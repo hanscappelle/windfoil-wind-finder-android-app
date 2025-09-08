@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.R
-import be.hcpl.android.speedrecords.domain.HourlyValue
+import be.hcpl.android.speedrecords.domain.model.HourlyValue
 import kotlin.math.roundToInt
 
 @Composable

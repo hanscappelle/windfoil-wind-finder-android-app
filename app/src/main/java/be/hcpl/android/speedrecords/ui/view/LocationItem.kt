@@ -13,8 +13,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import be.hcpl.android.speedrecords.domain.DailyValue
-import be.hcpl.android.speedrecords.domain.WeatherData
+import be.hcpl.android.speedrecords.domain.model.DailyValue
+import be.hcpl.android.speedrecords.domain.model.WeatherData
 import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
 import kotlin.math.roundToInt
 

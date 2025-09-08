@@ -1,6 +1,6 @@
 package be.hcpl.android.speedrecords.ui.model
 
-import be.hcpl.android.speedrecords.domain.WeatherData
+import be.hcpl.android.speedrecords.domain.model.WeatherData
 
 data class LocationItemUiModel(
     val locationName: String,

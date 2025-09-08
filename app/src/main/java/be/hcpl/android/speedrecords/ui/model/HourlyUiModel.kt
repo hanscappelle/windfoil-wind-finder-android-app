@@ -1,6 +1,6 @@
 package be.hcpl.android.speedrecords.ui.model
 
-import be.hcpl.android.speedrecords.domain.HourlyValue
+import be.hcpl.android.speedrecords.domain.model.HourlyValue
 
 data class HourlyUiModel(
     val locationName: String,

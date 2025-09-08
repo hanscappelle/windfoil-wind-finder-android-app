@@ -1,4 +1,4 @@
-package be.hcpl.android.speedrecords.domain
+package be.hcpl.android.speedrecords.domain.model
 
 data class LocationData(
     val name: String,

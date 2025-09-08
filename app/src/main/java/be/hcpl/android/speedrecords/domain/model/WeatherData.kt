@@ -1,4 +1,4 @@
-package be.hcpl.android.speedrecords.domain
+package be.hcpl.android.speedrecords.domain.model
 
 data class WeatherData(
     val latitude: Double,
@@ -40,7 +40,6 @@ data class DailyValue(
     val displayDay: String?,
     val temperatureAt2mMin: Double?,
     val temperatureAt2mMax: Double?,
-    //val weatherCodeAtNoon: Int?,
     val windSpeedAt10mMin: Double?,
     val windSpeedAt10mMax: Double?,
     val windGustsAt10mMax: Double?,

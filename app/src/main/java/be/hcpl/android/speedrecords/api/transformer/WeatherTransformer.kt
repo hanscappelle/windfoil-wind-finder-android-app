@@ -1,11 +1,11 @@
 package be.hcpl.android.speedrecords.api.transformer
 
-import be.hcpl.android.speedrecords.api.Hourly
-import be.hcpl.android.speedrecords.api.WeatherResponse
-import be.hcpl.android.speedrecords.domain.DailyValue
-import be.hcpl.android.speedrecords.domain.HourlyUnit
-import be.hcpl.android.speedrecords.domain.HourlyValue
-import be.hcpl.android.speedrecords.domain.WeatherData
+import be.hcpl.android.speedrecords.api.contract.Hourly
+import be.hcpl.android.speedrecords.api.contract.WeatherResponse
+import be.hcpl.android.speedrecords.domain.model.DailyValue
+import be.hcpl.android.speedrecords.domain.model.HourlyUnit
+import be.hcpl.android.speedrecords.domain.model.HourlyValue
+import be.hcpl.android.speedrecords.domain.model.WeatherData
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.text.substring
