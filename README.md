@@ -53,6 +53,10 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 # Version History
 
+## 0.5.0
+
+- layout improvements
+
 ## 0.4.0
 
 - show error when parsing location failed
