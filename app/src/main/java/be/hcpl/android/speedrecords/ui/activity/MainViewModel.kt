@@ -135,7 +135,8 @@ class MainViewModel(
 
     fun changeModel(){
         configRepository.toggleModel()
-        refreshUi()
+        // need to fetch again at this point
+        updateAllData()
     }
 
     data class State(
