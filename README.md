@@ -111,8 +111,6 @@ Initial app release
   - set number of days to fetch in the future
   - (opt) how many days in the past
   - threshold for marking values in colours
-  - selectable weather source (currently only open-meteo)
-- long press to mark a moment
 
 ## Bugs
 
