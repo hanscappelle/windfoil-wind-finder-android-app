@@ -26,6 +26,7 @@ interface WeatherRepository {
 class WeatherRepositoryImpl(
     private val weatherService: OpenWeatherService,
     private val transformer: WeatherTransformer,
+    private val settings: ConfigRepository,
 ) : WeatherRepository {
 
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -42,6 +43,7 @@ class WeatherRepositoryImpl(
             longitude = locationData.lng,
             startDate = dateFormat.format(today.time),
             endDate = dateFormat.format(endDate.time),
+            model = settings.currentModel().type,
         )
         return if (response.isSuccessful && response.body() != null) {
             val weatherData = transformer.transformForecast(response.body())

@@ -133,6 +133,11 @@ class MainViewModel(
         refreshUi()
     }
 
+    fun changeModel(){
+        configRepository.toggleModel()
+        refreshUi()
+    }
+
     data class State(
         val locations: LocationUiModel = LocationUiModel(
             locations = emptyList(), isRefreshing = true

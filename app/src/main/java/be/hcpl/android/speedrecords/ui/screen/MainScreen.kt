@@ -36,6 +36,7 @@ fun MainScreen(
     onDeleteLocation: (String) -> Unit = {},
     onOpenDetail: (String, String, String) -> Unit = { _, _, _ -> },
     onChangeUnit: () -> Unit = {},
+    onChangeModel: () -> Unit = {},
 ) {
     // some dialogs
     val openInfoDialog = remember { mutableStateOf(false) }
@@ -70,6 +71,7 @@ fun MainScreen(
             onAddNewLocation = { openInfoDialog.value = true },
             onRefresh = onRefresh,
             onChangeUnit = onChangeUnit,
+            onChangeModel = onChangeModel,
         )
 
         SettingsView(model = settingsModel)

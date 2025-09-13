@@ -20,7 +20,7 @@ fun SettingsView(
     ){
         Text(text = "Unit: ${model.unit.name}")
         Text(text = "Source: ${model.source.name}")
-        Text(text = "Model: ${model.model.name}")
+        Text(text = "Model: ${model.source.model.name}")
     }
 
 }

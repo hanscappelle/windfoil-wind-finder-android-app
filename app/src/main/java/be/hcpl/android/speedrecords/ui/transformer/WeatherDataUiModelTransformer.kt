@@ -5,6 +5,7 @@ import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.domain.AssetRepository
 import be.hcpl.android.speedrecords.domain.ConfigRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
+import be.hcpl.android.speedrecords.domain.model.UnitType
 import be.hcpl.android.speedrecords.domain.model.WeatherData
 import be.hcpl.android.speedrecords.ui.model.DailyValueUiModel
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
@@ -12,7 +13,6 @@ import be.hcpl.android.speedrecords.ui.model.HourlyValueUiModel
 import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
-import be.hcpl.android.speedrecords.ui.model.UnitType
 import be.hcpl.android.speedrecords.ui.model.WeatherDataUiModel
 import java.text.SimpleDateFormat
 import java.util.Locale

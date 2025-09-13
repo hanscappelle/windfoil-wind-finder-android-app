@@ -57,6 +57,7 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 - layout improvements
 - render current settings on overview screen
+- allow for changing data source
 
 ## 0.4.0
 

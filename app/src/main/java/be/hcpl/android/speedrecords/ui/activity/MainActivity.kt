@@ -88,6 +88,7 @@ class MainActivity : ComponentActivity() {
                         onDeleteLocation = { name -> viewModel.deleteLocation(name) },
                         onOpenDetail = {name, date, day -> viewModel.openLocationDetail(name, date, day)},
                         onChangeUnit = { viewModel.changeUnit() },
+                        onChangeModel = { viewModel.changeModel() },
                     )
                 }
             }
