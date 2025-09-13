@@ -57,7 +57,12 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 - layout improvements
 - render current settings on overview screen
-- allow for changing data source
+- allow for changing data source, 5 models: 
+  - ECMWF("ecmwf_ifs025", WeatherModel.IFS_AIFS),
+  - NOAA("gfs_seamless", WeatherModel.GFS_HRRR),
+  - DWD("icon_seamless", WeatherModel.ICON),
+  - METEO_FRANCE("meteofrance_seamless", WeatherModel.ARPEGE_AROME),
+  - KNMI("knmi_seamless", WeatherModel.HARMONIE),
 
 ## 0.4.0
 
