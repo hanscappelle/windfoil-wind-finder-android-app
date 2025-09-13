@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
+import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
 import be.hcpl.android.speedrecords.ui.screen.MainScreen
 import be.hcpl.android.speedrecords.ui.theme.AppTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        updateContent(LocationUiModel(locations = emptyList()))
+        updateContent(LocationUiModel(locations = emptyList()), settings = SettingsUiModel())
 
         recovered = savedInstanceState != null
 
@@ -67,16 +68,20 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleState(state: MainViewModel.State) {
-        updateContent(state.locations)
+        updateContent(state.locations, state.settings)
     }
 
-    private fun updateContent(locations: LocationUiModel) {
+    private fun updateContent(
+        locations: LocationUiModel,
+        settings: SettingsUiModel,
+        ) {
         setContent {
             AppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainScreen(
                         modifier = Modifier.padding(innerPadding),
                         model = locations,
+                        settingsModel = settings,
                         onRefresh = { viewModel.updateAllData() },
                         onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
                         onShowLocation = { name -> viewModel.showLocation(name) },

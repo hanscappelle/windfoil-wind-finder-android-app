@@ -19,14 +19,17 @@ import be.hcpl.android.speedrecords.ui.dialog.ConfirmDialog
 import be.hcpl.android.speedrecords.ui.dialog.InfoDialog
 import be.hcpl.android.speedrecords.ui.dialog.NameLocationDialog
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
+import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
 import be.hcpl.android.speedrecords.ui.view.LocationOverview
 import be.hcpl.android.speedrecords.ui.view.LocationOverviewHeader
+import be.hcpl.android.speedrecords.ui.view.SettingsView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
     model: LocationUiModel,
+    settingsModel: SettingsUiModel,
     onRefresh: () -> Unit = {},
     onUpdateLocationName: (String, String) -> Unit = { _, _ -> },
     onShowLocation: (String) -> Unit = {},
@@ -68,6 +71,8 @@ fun MainScreen(
             onRefresh = onRefresh,
             onChangeUnit = onChangeUnit,
         )
+
+        SettingsView(model = settingsModel)
 
         HorizontalDivider(
             modifier = Modifier

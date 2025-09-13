@@ -11,6 +11,7 @@ import be.hcpl.android.speedrecords.domain.WeatherRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.WeatherData
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
+import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
 import kotlinx.coroutines.launch
 
@@ -73,6 +74,7 @@ class MainViewModel(
         state.postValue(
             State(
                 locations = uiModelTransformer.transformLocations(weatherData).copy(isRefreshing = refreshing),
+                settings = uiModelTransformer.transformSettings(configRepository.shouldConvertUnits()),
             )
         )
     }
@@ -135,6 +137,7 @@ class MainViewModel(
         val locations: LocationUiModel = LocationUiModel(
             locations = emptyList(), isRefreshing = true
         ),
+        val settings: SettingsUiModel = SettingsUiModel(),
     )
 
     sealed class Event {

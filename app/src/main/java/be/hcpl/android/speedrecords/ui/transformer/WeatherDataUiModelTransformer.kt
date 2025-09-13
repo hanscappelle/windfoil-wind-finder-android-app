@@ -11,6 +11,8 @@ import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
 import be.hcpl.android.speedrecords.ui.model.HourlyValueUiModel
 import be.hcpl.android.speedrecords.ui.model.LocationItemUiModel
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
+import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
+import be.hcpl.android.speedrecords.ui.model.UnitType
 import be.hcpl.android.speedrecords.ui.model.WeatherDataUiModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -20,6 +22,7 @@ interface WeatherDataUiModelTransformer {
     fun transformLocations(map: MutableMap<LocationData, WeatherData>): LocationUiModel
     fun transformDetail(location: LocationData, date: String, day: String, weather: WeatherData): HourlyUiModel
     fun transformError(string: String?): String
+    fun transformSettings(settings: ConfigRepository.Result.Settings): SettingsUiModel
 }
 
 class WeatherDataUiModelTransformerImpl(
@@ -107,6 +110,10 @@ class WeatherDataUiModelTransformerImpl(
                 },
         )
     }
+
+    override fun transformSettings(settings: ConfigRepository.Result.Settings) = SettingsUiModel(
+        unit = if( settings.convertUnits ) UnitType.Fahrenheit else UnitType.Celsius,
+    )
 
     override fun transformError(message: String?) = message ?: context.getString(R.string.error_update_failed)
 }

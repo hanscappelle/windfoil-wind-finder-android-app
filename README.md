@@ -56,6 +56,7 @@ If you later want to bring back some hours you can use the refresh icon on top s
 ## 0.5.0
 
 - layout improvements
+- render current settings on overview screen
 
 ## 0.4.0
 
