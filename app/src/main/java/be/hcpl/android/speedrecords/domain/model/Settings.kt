@@ -11,7 +11,6 @@ enum class DataSource(val type: String, val model: WeatherModel){
     DWD("icon_seamless", WeatherModel.ICON),
     METEO_FRANCE("meteofrance_seamless", WeatherModel.ARPEGE_AROME),
     KNMI("knmi_seamless", WeatherModel.HARMONIE),
-    METEO_SWISS("meteoswiss_icon_ch1", WeatherModel.ICON_CH),
 }
 
 enum class WeatherModel{
@@ -20,5 +19,4 @@ enum class WeatherModel{
     ICON,
     ARPEGE_AROME,
     HARMONIE,
-    ICON_CH,
 }
