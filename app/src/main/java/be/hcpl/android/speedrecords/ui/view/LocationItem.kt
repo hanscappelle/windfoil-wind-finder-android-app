@@ -75,7 +75,7 @@ fun LocationItem(
                     Image(
                         painter = painterResource(id = icon),
                         contentDescription = it.value.weatherDescription,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(42.dp)
                     )
                 }
                 // display min and max temperatures

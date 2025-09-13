@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.R
 
 @Composable
-fun LocationsOverviewHeader(
+fun LocationOverviewHeader(
     onAddNewLocation: () -> Unit,
     onRefresh: () -> Unit = {},
     onChangeUnit: () -> Unit = {},
@@ -49,5 +49,12 @@ fun LocationsOverviewHeader(
             contentDescription = stringResource(id = R.string.a11y_access_settings),
             modifier = Modifier.clickable(onClick = onChangeUnit)
         )
+        //Icon(
+            //imageVector = Icons.Default.Build,
+          //  contentDescription = stringResource(id = R.string.a11y_data_source),
+           // modifier = Modifier.clickable(onClick = onChangeSource)
+        //)
+            //imageVector = Icons.Default.DateRange,
+            //imageVector = Icons.Default.Info,
     }
 }

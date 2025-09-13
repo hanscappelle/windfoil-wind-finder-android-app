@@ -30,7 +30,7 @@ fun HourlyHeader(
     ) {
         Text(
             text = "${model.locationName} - ${model.date} - ${model.day}",
-            fontSize = 24.sp,
+            fontSize = 20.sp,
             modifier = Modifier
                 .weight(1f)
             //TODO from here also navigation to map?

@@ -20,7 +20,7 @@ import be.hcpl.android.speedrecords.ui.dialog.InfoDialog
 import be.hcpl.android.speedrecords.ui.dialog.NameLocationDialog
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.view.LocationOverview
-import be.hcpl.android.speedrecords.ui.view.LocationsOverviewHeader
+import be.hcpl.android.speedrecords.ui.view.LocationOverviewHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,7 +63,7 @@ fun MainScreen(
         modifier = modifier.padding(8.dp),
     ) {
 
-        LocationsOverviewHeader(
+        LocationOverviewHeader(
             onAddNewLocation = { openInfoDialog.value = true },
             onRefresh = onRefresh,
             onChangeUnit = onChangeUnit,
