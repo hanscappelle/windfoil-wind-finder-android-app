@@ -19,8 +19,7 @@ fun SettingsView(
         horizontalArrangement = spacedBy(8.dp),
     ){
         Text(text = "Unit: ${model.unit.name}")
-        Text(text = "Source: ${model.source.name}")
-        Text(text = "Model: ${model.source.model.name}")
+        Text(text = "Model: ${model.source.name}/${model.source.model.name}")
     }
 
 }

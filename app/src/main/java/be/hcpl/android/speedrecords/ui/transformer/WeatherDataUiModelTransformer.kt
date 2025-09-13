@@ -22,7 +22,7 @@ interface WeatherDataUiModelTransformer {
     fun transformLocations(map: MutableMap<LocationData, WeatherData>): LocationUiModel
     fun transformDetail(location: LocationData, date: String, day: String, weather: WeatherData): HourlyUiModel
     fun transformError(string: String?): String
-    fun transformSettings(settings: ConfigRepository.Result.Settings): SettingsUiModel
+    fun transformSettings(): SettingsUiModel
 }
 
 class WeatherDataUiModelTransformerImpl(
@@ -111,8 +111,9 @@ class WeatherDataUiModelTransformerImpl(
         )
     }
 
-    override fun transformSettings(settings: ConfigRepository.Result.Settings) = SettingsUiModel(
-        unit = if( settings.convertUnits ) UnitType.Fahrenheit else UnitType.Celsius,
+    override fun transformSettings() = SettingsUiModel(
+        unit = if (configRepository.shouldConvertUnits().convertUnits) UnitType.Fahrenheit else UnitType.Celsius,
+        source = configRepository.currentModel(),
     )
 
     override fun transformError(message: String?) = message ?: context.getString(R.string.error_update_failed)

@@ -74,7 +74,7 @@ class MainViewModel(
         state.postValue(
             State(
                 locations = uiModelTransformer.transformLocations(weatherData).copy(isRefreshing = refreshing),
-                settings = uiModelTransformer.transformSettings(configRepository.shouldConvertUnits()),
+                settings = uiModelTransformer.transformSettings(),
             )
         )
     }
