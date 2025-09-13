@@ -3,7 +3,7 @@
     <string name="a11y_add_location">Add a new location</string>
     <string name="title_favourite_locations">Your Favourites</string>
     <string name="info_add_location">You can add locations from Google Maps. Pick a location and use the share option selecting this app.</string>
-    <string name="info_add_location_extra">Make sure to share from a dropped pin to send latitude &amp; longitude, not just place names. You can also share as text in format "lat, lon, name".</string>
+    <string name="info_add_location_extra">Make sure to share from a dropped pin to send latitude &amp; longitude, not just place names. You can also share as text in format \"lat, lon, name\".</string>
     <string name="ok">OK</string>
     <string name="a11y_edit_location">edit location name</string>
     <string name="a11y_delete_location">remove this location</string>
