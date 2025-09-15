@@ -4,6 +4,7 @@ import be.hcpl.android.speedrecords.api.OpenWeatherService
 import be.hcpl.android.speedrecords.api.contract.WeatherResponse
 import be.hcpl.android.speedrecords.api.transformer.WeatherTransformer
 import be.hcpl.android.speedrecords.domain.WeatherRepository.Result
+import be.hcpl.android.speedrecords.domain.model.DEFAULT_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.WeatherData
 import retrofit2.Response
@@ -37,7 +38,8 @@ class WeatherRepositoryImpl(
         // using coroutines, always give the results for today + 10 days
         val today = Calendar.getInstance()
         val endDate = Calendar.getInstance()
-        endDate.add(Calendar.DAY_OF_YEAR, 10)
+        val forecastDays = settings.currentForecastDays().forecastDays ?: DEFAULT_FORECAST_DAYS
+        endDate.add(Calendar.DAY_OF_YEAR, forecastDays)
         val response: Response<WeatherResponse> = weatherService.forecast(
             latitude = locationData.lat,
             longitude = locationData.lng,
