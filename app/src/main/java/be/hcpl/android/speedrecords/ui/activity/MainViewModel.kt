@@ -134,7 +134,8 @@ class MainViewModel(
 
     fun onChangeModel() {
         configRepository.toggleModel()
-        updateAllData() // need to fetch again at this point
+        //updateAllData() // need to fetch again at this point
+        refreshUi()
     }
 
     fun onChangeThreshold() {
@@ -144,7 +145,8 @@ class MainViewModel(
 
     fun onChangeForecastDays() {
         configRepository.toggleForecastDays()
-        updateAllData() // need to fetch again at this point
+        //updateAllData() // need to fetch again at this point
+        refreshUi()
     }
 
     data class State(
