@@ -19,4 +19,8 @@
     <string name="error_update_failed">Update failed</string>
     <string name="a11y_access_settings">App Settings</string>
     <string name="a11y_data_source">change weather data model source</string>
+    <string name="label_weather_model">Weather Model</string>
+    <string name="label_threshold">Thresh.</string>
+    <string name="label_number_of_days">#Days</string>
+    <string name="label_temperature_unit">Unit</string>
 </resources>
