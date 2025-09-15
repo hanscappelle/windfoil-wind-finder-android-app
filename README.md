@@ -57,6 +57,8 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 - set number of days to fetch in the future
 - configured threshold for marking values
+- moved settings to a table on top
+- changed icons on top to info dialogs
 
 ## 0.5.0
 
