@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -22,8 +21,7 @@ import be.hcpl.android.speedrecords.R
 fun LocationOverviewHeader(
     onAddNewLocation: () -> Unit,
     onRefresh: () -> Unit = {},
-    onChangeUnit: () -> Unit = {},
-    onChangeModel: () -> Unit = {},
+    onShowSettingsInfo: () -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -49,13 +47,13 @@ fun LocationOverviewHeader(
         Icon(
             imageVector = Icons.Default.Settings,
             contentDescription = stringResource(id = R.string.a11y_access_settings),
-            modifier = Modifier.clickable(onClick = onChangeUnit)
+            modifier = Modifier.clickable(onClick = onShowSettingsInfo)
         )
-        Icon(
-            imageVector = Icons.Default.Build,
-            contentDescription = stringResource(id = R.string.a11y_data_source),
-            modifier = Modifier.clickable(onClick = onChangeModel)
-        )
+        //Icon(
+        //    imageVector = Icons.Default.Build,
+        //    contentDescription = stringResource(id = R.string.a11y_data_source),
+        //    modifier = Modifier.clickable(onClick = onChangeModel)
+        //)
             //imageVector = Icons.Default.DateRange,
             //imageVector = Icons.Default.Info,
     }

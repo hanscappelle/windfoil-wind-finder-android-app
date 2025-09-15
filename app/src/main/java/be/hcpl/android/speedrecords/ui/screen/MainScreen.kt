@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.ui.dialog.ConfirmDialog
 import be.hcpl.android.speedrecords.ui.dialog.InfoDialog
+import be.hcpl.android.speedrecords.ui.dialog.InfoDialogUiModel
 import be.hcpl.android.speedrecords.ui.dialog.NameLocationDialog
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
@@ -40,7 +41,8 @@ fun MainScreen(
 ) {
     // some dialogs
     val openInfoDialog = remember { mutableStateOf(false) }
-    InfoDialog(openInfoDialog)
+    val infoDialogModel = remember { mutableStateOf(InfoDialogUiModel.locationInfo) }
+    InfoDialog(openInfoDialog, infoDialogModel.value)
 
     val addLocationDialog = remember { mutableStateOf(false) }
     val locationNameState = remember { mutableStateOf("") }
@@ -68,13 +70,23 @@ fun MainScreen(
     ) {
 
         LocationOverviewHeader(
-            onAddNewLocation = { openInfoDialog.value = true },
+            onAddNewLocation = {
+                openInfoDialog.value = true
+                infoDialogModel.value = InfoDialogUiModel.locationInfo
+                               },
             onRefresh = onRefresh,
-            onChangeUnit = onChangeUnit,
-            onChangeModel = onChangeModel,
+            onShowSettingsInfo = {
+                openInfoDialog.value = true
+                infoDialogModel.value = InfoDialogUiModel.settingsInfo
+                                 },
         )
 
-        SettingsView(model = settingsModel)
+        SettingsView(
+            model = settingsModel,
+            onChangeModel = onChangeModel,
+            //... more here
+            onChangeUnit = onChangeUnit,
+        )
 
         HorizontalDivider(
             modifier = Modifier

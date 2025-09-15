@@ -23,7 +23,10 @@ import be.hcpl.android.speedrecords.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InfoDialog(openDialog: MutableState<Boolean>) {
+fun InfoDialog(
+    openDialog: MutableState<Boolean>,
+    uiModel: InfoDialogUiModel,
+) {
 
     if (openDialog.value) {
         AlertDialog(
@@ -42,16 +45,13 @@ fun InfoDialog(openDialog: MutableState<Boolean>) {
                         .padding(32.dp)
 
                 ) {
-                    Text(
-                        text = stringResource(R.string.info_add_location),
-                        fontSize = 20.sp,
-                        textAlign = TextAlign.Center,
-                    )
-                    Text(
-                        text = stringResource(R.string.info_add_location_extra),
-                        fontSize = 20.sp,
-                        textAlign = TextAlign.Center,
-                    )
+                    uiModel.infoText.forEach {
+                        Text(
+                            text = stringResource(it),
+                            fontSize = 20.sp,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
                     Button(
                         onClick = { openDialog.value = false },
                     ) {
@@ -60,5 +60,27 @@ fun InfoDialog(openDialog: MutableState<Boolean>) {
                 }
             }
         }
+    }
+}
+
+data class InfoDialogUiModel(
+    val infoText: List<Int>,
+) {
+
+
+    companion object {
+
+        val locationInfo = InfoDialogUiModel(
+            infoText = listOf(
+                R.string.info_add_location,
+                R.string.info_add_location_extra,
+            )
+        )
+
+        val settingsInfo = InfoDialogUiModel(
+            infoText = listOf(
+                R.string.info_settings,
+            )
+        )
     }
 }

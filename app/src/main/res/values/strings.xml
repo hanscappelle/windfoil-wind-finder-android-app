@@ -23,4 +23,5 @@
     <string name="label_threshold">Thresh.</string>
     <string name="label_number_of_days">#Days</string>
     <string name="label_temperature_unit">Unit</string>
+    <string name="info_settings">You can change settings like weather model and units and threshold by selecting the value in the table displayed on top.</string>
 </resources>

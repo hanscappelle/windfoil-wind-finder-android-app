@@ -17,6 +17,10 @@ import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
 @Composable
 fun SettingsView(
     model: SettingsUiModel,
+    onChangeModel: () -> Unit = {},
+    onChangeThreshold: () -> Unit = {},
+    onChangeForecastDays: () -> Unit = {},
+    onChangeUnit: () -> Unit = {},
 ) {
     Column(Modifier
         .fillMaxWidth()) {
