@@ -74,7 +74,10 @@ fun MainScreen(
                 openInfoDialog.value = true
                 infoDialogModel.value = InfoDialogUiModel.locationInfo
                                },
-            onRefresh = onRefresh,
+            onRefresh = {
+                openInfoDialog.value = true
+                infoDialogModel.value = InfoDialogUiModel.refreshInfo
+            },
             onShowSettingsInfo = {
                 openInfoDialog.value = true
                 infoDialogModel.value = InfoDialogUiModel.settingsInfo
