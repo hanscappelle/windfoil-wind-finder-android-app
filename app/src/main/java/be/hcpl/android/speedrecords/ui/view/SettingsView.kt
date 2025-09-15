@@ -63,13 +63,13 @@ fun SettingsView(
                     .clickable { onChangeModel() },
             )
             TableCell(
-                text = "${model.threshold} kts",
+                text = "${model.threshold} ${stringResource(R.string.unit_knots)}",
                 modifier = Modifier
                     .weight(0.3f)
                     .clickable { onChangeThreshold() },
             )
             TableCell(
-                text = "${model.forecastDays} days",
+                text = "${model.forecastDays} ${stringResource(R.string.unit_days)}",
                 modifier = Modifier
                     .weight(0.3f)
                     .clickable { onChangeForecastDays() },

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wind Forecast App</string>
+    <string name="a11y_add_location">Nieuwe locatie toevoegen</string>
+    <string name="title_favourite_locations">Je Favorieten</string>
+    <string name="info_add_location">Je kan locaties toevoegen vanuit Google Maps. Plaats een pin op de kaart en gebruik de Android deel optie om vervolgens deze app te selecteren.</string>
+    <string name="info_add_location_extra">Let er wel op dat je coördinaten en niet plaatsnamen deelt in Google Maps. Alternatief is tekst delen in formaat \"lat, lon, name\".</string>
+    <string name="ok">Oké</string>
+    <string name="a11y_edit_location">Wijzig naam locatie</string>
+    <string name="a11y_delete_location">Verwijder locatie</string>
+    <string name="info_rename_location">Welke naam wil je deze locatie geven?</string>
+    <string name="name">Naam</string>
+    <string name="a11y_update_data">Haal nieuwe data op voor je locaties</string>
+    <string name="cancel">Annuleer</string>
+    <string name="confirm_delete">Ben je zeker dat je deze locatie wilt verwijderen?</string>
+    <string name="a11y_restore_all_hours">Herstel weergave van alle 24 uren</string>
+    <string name="a11y_hide_this_hour">Verberg dit uur van de weergave</string>
+    <string name="confirm_restore_all_hours">Wil je terug naar weergave van alle uren? Je kunt met het vuilbak icoon specifieke uren van dit scherm verbergen.</string>
+    <string name="error_update_failed">Ophalen gegevens mislukt (!)</string>
+    <string name="a11y_access_settings">App Instellingen</string>
+    <string name="a11y_data_source">Ander weermodel selecteren</string>
+    <string name="label_weather_model">Weermodel</string>
+    <string name="label_threshold">Markeer</string>
+    <string name="label_number_of_days">#Dagen</string>
+    <string name="label_temperature_unit">Eenheid</string>
+    <string name="info_settings">Je kunt instellingen zoals weermodel en eenheden wijzigen door deze in de tabel bovenaan het overzicht aan te raken.</string>
+    <string name="info_settings_more">Let er wel op dat je voor de meeste van deze instellingen ook zelf nog opnieuw de data moet ophalen.</string>
+    <string name="info_refresh">Data vernieuwe kan door aan de bovenkant van de lijst naar beneded te swipen (pull down).</string>
+    <string name="info_refresh_more">Dit is zo voorzien voor wie op locatie geen goede verbinding heeft. Dan kun je de data op voorhand ophalen.</string>
+    <string name="a11y_show_app_info">Info over deze App</string>
+    <string name="info_app">Deze App is gratis en open source en haalt weergegevens op uit https://open-meteo.com.</string>
+    <string name="info_app_more">Meer informatie over de App kan je vinden op de project website op https://github.com/hanscappelle/windfoil-wind-finder-android-app</string>
+    <string name="unit_knots">kn</string>
+    <string name="label_wind">wind</string>
+    <string name="label_gusts">stoten</string>
+    <string name="label_cover">wolken</string>
+    <string name="unit_days">dagen</string>
+</resources>

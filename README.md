@@ -68,6 +68,10 @@ fetch their data up front and not change it on every action in the app.
 
 # Version History
 
+### 0.8.0
+
+- Dutch translations
+
 ### 0.7.0
 
 - added about info to app
@@ -136,10 +140,6 @@ Initial app release
   - (opt) how many days in the past
 - Implement notifications
 - Cache data from last call and persist
-
-## Bugs
-
-- fix missing translations
 
 # Resources
 

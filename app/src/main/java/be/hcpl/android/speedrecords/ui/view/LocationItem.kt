@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,12 +62,12 @@ fun LocationItem(
                     modifier = Modifier.weight(1f),
                 ) {
                     Text(
-                        text = "min ${it.value.windSpeedAt10mMin ?: "-"} kts",
+                        text = "min ${it.value.windSpeedAt10mMin ?: "-"} ${stringResource(R.string.unit_knots)}",
                         fontWeight = if ((it.value.windSpeedAt10mMin ?: 0) >= model.windThreshold) FontWeight.Bold else FontWeight.Normal,
                         fontStyle = if ((it.value.windSpeedAt10mMin ?: 0) >= model.windThreshold) FontStyle.Italic else FontStyle.Normal,
                     )
                     Text(
-                        text = "max ${it.value.windSpeedAt10mMax ?: "-"} kts",
+                        text = "max ${it.value.windSpeedAt10mMax ?: "-"} ${stringResource(R.string.unit_knots)}",
                         fontWeight = if ((it.value.windSpeedAt10mMax ?: 0) >= model.windThreshold) FontWeight.Bold else FontWeight.Normal,
                         fontStyle = if ((it.value.windSpeedAt10mMax ?: 0) >= model.windThreshold) FontStyle.Italic else FontStyle.Normal,
                     )

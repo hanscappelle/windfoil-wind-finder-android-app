@@ -50,11 +50,11 @@ fun HourlyItem(
                 verticalArrangement = spacedBy(2.dp),
             ) {
                 Text(
-                    text = "wind ${model.windSpeedAt10m ?: "-"} kts",
+                    text = "${stringResource(R.string.label_wind)} ${model.windSpeedAt10m ?: "-"} ${stringResource(R.string.unit_knots)}",
                     fontWeight = if ((model.windSpeedAt10m ?: 0) >= model.windThreshold) FontWeight.Bold else FontWeight.Normal,
                     fontStyle = if ((model.windSpeedAt10m ?: 0) >= model.windThreshold) FontStyle.Italic else FontStyle.Normal,
                 )
-                Text(text = "gusts ${model.windGustsAt10m ?: "-"} kts")
+                Text(text = "${stringResource(R.string.label_gusts)} ${model.windGustsAt10m ?: "-"} ${stringResource(R.string.unit_knots)}")
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -75,7 +75,7 @@ fun HourlyItem(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = spacedBy(2.dp),
             ) {
-                Text(text = "cover ${model.cloudCover} %")
+                Text(text = "${stringResource(R.string.label_cover)} ${model.cloudCover} %")
                 Text(text = "${model.precipitation} mm")
             }
             Column(
