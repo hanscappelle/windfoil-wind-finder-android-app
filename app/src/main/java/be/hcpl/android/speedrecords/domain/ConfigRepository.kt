@@ -3,7 +3,13 @@ package be.hcpl.android.speedrecords.domain
 import android.content.Context
 import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.domain.ConfigRepository.Result.Settings
+import be.hcpl.android.speedrecords.domain.model.DEFAULT_FORECAST_DAYS
+import be.hcpl.android.speedrecords.domain.model.DEFAULT_THRESHOLD
 import be.hcpl.android.speedrecords.domain.model.DataSource
+import be.hcpl.android.speedrecords.domain.model.RANGE_MAX_FORECAST_DAYS
+import be.hcpl.android.speedrecords.domain.model.RANGE_MAX_THRESHOLD
+import be.hcpl.android.speedrecords.domain.model.RANGE_MIN_FORECAST_DAYS
+import be.hcpl.android.speedrecords.domain.model.RANGE_MIN_THRESHOLD
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -18,12 +24,20 @@ interface ConfigRepository {
     fun currentModel(): DataSource
     fun updateModel(model: DataSource): Result
     fun toggleModel(): DataSource
+    fun currentThreshold(): Settings
+    fun toggleThreshold(): Settings
+    fun currentForecastDays(): Settings
+    fun toggleForecastDays(): Settings
 
     sealed class Result {
         data class Data(val ignoredHours: List<String>) : Result()
         data object Success : Result()
         data object Failed : Result()
-        data class Settings(val convertUnits: Boolean) : Result()
+        data class Settings(
+            val convertUnits: Boolean? = null,
+            val markWindThreshold: Int? = null,
+            val forecastDays: Int? = null,
+        ) : Result()
     }
 }
 
@@ -87,10 +101,56 @@ class ConfigRepositoryImpl(
         updateModel(nextModel)
         return nextModel
     }
+
+    override fun currentThreshold() = Settings(
+        markWindThreshold = sharedPref.getInt(PREF_KEY_MARK_THRESHOLD, DEFAULT_THRESHOLD)
+    )
+
+    override fun toggleThreshold(): Settings {
+        var current = currentThreshold().markWindThreshold ?: DEFAULT_THRESHOLD
+        shrinking = when {
+            current >= RANGE_MAX_THRESHOLD || shrinking && current > RANGE_MIN_THRESHOLD -> {
+                current--
+                true
+            }
+
+            else -> {
+                current++
+                false
+            }
+        }
+        sharedPref.edit().putInt(PREF_KEY_MARK_THRESHOLD, current).apply()
+        return currentThreshold()
+    }
+
+    override fun currentForecastDays() = Settings(
+        forecastDays = sharedPref.getInt(PREF_KEY_FORECAST_DAYS, DEFAULT_FORECAST_DAYS)
+    )
+
+    override fun toggleForecastDays(): Settings {
+        var current = currentForecastDays().forecastDays ?: DEFAULT_FORECAST_DAYS
+        shrinking = when {
+            current >= RANGE_MAX_FORECAST_DAYS || shrinking && current > RANGE_MIN_FORECAST_DAYS -> {
+                current--
+                true
+            }
+
+            else -> {
+                current++
+                false
+            }
+        }
+        sharedPref.edit().putInt(PREF_KEY_FORECAST_DAYS, current).apply()
+        return currentForecastDays()
+    }
+
+    var shrinking = false
 }
 
 private val listOfHoursType = object : TypeToken<List<String>>() {}.type
 private const val PREF_KEY_IGNORED_HOURS = "key_ignored_hours"
 private const val PREF_KEY_CONVERT_UNITS = "key_convert_units"
 private const val PREF_KEY_MODEL = "key_model"
+private const val PREF_KEY_FORECAST_DAYS = "key_forecast_days"
+private const val PREF_KEY_MARK_THRESHOLD = "key_mark_threshold"
 

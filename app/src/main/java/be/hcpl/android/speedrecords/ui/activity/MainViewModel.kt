@@ -127,16 +127,24 @@ class MainViewModel(
         events.postValue(Event.ShowError(uiModelTransformer.transformError(message)))
     }
 
-    fun changeUnit() {
-        // TODO implement full settings screen with more options
-        convertToFahrenheit = configRepository.toggleConvertUnits(convertToFahrenheit).convertUnits
+    fun onChangeUnit() {
+        convertToFahrenheit = configRepository.toggleConvertUnits(convertToFahrenheit == true).convertUnits
         refreshUi()
     }
 
-    fun changeModel(){
+    fun onChangeModel() {
         configRepository.toggleModel()
-        // need to fetch again at this point
-        updateAllData()
+        updateAllData() // need to fetch again at this point
+    }
+
+    fun onChangeThreshold() {
+        configRepository.toggleThreshold()
+        refreshUi() // only ui refresh needed for this change
+    }
+
+    fun onChangeForecastDays() {
+        configRepository.toggleForecastDays()
+        updateAllData() // need to fetch again at this point
     }
 
     data class State(

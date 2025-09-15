@@ -87,8 +87,10 @@ class MainActivity : ComponentActivity() {
                         onShowLocation = { name -> viewModel.showLocation(name) },
                         onDeleteLocation = { name -> viewModel.deleteLocation(name) },
                         onOpenDetail = {name, date, day -> viewModel.openLocationDetail(name, date, day)},
-                        onChangeUnit = { viewModel.changeUnit() },
-                        onChangeModel = { viewModel.changeModel() },
+                        onChangeModel = { viewModel.onChangeModel() },
+                        onChangeThreshold = { viewModel.onChangeThreshold() },
+                        onChangeForecastDays = { viewModel.onChangeForecastDays() },
+                        onChangeUnit = { viewModel.onChangeUnit() },
                     )
                 }
             }

@@ -4,6 +4,8 @@ import android.content.Context
 import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.domain.AssetRepository
 import be.hcpl.android.speedrecords.domain.ConfigRepository
+import be.hcpl.android.speedrecords.domain.model.DEFAULT_FORECAST_DAYS
+import be.hcpl.android.speedrecords.domain.model.DEFAULT_THRESHOLD
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.UnitType
 import be.hcpl.android.speedrecords.domain.model.WeatherData
@@ -49,8 +51,8 @@ class WeatherDataUiModelTransformerImpl(
                             DailyValueUiModel(
                                 time = it.key,
                                 displayDay = dateFormatParse.parse(it.key)?.let { dateFormatDisplay.format(it) } ?: "",
-                                tempMin = convert(shouldConvert, it.value.temperatureAt2mMin),
-                                tempMax = convert(shouldConvert, it.value.temperatureAt2mMax),
+                                tempMin = convert(shouldConvert == true, it.value.temperatureAt2mMin),
+                                tempMax = convert(shouldConvert == true, it.value.temperatureAt2mMax),
                                 windSpeedAt10mMin = it.value.windSpeedAt10mMin?.toInt(),
                                 windSpeedAt10mMax = it.value.windSpeedAt10mMax?.toInt(),
                                 weatherIcon = assetRepository.getWeatherIcon(it.value.weatherCode),
@@ -98,7 +100,7 @@ class WeatherDataUiModelTransformerImpl(
                     HourlyValueUiModel(
                         time = it.value.time,
                         displayTime = if ((it.value.time?.length ?: 0) >= 13) it.value.time?.substring(11, 13) ?: "" else "",
-                        temperature = convert(shouldConvert, it.value.temperatureAt2m),
+                        temperature = convert(shouldConvert == true, it.value.temperatureAt2m),
                         precipitation = it.value.precipitation,
                         cloudCover = it.value.cloudCover,
                         windSpeedAt10m = it.value.windSpeedAt10m?.roundToInt(),
@@ -112,8 +114,10 @@ class WeatherDataUiModelTransformerImpl(
     }
 
     override fun transformSettings() = SettingsUiModel(
-        unit = if (configRepository.shouldConvertUnits().convertUnits) UnitType.Fahrenheit else UnitType.Celsius,
         source = configRepository.currentModel(),
+        unit = if (configRepository.shouldConvertUnits().convertUnits == true) UnitType.Fahrenheit else UnitType.Celsius,
+        threshold = configRepository.currentThreshold().markWindThreshold ?: DEFAULT_THRESHOLD,
+        forecastDays = configRepository.currentForecastDays().forecastDays ?: DEFAULT_FORECAST_DAYS,
     )
 
     override fun transformError(message: String?) = message ?: context.getString(R.string.error_update_failed)

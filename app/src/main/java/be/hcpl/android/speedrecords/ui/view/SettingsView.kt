@@ -69,7 +69,7 @@ fun SettingsView(
                     .clickable { onChangeThreshold() },
             )
             TableCell(
-                text = "${model.days} days",
+                text = "${model.forecastDays} days",
                 modifier = Modifier
                     .weight(0.3f)
                     .clickable { onChangeForecastDays() },

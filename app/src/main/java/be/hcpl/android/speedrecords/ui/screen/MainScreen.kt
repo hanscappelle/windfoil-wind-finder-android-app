@@ -36,8 +36,10 @@ fun MainScreen(
     onShowLocation: (String) -> Unit = {},
     onDeleteLocation: (String) -> Unit = {},
     onOpenDetail: (String, String, String) -> Unit = { _, _, _ -> },
-    onChangeUnit: () -> Unit = {},
     onChangeModel: () -> Unit = {},
+    onChangeThreshold: () -> Unit = {},
+    onChangeForecastDays: () -> Unit = {},
+    onChangeUnit: () -> Unit = {},
 ) {
     // some dialogs
     val openInfoDialog = remember { mutableStateOf(false) }
@@ -73,7 +75,7 @@ fun MainScreen(
             onAddNewLocation = {
                 openInfoDialog.value = true
                 infoDialogModel.value = InfoDialogUiModel.locationInfo
-                               },
+            },
             onRefresh = {
                 openInfoDialog.value = true
                 infoDialogModel.value = InfoDialogUiModel.refreshInfo
@@ -81,13 +83,14 @@ fun MainScreen(
             onShowSettingsInfo = {
                 openInfoDialog.value = true
                 infoDialogModel.value = InfoDialogUiModel.settingsInfo
-                                 },
+            },
         )
 
         SettingsView(
             model = settingsModel,
             onChangeModel = onChangeModel,
-            //... more here
+            onChangeThreshold = onChangeThreshold,
+            onChangeForecastDays = onChangeForecastDays,
             onChangeUnit = onChangeUnit,
         )
 

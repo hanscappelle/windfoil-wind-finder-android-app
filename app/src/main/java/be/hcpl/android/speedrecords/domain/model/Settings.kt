@@ -20,3 +20,10 @@ enum class WeatherModel{
     ARPEGE_AROME,
     HARMONIE,
 }
+
+const val DEFAULT_THRESHOLD = 10
+const val RANGE_MIN_THRESHOLD = 10
+const val RANGE_MAX_THRESHOLD = 25
+const val DEFAULT_FORECAST_DAYS = 7
+const val RANGE_MIN_FORECAST_DAYS = 3
+const val RANGE_MAX_FORECAST_DAYS = 15
