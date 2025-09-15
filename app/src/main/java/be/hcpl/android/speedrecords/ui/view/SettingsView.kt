@@ -1,6 +1,7 @@
 package be.hcpl.android.speedrecords.ui.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -22,21 +23,63 @@ fun SettingsView(
     onChangeForecastDays: () -> Unit = {},
     onChangeUnit: () -> Unit = {},
 ) {
-    Column(Modifier
-        .fillMaxWidth()) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+    ) {
         // Table header with some background
         Row(Modifier.background(Color.Gray)) {
-            TableCell(text = stringResource(R.string.label_weather_model), weight = 1f)
-            TableCell(text = stringResource(R.string.label_threshold), weight = 0.3f)
-            TableCell(text = stringResource(R.string.label_number_of_days), weight = 0.3f)
-            TableCell(text = stringResource(R.string.label_temperature_unit), weight = 0.3f)
+            TableCell(
+                text = stringResource(R.string.label_weather_model),
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable { onChangeModel() },
+            )
+            TableCell(
+                text = stringResource(R.string.label_threshold),
+                modifier = Modifier
+                    .weight(0.3f)
+                    .clickable { onChangeThreshold() },
+            )
+            TableCell(
+                text = stringResource(R.string.label_number_of_days),
+                modifier = Modifier
+                    .weight(0.3f)
+                    .clickable { onChangeForecastDays() },
+            )
+            TableCell(
+                text = stringResource(R.string.label_temperature_unit),
+                modifier = Modifier
+                    .weight(0.3f)
+                    .clickable { onChangeUnit() },
+            )
         }
         // table content
         Row(Modifier.fillMaxWidth()) {
-            TableCell(text = "${model.source.name}/${model.source.model.name}", weight = 1f)
-            TableCell(text = "${model.threshold} kts", weight = 0.3f)
-            TableCell(text = "${model.days} days", weight = 0.3f)
-            TableCell(text = model.unit.name, weight = 0.3f)
+            TableCell(
+                text = "${model.source.name}/${model.source.model.name}",
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable { onChangeModel() },
+            )
+            TableCell(
+                text = "${model.threshold} kts",
+                modifier = Modifier
+                    .weight(0.3f)
+                    .clickable { onChangeThreshold() },
+            )
+            TableCell(
+                text = "${model.days} days",
+                modifier = Modifier
+                    .weight(0.3f)
+                    .clickable { onChangeForecastDays() },
+            )
+            TableCell(
+                text = model.unit.name,
+                modifier = Modifier
+                    .weight(0.3f)
+                    .clickable { onChangeUnit() },
+            )
         }
     }
 }
@@ -44,14 +87,11 @@ fun SettingsView(
 @Composable
 fun RowScope.TableCell(
     text: String,
-    weight: Float,
+    modifier: Modifier,
 ) {
     Text(
         text = text,
-        Modifier
-            //.border(1.dp, Color.Black)
-            .weight(weight)
-            //.padding(8.dp)
+        modifier = modifier,
     )
 }
 
