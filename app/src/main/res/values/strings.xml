@@ -27,4 +27,7 @@
     <string name="info_settings_more">Note that some of these settings will need you to trigger a full data refresh by swiping down on the list.</string>
     <string name="info_refresh">To refresh content you can pull down on the list. Also on changing some of the settings this action is often required.</string>
     <string name="info_refresh_more">This is implemented this way so you can choose to keep data on locations with bad reception. As long as the app doesn\'t get closed it will re-open with the fetched data.</string>
+    <string name="a11y_show_app_info">Information about this App</string>
+    <string name="info_app">This app is open source and free and retrieves weather information from https://open-meteo.com.</string>
+    <string name="info_app_more">More information on the app itself can be found on the project website at https://github.com/hanscappelle/windfoil-wind-finder-android-app</string>
 </resources>

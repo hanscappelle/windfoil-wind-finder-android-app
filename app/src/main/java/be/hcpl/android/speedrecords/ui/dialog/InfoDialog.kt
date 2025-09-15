@@ -90,5 +90,12 @@ data class InfoDialogUiModel(
                 R.string.info_refresh_more,
             )
         )
+
+        val appInfo = InfoDialogUiModel(
+            infoText = listOf(
+                R.string.info_app,
+                R.string.info_app_more,
+            )
+        )
     }
 }

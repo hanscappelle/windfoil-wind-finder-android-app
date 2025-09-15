@@ -84,6 +84,10 @@ fun MainScreen(
                 openInfoDialog.value = true
                 infoDialogModel.value = InfoDialogUiModel.settingsInfo
             },
+            onShowAppInfo = {
+                openInfoDialog.value = true
+                infoDialogModel.value = InfoDialogUiModel.appInfo
+            },
         )
 
         SettingsView(
