@@ -53,6 +53,11 @@ If you later want to bring back some hours you can use the refresh icon on top s
 
 # Version History
 
+## 0.6.0
+
+- set number of days to fetch in the future
+- configured threshold for marking values
+
 ## 0.5.0
 
 - layout improvements
@@ -108,9 +113,7 @@ Initial app release
   - api info and libs
   - explain how to add locations, also in app
 - Custom Config Options
-  - set number of days to fetch in the future
   - (opt) how many days in the past
-  - threshold for marking values in colours
 
 ## Bugs
 
