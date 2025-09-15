@@ -68,6 +68,11 @@ fetch their data up front and not change it on every action in the app.
 
 # Version History
 
+### 0.7.0
+
+- added about info to app
+- layout improvements
+
 ## 0.6.0
 
 - set number of days to fetch in the future
@@ -126,11 +131,10 @@ Initial app release
 - improve UI (more graphics and colours)
   - allow for custom colours, hours, warnings, thresholds, ...
   - optimize use of screen width 
-- add about information to app
-  - api info and libs
-  - explain how to add locations, also in app
 - Custom Config Options
   - (opt) how many days in the past
+- Implement notifications
+- Cache data from last call and persist
 
 ## Bugs
 
