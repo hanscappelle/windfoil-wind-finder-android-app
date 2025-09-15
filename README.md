@@ -49,7 +49,22 @@ hour in day | wind speed & gusts | wind direction | cloud cover & precipitation 
 ```
 
 From this screen you can always narrow down the number of hours that should show.
-If you later want to bring back some hours you can use the refresh icon on top screen. 
+If you later want to bring back some hours you can use the refresh icon on top screen.
+
+### Changing Configuration & Data Refresh
+
+On top of the main screen you can see what the current configuration is. 
+What weather model is fetched, what threshold is used to mark wind and the
+number of days in the future data was retrieved.
+
+You can change these values by tapping on them and you'll see them increment up
+to the top value and then decrease to the lower limit set in app. Once you've
+reached the desired value you'll have to pull down on the list of locations 
+to refresh with these new settings. 
+
+This manual refresh was added to reduce the number of requests to the public
+weather API. And it will also help people with bad connection that need to 
+fetch their data up front and not change it on every action in the app. 
 
 # Version History
 
