@@ -64,7 +64,7 @@ fun HourlyItem(
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowUp,
                     contentDescription = null,
-                    modifier = Modifier.rotate(model.windDirectionAt10m?.toFloat() ?: 0f)
+                    modifier = Modifier.rotate((model.windDirectionAt10m?.toFloat() ?: 0f) + 180)
                 )
                 Text(
                     text = "${model.windDirectionAt10m} °",

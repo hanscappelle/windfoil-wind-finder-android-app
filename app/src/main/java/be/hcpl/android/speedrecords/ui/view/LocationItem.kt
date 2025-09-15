@@ -52,7 +52,7 @@ fun LocationItem(
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowUp,
                     contentDescription = null,
-                    modifier = Modifier.rotate(it.value.windDirectionAt10m?.toFloat() ?: 0f)
+                    modifier = Modifier.rotate((it.value.windDirectionAt10m?.toFloat() ?: 0f) + 180)
                 )
                 // display min and max wind speeds
                 Column(

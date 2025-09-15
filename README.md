@@ -72,6 +72,7 @@ fetch their data up front and not change it on every action in the app.
 
 - added about info to app
 - layout improvements
+- rotate arrow for wind direction
 
 ## 0.6.0
 
