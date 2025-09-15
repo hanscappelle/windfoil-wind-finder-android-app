@@ -44,6 +44,7 @@ class WeatherDataUiModelTransformerImpl(
                     locationName = it.key.name,
                     lat = it.key.lat,
                     lng = it.key.lng,
+                    windThreshold = configRepository.currentThreshold().markWindThreshold ?: DEFAULT_THRESHOLD,
                     hourlyForecast = WeatherDataUiModel(
                         latitude = it.value.latitude,
                         longitude = it.value.longitude,
@@ -108,6 +109,7 @@ class WeatherDataUiModelTransformerImpl(
                         windGustsAt10m = it.value.windGustsAt10m?.roundToInt(),
                         weatherIcon = assetRepository.getWeatherIcon(it.value.weatherCode),
                         weatherDescription = assetRepository.getWeatherDescription(it.value.weatherCode),
+                        windThreshold = configRepository.currentThreshold().markWindThreshold ?: DEFAULT_THRESHOLD,
                     )
                 },
         )

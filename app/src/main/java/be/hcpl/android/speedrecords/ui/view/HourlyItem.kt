@@ -51,8 +51,8 @@ fun HourlyItem(
             ) {
                 Text(
                     text = "wind ${model.windSpeedAt10m ?: "-"} kts",
-                    fontWeight = if ((model.windSpeedAt10m ?: 0) >= 10) FontWeight.Bold else FontWeight.Normal,
-                    fontStyle = if ((model.windSpeedAt10m ?: 0) >= 10) FontStyle.Italic else FontStyle.Normal,
+                    fontWeight = if ((model.windSpeedAt10m ?: 0) >= model.windThreshold) FontWeight.Bold else FontWeight.Normal,
+                    fontStyle = if ((model.windSpeedAt10m ?: 0) >= model.windThreshold) FontStyle.Italic else FontStyle.Normal,
                 )
                 Text(text = "gusts ${model.windGustsAt10m ?: "-"} kts")
             }

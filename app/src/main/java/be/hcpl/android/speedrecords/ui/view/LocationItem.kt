@@ -62,13 +62,13 @@ fun LocationItem(
                 ) {
                     Text(
                         text = "min ${it.value.windSpeedAt10mMin ?: "-"} kts",
-                        fontWeight = if ((it.value.windSpeedAt10mMin ?: 0) >= 10) FontWeight.Bold else FontWeight.Normal,
-                        fontStyle = if ((it.value.windSpeedAt10mMin ?: 0) >= 10) FontStyle.Italic else FontStyle.Normal,
+                        fontWeight = if ((it.value.windSpeedAt10mMin ?: 0) >= model.windThreshold) FontWeight.Bold else FontWeight.Normal,
+                        fontStyle = if ((it.value.windSpeedAt10mMin ?: 0) >= model.windThreshold) FontStyle.Italic else FontStyle.Normal,
                     )
                     Text(
                         text = "max ${it.value.windSpeedAt10mMax ?: "-"} kts",
-                        fontWeight = if ((it.value.windSpeedAt10mMax ?: 0) >= 10) FontWeight.Bold else FontWeight.Normal,
-                        fontStyle = if ((it.value.windSpeedAt10mMax ?: 0) >= 10) FontStyle.Italic else FontStyle.Normal,
+                        fontWeight = if ((it.value.windSpeedAt10mMax ?: 0) >= model.windThreshold) FontWeight.Bold else FontWeight.Normal,
+                        fontStyle = if ((it.value.windSpeedAt10mMax ?: 0) >= model.windThreshold) FontStyle.Italic else FontStyle.Normal,
                     )
                 }
                 it.value.weatherIcon?.let { icon ->
