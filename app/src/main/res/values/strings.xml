@@ -35,4 +35,5 @@
     <string name="label_gusts">gusts</string>
     <string name="label_cover">cover</string>
     <string name="unit_days">days</string>
+    <string name="a11y_navigate_back">Navigate back</string>
 </resources>

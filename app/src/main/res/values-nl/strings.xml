@@ -35,4 +35,5 @@
     <string name="label_gusts">stoten</string>
     <string name="label_cover">wolken</string>
     <string name="unit_days">dagen</string>
+    <string name="a11y_navigate_back">Terug naar vorig scherm</string>
 </resources>

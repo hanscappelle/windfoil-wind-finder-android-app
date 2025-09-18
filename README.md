@@ -69,6 +69,10 @@ fetch their data up front and not change it on every action in the app.
 
 # Version History
 
+### 0.9.0
+
+- coloured theme added, created with https://material-foundation.github.io/material-theme-builder/
+
 ### 0.8.0
 
 - Dutch translations
@@ -134,9 +138,6 @@ Initial app release
 ## Features & TODO 
 
 - allow for easy location input from in app map
-- improve UI (more graphics and colours)
-  - allow for custom colours, hours, warnings, thresholds, ...
-  - optimize use of screen width 
 - Custom Config Options
   - (opt) how many days in the past
 - Implement notifications

@@ -6,14 +6,12 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
+import be.hcpl.android.speedrecords.ui.screen.AppScaffold
 import be.hcpl.android.speedrecords.ui.screen.MainScreen
-import be.hcpl.android.speedrecords.ui.theme.AppTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
 
@@ -76,10 +74,14 @@ class MainActivity : ComponentActivity() {
         settings: SettingsUiModel,
         ) {
         setContent {
-            AppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            //AppTheme {
+            //    Scaffold(
+            //        modifier = Modifier.fillMaxSize()) { innerPadding ->
+            AppScaffold(
+                title = stringResource(R.string.app_name),
+            ) {
                     MainScreen(
-                        modifier = Modifier.padding(innerPadding),
+                        //modifier = Modifier.padding(innerPadding),
                         model = locations,
                         settingsModel = settings,
                         onRefresh = { viewModel.updateAllData() },
@@ -92,7 +94,7 @@ class MainActivity : ComponentActivity() {
                         onChangeForecastDays = { viewModel.onChangeForecastDays() },
                         onChangeUnit = { viewModel.onChangeUnit() },
                     )
-                }
+                //}
             }
         }
     }

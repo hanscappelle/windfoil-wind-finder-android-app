@@ -1,18 +1,15 @@
 package be.hcpl.android.speedrecords.ui.activity
 
-import android.R
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
+import be.hcpl.android.speedrecords.ui.screen.AppScaffold
 import be.hcpl.android.speedrecords.ui.screen.DetailScreen
-import be.hcpl.android.speedrecords.ui.theme.AppTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : ComponentActivity() {
@@ -36,7 +33,7 @@ class DetailActivity : ComponentActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.home) {
+        if (item.itemId == android.R.id.home) {
             //onBackPressedDispatcher.onBackPressed()
             finish()
             return true
@@ -50,16 +47,20 @@ class DetailActivity : ComponentActivity() {
 
     private fun updateContent(hourlyUiModel: HourlyUiModel) {
         setContent {
-            AppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            //AppTheme {
+                //Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            AppScaffold(
+                title = stringResource(R.string.app_name),
+                onBack = { finish() },
+            ) {
                     DetailScreen(
-                        modifier = Modifier.padding(innerPadding),
+                        //modifier = Modifier.padding(innerPadding),
                         model = hourlyUiModel,
                         onRestoreAllHours = { viewModel.clearIgnoredHours() },
                         onIgnoreHour = { time -> viewModel.onIgnoreHour(time) },
                     )
                 }
-            }
+            //}
         }
     }
 
