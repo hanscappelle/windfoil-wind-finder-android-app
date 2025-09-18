@@ -34,6 +34,19 @@ class MainViewModel(
     }
 
     private fun doInit() {
+        // initially get data from cache instead of always starting with a network call
+        val data = configRepository.retrieveCachedWeatherData()
+        if (data.isNotEmpty()) {
+            weatherData.putAll(data)
+            refreshing = false
+            refreshUi()
+        } else {
+            // only fetch if we have no data
+            retrieveWeatherData()
+        }
+    }
+
+    private fun retrieveWeatherData() {
         viewModelScope.launch {
             // show loading state
             refreshing = true
@@ -64,10 +77,11 @@ class MainViewModel(
                 is WeatherRepository.Result.Failed -> handleError(result.reason)
             }
         }
+        configRepository.updateCachedWeatherData(weatherData)
     }
 
     fun updateAllData() {
-        doInit()
+        retrieveWeatherData()
     }
 
     private fun refreshUi() {

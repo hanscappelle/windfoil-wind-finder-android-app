@@ -73,6 +73,7 @@ fetch their data up front and not change it on every action in the app.
 
 - coloured theme added, created with https://material-foundation.github.io/material-theme-builder/
 - more layout optimalisations
+- cache last weather information details
 
 ### 0.8.0
 
@@ -142,7 +143,6 @@ Initial app release
 - Custom Config Options
   - (opt) how many days in the past
 - Implement notifications
-- Cache data from last call and persist
 
 # Resources
 

@@ -6,10 +6,12 @@ import be.hcpl.android.speedrecords.domain.ConfigRepository.Result.Settings
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_THRESHOLD
 import be.hcpl.android.speedrecords.domain.model.DataSource
+import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.RANGE_MAX_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.RANGE_MAX_THRESHOLD
 import be.hcpl.android.speedrecords.domain.model.RANGE_MIN_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.RANGE_MIN_THRESHOLD
+import be.hcpl.android.speedrecords.domain.model.WeatherData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -28,6 +30,8 @@ interface ConfigRepository {
     fun toggleThreshold(): Settings
     fun currentForecastDays(): Settings
     fun toggleForecastDays(): Settings
+    fun retrieveCachedWeatherData(): Map<LocationData, WeatherData>
+    fun updateCachedWeatherData(data: Map<LocationData, WeatherData>)
 
     sealed class Result {
         data class Data(val ignoredHours: List<String>) : Result()
@@ -44,6 +48,7 @@ interface ConfigRepository {
 class ConfigRepositoryImpl(
     context: Context,
     private val gson: Gson,
+    private val locationRepository: LocationRepository,
 ) : ConfigRepository {
 
     private val sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
@@ -90,6 +95,25 @@ class ConfigRepositoryImpl(
     override fun updateModel(model: DataSource): ConfigRepository.Result {
         sharedPref.edit().putString(PREF_KEY_MODEL, gson.toJson(model)).apply()
         return ConfigRepository.Result.Success
+    }
+
+    override fun retrieveCachedWeatherData(): Map<LocationData, WeatherData> {
+        val cachedDataJson = sharedPref.getString(PREF_KEY_CACHED_DATA, null)
+        // json only supports maps with string keys so we need to enrich the data
+        return if (cachedDataJson != null) {
+            val data: Map<String, WeatherData> = gson.fromJson(cachedDataJson, cachedDataType)
+            data.mapKeys {
+                when (val result = locationRepository.locationByName(it.key)){
+                    is LocationRepository.Result.Data -> result.locations.first()
+                    is LocationRepository.Result.Failed,
+                    LocationRepository.Result.Success -> LocationData(it.key, 0.0, 0.0)
+                }
+                 }
+        } else emptyMap()
+    }
+
+    override fun updateCachedWeatherData(data: Map<LocationData, WeatherData>) {
+        sharedPref.edit().putString(PREF_KEY_CACHED_DATA, gson.toJson(data.mapKeys{ it.key.name }, cachedDataType)).apply()
     }
 
     override fun toggleModel(): DataSource {
@@ -148,9 +172,12 @@ class ConfigRepositoryImpl(
 }
 
 private val listOfHoursType = object : TypeToken<List<String>>() {}.type
+private val cachedDataType = object : TypeToken<Map<String, WeatherData>>() {}.type
+
 private const val PREF_KEY_IGNORED_HOURS = "key_ignored_hours"
 private const val PREF_KEY_CONVERT_UNITS = "key_convert_units"
 private const val PREF_KEY_MODEL = "key_model"
 private const val PREF_KEY_FORECAST_DAYS = "key_forecast_days"
 private const val PREF_KEY_MARK_THRESHOLD = "key_mark_threshold"
+private const val PREF_KEY_CACHED_DATA = "key_cached_data"
 
