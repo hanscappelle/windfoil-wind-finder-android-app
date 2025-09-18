@@ -144,6 +144,7 @@ Initial app release
 - Custom Config Options
   - (opt) how many days in the past
 - Implement notifications
+- improve app icon (use blue color from theme)
 
 # Resources
 
