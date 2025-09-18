@@ -74,14 +74,10 @@ class MainActivity : ComponentActivity() {
         settings: SettingsUiModel,
         ) {
         setContent {
-            //AppTheme {
-            //    Scaffold(
-            //        modifier = Modifier.fillMaxSize()) { innerPadding ->
             AppScaffold(
                 title = stringResource(R.string.app_name),
             ) {
                     MainScreen(
-                        //modifier = Modifier.padding(innerPadding),
                         model = locations,
                         settingsModel = settings,
                         onRefresh = { viewModel.updateAllData() },
@@ -94,7 +90,6 @@ class MainActivity : ComponentActivity() {
                         onChangeForecastDays = { viewModel.onChangeForecastDays() },
                         onChangeUnit = { viewModel.onChangeUnit() },
                     )
-                //}
             }
         }
     }

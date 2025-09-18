@@ -15,6 +15,7 @@ import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 @Composable
 fun LocationOverview(
     model: LocationUiModel,
+    modifier: Modifier = Modifier,
     onRefresh: () -> Unit,
     onRenameLocation: (String) -> Unit = {},
     onShowLocation: (String) -> Unit = {},
@@ -24,7 +25,7 @@ fun LocationOverview(
     PullToRefreshBox(
         isRefreshing = model.isRefreshing,
         onRefresh = onRefresh,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
     ) {
         LazyColumn(
             horizontalAlignment = Alignment.Start,

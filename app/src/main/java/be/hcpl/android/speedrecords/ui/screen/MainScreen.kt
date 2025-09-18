@@ -68,7 +68,6 @@ fun MainScreen(
     Column(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = spacedBy(8.dp),
-        modifier = modifier.padding(8.dp),
     ) {
 
         LocationOverviewHeader(
@@ -96,12 +95,14 @@ fun MainScreen(
             onChangeThreshold = onChangeThreshold,
             onChangeForecastDays = onChangeForecastDays,
             onChangeUnit = onChangeUnit,
+            modifier = modifier.padding(8.dp),
         )
 
         HorizontalDivider(
             modifier = Modifier
                 .height(1.dp)
                 .fillMaxWidth()
+                .padding(8.dp),
         )
 
         LocationOverview(
@@ -118,6 +119,7 @@ fun MainScreen(
                 confirmDialog.value = true
             },
             onOpenDetail = onOpenDetail,
+            modifier = modifier.padding(8.dp),
         )
     }
 

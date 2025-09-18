@@ -72,6 +72,7 @@ fetch their data up front and not change it on every action in the app.
 ### 0.9.0
 
 - coloured theme added, created with https://material-foundation.github.io/material-theme-builder/
+- more layout optimalisations
 
 ### 0.8.0
 

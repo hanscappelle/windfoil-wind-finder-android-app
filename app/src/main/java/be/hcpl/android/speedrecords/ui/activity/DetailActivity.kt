@@ -5,8 +5,6 @@ import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.res.stringResource
-import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
 import be.hcpl.android.speedrecords.ui.screen.AppScaffold
 import be.hcpl.android.speedrecords.ui.screen.DetailScreen
@@ -45,22 +43,18 @@ class DetailActivity : ComponentActivity() {
         updateContent(state.model)
     }
 
-    private fun updateContent(hourlyUiModel: HourlyUiModel) {
+    private fun updateContent(model: HourlyUiModel) {
         setContent {
-            //AppTheme {
-                //Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             AppScaffold(
-                title = stringResource(R.string.app_name),
+                title = "${model.date} - ${model.day}",
                 onBack = { finish() },
             ) {
                     DetailScreen(
-                        //modifier = Modifier.padding(innerPadding),
-                        model = hourlyUiModel,
+                        model = model,
                         onRestoreAllHours = { viewModel.clearIgnoredHours() },
                         onIgnoreHour = { time -> viewModel.onIgnoreHour(time) },
                     )
                 }
-            //}
         }
     }
 

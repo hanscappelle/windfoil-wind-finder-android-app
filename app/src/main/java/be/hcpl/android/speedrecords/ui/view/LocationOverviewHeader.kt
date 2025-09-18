@@ -1,14 +1,17 @@
 package be.hcpl.android.speedrecords.ui.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,6 +31,9 @@ fun LocationOverviewHeader(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = spacedBy(8.dp),
+        modifier = Modifier.background(
+            MaterialTheme.colorScheme.primaryContainer,
+        ).padding(8.dp)
     ) {
 
         Text(
@@ -57,6 +63,6 @@ fun LocationOverviewHeader(
             modifier = Modifier.clickable(onClick = onShowAppInfo)
         )
         //    imageVector = Icons.Default.Build,
-            //imageVector = Icons.Default.DateRange,
+        //imageVector = Icons.Default.DateRange,
     }
 }

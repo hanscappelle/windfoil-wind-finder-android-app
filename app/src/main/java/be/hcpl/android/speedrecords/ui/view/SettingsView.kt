@@ -18,13 +18,14 @@ import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
 @Composable
 fun SettingsView(
     model: SettingsUiModel,
+    modifier: Modifier = Modifier,
     onChangeModel: () -> Unit = {},
     onChangeThreshold: () -> Unit = {},
     onChangeForecastDays: () -> Unit = {},
     onChangeUnit: () -> Unit = {},
 ) {
     Column(
-        Modifier
+        modifier
             .fillMaxWidth()
     ) {
         // Table header with some background
