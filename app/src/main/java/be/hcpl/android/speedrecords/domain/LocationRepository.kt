@@ -17,7 +17,7 @@ interface LocationRepository {
 
     sealed class Result {
         data class Data(val locations: List<LocationData>) : Result()
-        data object Success : Result()
+        data class Success(val location: LocationData) : Result()
         data class Failed(val message: String? = null) : Result()
     }
 }
@@ -43,6 +43,10 @@ class LocationRepositoryImpl(
         )
     )
 
+    init {
+        retrieveLocations()
+    }
+
     override fun locationByName(name: String) =
         localLocations.find { it.name == name }?.let { Result.Data(listOf(it)) } ?: Result.Failed()
 
@@ -56,7 +60,7 @@ class LocationRepositoryImpl(
             changed.add(newLocation)
             // and store in preferences
             persistLocations(changed)
-            Result.Success
+            Result.Success(newLocation)
         } catch (_: Exception) {
             Result.Failed("wrong location format")
         }
@@ -70,12 +74,11 @@ class LocationRepositoryImpl(
             lng = split?.get(1)?.replace(",", ".")?.toDouble() ?: 0.0,
         )
 
-
     override fun dropLocation(location: LocationData): Result {
         val changed = localLocations.toMutableList()
         return if (changed.remove(location)) {
             persistLocations(changed)
-            Result.Success
+            Result.Success(location)
         } else Result.Failed()
     }
 
@@ -103,9 +106,10 @@ class LocationRepositoryImpl(
             var atIndex = localLocations.indexOf(matchedLocation)
             val changed = localLocations.toMutableList()
             changed.remove(matchedLocation)
-            changed.add(atIndex, matchedLocation.copy(name = newName))
+            val newLocation = matchedLocation.copy(name = newName)
+            changed.add(atIndex, newLocation)
             persistLocations(changed)
-            Result.Success
+            Result.Success(newLocation)
         }
     }
 }

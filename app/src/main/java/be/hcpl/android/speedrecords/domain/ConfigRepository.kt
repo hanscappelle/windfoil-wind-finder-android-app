@@ -106,7 +106,7 @@ class ConfigRepositoryImpl(
                 when (val result = locationRepository.locationByName(it.key)){
                     is LocationRepository.Result.Data -> result.locations.first()
                     is LocationRepository.Result.Failed,
-                    LocationRepository.Result.Success -> LocationData(it.key, 0.0, 0.0)
+                    is LocationRepository.Result.Success -> LocationData(it.key, 0.0, 0.0)
                 }
                  }
         } else emptyMap()

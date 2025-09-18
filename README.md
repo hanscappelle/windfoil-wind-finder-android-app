@@ -74,6 +74,7 @@ fetch their data up front and not change it on every action in the app.
 - coloured theme added, created with https://material-foundation.github.io/material-theme-builder/
 - more layout optimalisations
 - cache last weather information details
+- do not trigger full data refresh on rename
 
 ### 0.8.0
 

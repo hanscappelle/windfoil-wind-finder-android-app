@@ -25,7 +25,7 @@ class MainViewModel(
     val state = MutableLiveData<State>()
     val events = MutableLiveData<Event>()
 
-    val weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
+    var weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
     var refreshing = true
     var convertToFahrenheit = configRepository.shouldConvertUnits().convertUnits
 
@@ -57,7 +57,7 @@ class MainViewModel(
             when (data) {
                 is LocationRepository.Result.Data -> handleReceivedLocations(data.locations)
                 is LocationRepository.Result.Failed,
-                LocationRepository.Result.Success,
+                is LocationRepository.Result.Success,
                     -> handleError()
             }
         }
@@ -97,16 +97,22 @@ class MainViewModel(
         var sharedText: String? = intent.getStringExtra(Intent.EXTRA_TEXT)
         val result = locationRepository.addNewLocation(sharedText)
         when (result) {
-            LocationRepository.Result.Success -> updateAllData()
+            is LocationRepository.Result.Success -> updateAllData()
             is LocationRepository.Result.Failed -> handleError(result.message)
             is LocationRepository.Result.Data -> handleError()
         }
     }
 
     fun updateLocationName(oldName: String, newName: String) {
-        val result = locationRepository.renameLocation(oldName, newName)
-        when (result) {
-            LocationRepository.Result.Success -> updateAllData()
+        when (val result = locationRepository.renameLocation(oldName, newName)) {
+            is LocationRepository.Result.Success -> {
+                // TODO back to val
+                //update name locally before refresh UI
+                weatherData = weatherData.mapKeys { if (it.key.name == oldName) it.key.copy(name = newName) else it.key }.toMutableMap()
+                refreshUi()
+                configRepository.updateCachedWeatherData(weatherData)
+            }
+
             is LocationRepository.Result.Failed -> handleError(result.message)
             is LocationRepository.Result.Data -> handleError()
         }
@@ -123,7 +129,7 @@ class MainViewModel(
         val matchedLocation = weatherData.keys.find { it.name == name }
         matchedLocation?.let {
             when (locationRepository.dropLocation(matchedLocation)) {
-                LocationRepository.Result.Success -> updateAllData()
+                is LocationRepository.Result.Success -> updateAllData()
                 is LocationRepository.Result.Data,
                 is LocationRepository.Result.Failed,
                     -> handleError()
