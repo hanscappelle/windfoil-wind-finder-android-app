@@ -2,11 +2,8 @@ package be.hcpl.android.speedrecords.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +36,7 @@ fun DetailScreen(
     Column(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = spacedBy(8.dp),
-        modifier = modifier.padding(8.dp),
+        modifier = modifier,
     ) {
 
         HourlyHeader(
@@ -47,15 +44,10 @@ fun DetailScreen(
             onRestoreAllHours = { confirmDialog.value = true },
         )
 
-        HorizontalDivider(
-            modifier = Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-        )
-
         LazyColumn(
             horizontalAlignment = Alignment.Start,
             //verticalArrangement = spacedBy(8.dp),
+            modifier = modifier.padding(8.dp),
         ) {
             model.hourly.forEach { hour, data ->
                 item {
