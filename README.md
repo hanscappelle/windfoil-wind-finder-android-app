@@ -69,6 +69,10 @@ fetch their data up front and not change it on every action in the app.
 
 # Version History
 
+### 0.9.1
+
+- bugfix loading detail view from cached data
+
 ### 0.9.0
 
 - coloured theme added, created with https://material-foundation.github.io/material-theme-builder/

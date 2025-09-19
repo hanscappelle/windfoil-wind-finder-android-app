@@ -32,7 +32,7 @@ class WeatherRepositoryImpl(
 
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-    private val cachedData: MutableMap<LocationData, WeatherData> = mutableMapOf()
+    private val cachedData: MutableMap<LocationData, WeatherData> = settings.retrieveCachedWeatherData().toMutableMap()
 
     override suspend fun forecast(locationData: LocationData): Result {
         // using coroutines, always give the results for today + 10 days
@@ -57,5 +57,5 @@ class WeatherRepositoryImpl(
     }
 
     override fun cachedForecastFor(locationData: LocationData) =
-        cachedData.get(locationData)?.let { Result.Success(it) } ?: Result.Failed("no cached data")
+        cachedData[locationData]?.let { Result.Success(it) } ?: Result.Failed("no cached data")
 }
