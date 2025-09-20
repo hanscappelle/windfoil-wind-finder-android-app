@@ -69,6 +69,11 @@ fetch their data up front and not change it on every action in the app.
 
 # Version History
 
+### 0.10.0
+
+- better marking of high wind speed values
+- improve dark theme (revert to black)
+
 ### 0.9.1
 
 - bugfix loading detail view from cached data

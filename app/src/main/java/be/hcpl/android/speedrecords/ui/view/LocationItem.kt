@@ -33,8 +33,9 @@ fun LocationItem(
     model: LocationItemUiModel,
     onOpenDetail: (String, String, String) -> Unit = { _, _, _ -> },
 ) {
-
     model.hourlyForecast?.daily?.forEach {
+        val highMinValue = (it.value.windSpeedAt10mMin ?: 0) >= model.windThreshold
+        val highMaxValue = (it.value.windSpeedAt10mMax ?: 0) >= model.windThreshold
         Card(
             colors= CardColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -71,13 +72,15 @@ fun LocationItem(
                 ) {
                     Text(
                         text = "min ${it.value.windSpeedAt10mMin ?: "-"} ${stringResource(R.string.unit_knots)}",
-                        fontWeight = if ((it.value.windSpeedAt10mMin ?: 0) >= model.windThreshold) FontWeight.Bold else FontWeight.Normal,
-                        fontStyle = if ((it.value.windSpeedAt10mMin ?: 0) >= model.windThreshold) FontStyle.Italic else FontStyle.Normal,
+                        fontWeight = if (highMinValue) FontWeight.Bold else FontWeight.Normal,
+                        fontStyle = if (highMinValue) FontStyle.Italic else FontStyle.Normal,
+                        color = if (highMinValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Text(
                         text = "max ${it.value.windSpeedAt10mMax ?: "-"} ${stringResource(R.string.unit_knots)}",
-                        fontWeight = if ((it.value.windSpeedAt10mMax ?: 0) >= model.windThreshold) FontWeight.Bold else FontWeight.Normal,
-                        fontStyle = if ((it.value.windSpeedAt10mMax ?: 0) >= model.windThreshold) FontStyle.Italic else FontStyle.Normal,
+                        fontWeight = if (highMaxValue) FontWeight.Bold else FontWeight.Normal,
+                        fontStyle = if (highMaxValue) FontStyle.Italic else FontStyle.Normal,
+                        color = if (highMaxValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
                 it.value.weatherIcon?.let { icon ->

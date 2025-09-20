@@ -35,8 +35,10 @@ fun HourlyItem(
     onIgnoreHour: (String) -> Unit = {},
 ) {
 
+    val isHighValue = (model.windSpeedAt10m ?: 0) >= model.windThreshold
+
     Card(
-        colors= CardColors(
+        colors = CardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             disabledContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -59,8 +61,9 @@ fun HourlyItem(
             ) {
                 Text(
                     text = "${stringResource(R.string.label_wind)} ${model.windSpeedAt10m ?: "-"} ${stringResource(R.string.unit_knots)}",
-                    fontWeight = if ((model.windSpeedAt10m ?: 0) >= model.windThreshold) FontWeight.Bold else FontWeight.Normal,
-                    fontStyle = if ((model.windSpeedAt10m ?: 0) >= model.windThreshold) FontStyle.Italic else FontStyle.Normal,
+                    fontWeight = if (isHighValue) FontWeight.Bold else FontWeight.Normal,
+                    fontStyle = if (isHighValue) FontStyle.Italic else FontStyle.Normal,
+                    color = if (isHighValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Text(text = "${stringResource(R.string.label_gusts)} ${model.windGustsAt10m ?: "-"} ${stringResource(R.string.unit_knots)}")
             }
