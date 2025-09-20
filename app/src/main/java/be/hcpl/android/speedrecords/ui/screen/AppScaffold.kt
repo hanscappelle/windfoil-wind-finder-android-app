@@ -1,6 +1,5 @@
 package be.hcpl.android.speedrecords.ui.screen
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.padding
@@ -9,13 +8,16 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import be.hcpl.android.speedrecords.R
@@ -32,16 +34,18 @@ fun AppScaffold(
         Scaffold(
             topBar = {
                 TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        // needed for the top image to show through
+                        containerColor = Color.Transparent,
+                        titleContentColor = Color.Black,
+                        navigationIconContentColor = Color.Black,
+                        actionIconContentColor = Color.Black,
+                    ),
                     title = { Text(text = title) },
-                    colors =
-                    if (!isSystemInDarkTheme()) {
-                        TopAppBarDefaults.topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                            actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                        )
-                    } else TopAppBarDefaults.topAppBarColors(),
+                    modifier = Modifier.paint(
+                        painter = painterResource(R.drawable.play_store_512),
+                        contentScale = ContentScale.FillBounds,
+                    ),
                     navigationIcon = {
                         onBack?.let {
                             IconButton(onClick = { onBack() }) {
@@ -51,11 +55,12 @@ fun AppScaffold(
                                 )
                             }
                         }
-                    }
+                    },
                 )
             }) { innerPadding ->
             Column(
-                modifier = Modifier.padding(innerPadding),
+                modifier = Modifier
+                    .padding(innerPadding),
             ) {
                 content()
             }

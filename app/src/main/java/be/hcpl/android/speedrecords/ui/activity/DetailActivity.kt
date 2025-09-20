@@ -46,7 +46,7 @@ class DetailActivity : ComponentActivity() {
     private fun updateContent(model: HourlyUiModel) {
         setContent {
             AppScaffold(
-                title = "${model.date} - ${model.day}",
+                title = "",
                 onBack = { finish() },
             ) {
                     DetailScreen(

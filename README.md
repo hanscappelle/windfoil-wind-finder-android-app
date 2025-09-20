@@ -69,6 +69,11 @@ fetch their data up front and not change it on every action in the app.
 
 # Version History
 
+### 0.11.0
+
+- new app icon
+- graphics in header
+
 ### 0.10.0
 
 - better marking of high wind speed values
