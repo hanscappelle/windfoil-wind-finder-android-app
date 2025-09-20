@@ -9,8 +9,7 @@ forecast for each given location.
 Available from Google Play: https://play.google.com/store/apps/details?id=be.hcpl.android.speedrecords
 The weather model and some of the settings are configurable to show only the information you need. 
 
-<img width="320" src="release/Screenshot_20250920_105428.png"/> 
-<img width="320" src="release/Screenshot_20250920_110446.png"/>
+<img width="320" src="release/Screenshot_20250920_105428.png"/> <img width="320" src="release/Screenshot_20250920_110446.png"/>
 
 ## How to Use
 
