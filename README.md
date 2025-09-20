@@ -157,7 +157,6 @@ Initial app release
 - allow for easy location input from in app map
 - (opt) config for how many days in the past
 - Implement notifications
-- improve app icon (use blue color from theme)
 
 # Resources
 
