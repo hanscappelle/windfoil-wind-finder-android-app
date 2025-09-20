@@ -70,7 +70,7 @@ class WeatherDataUiModelTransformerImpl(
     private fun convert(shouldConvert: Boolean, value: Double?): String {
         val convertedValue = if (shouldConvert) (((value ?: 0.0) * 9 / 5) + 32).toInt() else value?.toInt()
         val unit = if (shouldConvert) "°F" else "°C"
-        return "${convertedValue ?: "-"} $unit"
+        return "${convertedValue ?: "-"}$unit"
     }
 
     override fun transformDetail(

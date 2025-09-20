@@ -4,10 +4,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -46,12 +49,14 @@ fun HourlyItem(
             disabledContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
             disabledContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
         ) else CardDefaults.cardColors(),
-        modifier = Modifier.padding(4.dp),
+        modifier = Modifier
+            .padding(4.dp)
+            .heightIn(max=64.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = spacedBy(8.dp),
-            modifier = Modifier.padding(4.dp),
+            //horizontalArrangement = spacedBy(2.dp),
+            modifier = Modifier.padding(horizontal = 4.dp, vertical = 0.dp),
         ) {
             Text(
                 text = "${model.displayTime}h",
@@ -69,42 +74,59 @@ fun HourlyItem(
                 )
                 Text(text = "${stringResource(R.string.label_gusts)} ${model.windGustsAt10m ?: "-"} ${stringResource(R.string.unit_knots)}")
             }
+            //Box(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = spacedBy(2.dp),
                 modifier = Modifier.weight(1f),
+                //modifier = Modifier.weight(1f).fillMaxHeight(),
             ) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowUp,
                     contentDescription = null,
-                    modifier = Modifier.rotate((model.windDirectionAt10m?.toFloat() ?: 0f) + 180)
+                    modifier = Modifier
+                        .rotate((model.windDirectionAt10m?.toFloat() ?: 0f) + 180)
+                        .size(32.dp)
+                        .padding(0.dp)
+                        //.align(Alignment.TopCenter)
                 )
                 Text(
-                    text = "${model.windDirectionAt10m} °",
+                    text = "${model.windDirectionAt10m}°",
                     textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    modifier = Modifier
+                        .padding(bottom = 4.dp)
+                        //.align(Alignment.BottomCenter)
                 )
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = spacedBy(2.dp),
             ) {
-                Text(text = "${stringResource(R.string.label_cover)} ${model.cloudCover} %")
+                Text(text = "${stringResource(R.string.label_cover)} ${model.cloudCover}%")
                 Text(text = "${model.precipitation} mm")
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = spacedBy(2.dp),
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f)
+                    //.fillMaxHeight(),
             ) {
                 model.weatherIcon?.let {
                     Image(
                         painter = painterResource(id = it),
                         contentDescription = model.weatherDescription,
                         modifier = Modifier.size(32.dp)
+                            .padding(0.dp)
+                                //.align(Alignment.TopCenter)
                     )
                 }
                 Text(
                     text = model.temperature,
+                    maxLines = 1,
+                    modifier = Modifier
+                        //.align(Alignment.BottomCenter)
+                        .padding(bottom = 4.dp)
                 )
             }
             Icon(
@@ -152,4 +174,25 @@ fun HourlyItemPreviewLowValue() {
             weatherDescription = "weather description",
         )
     )
+}
+
+@Composable
+@Preview(locale = "nl")
+fun HourlyItemPreviewLowValueDutch300Device() {
+    Box(modifier = Modifier.width(300.dp)) {
+        HourlyItem(
+            HourlyValueUiModel(
+                time = "2025-12-30T12:00",
+                displayTime = "12",
+                temperature = "20°C",
+                precipitation = 0.2,
+                cloudCover = 100,
+                windSpeedAt10m = 9,
+                windDirectionAt10m = 40,
+                windGustsAt10m = 12,
+                weatherIcon = R.drawable.wmo_10d,
+                weatherDescription = "weather description",
+            )
+        )
+    }
 }
