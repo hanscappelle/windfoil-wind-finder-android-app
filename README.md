@@ -9,7 +9,8 @@ forecast for each given location.
 Available from Google Play: https://play.google.com/store/apps/details?id=be.hcpl.android.speedrecords
 The weather model and some of the settings are configurable to show only the information you need. 
 
-<img width="320" src="release/Screenshot_20250915_140707.png"/> <img width="320" src="release/Screenshot_20250915_140721.png"/>
+<img width="320" src="release/Screenshot_20250920_105428.png"/> 
+<img width="320" src="release/Screenshot_20250920_110446.png"/>
 
 ## How to Use
 
@@ -157,6 +158,12 @@ Initial app release
 - allow for easy location input from in app map
 - (opt) config for how many days in the past
 - Implement notifications
+
+## Bugs
+
+- after renaming cached data is no longer found
+- useless now with big header on phone in landscape
+- on missing data in detail no clear indication on how to navigate back
 
 # Resources
 
