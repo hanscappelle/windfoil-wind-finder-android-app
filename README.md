@@ -67,7 +67,7 @@ This manual refresh was added to reduce the number of requests to the public
 weather API. And it will also help people with bad connection that need to 
 fetch their data up front and not change it on every action in the app. 
 
-# Version History
+## Version History
 
 ### 0.11.0
 
@@ -100,14 +100,14 @@ fetch their data up front and not change it on every action in the app.
 - layout improvements
 - rotate arrow for wind direction
 
-## 0.6.0
+### 0.6.0
 
 - set number of days to fetch in the future
 - configured threshold for marking values
 - moved settings to a table on top
 - changed icons on top to info dialogs
 
-## 0.5.0
+### 0.5.0
 
 - layout improvements
 - render current settings on overview screen
@@ -118,20 +118,20 @@ fetch their data up front and not change it on every action in the app.
   - METEO_FRANCE("meteofrance_seamless", WeatherModel.ARPEGE_AROME),
   - KNMI("knmi_seamless", WeatherModel.HARMONIE),
 
-## 0.4.0
+### 0.4.0
 
 - show error when parsing location failed
 - added support for fahrenheit
 - also show name of day in detail view
 
-## 0.3.0
+### 0.3.0
 
 - icons for weather indication
 - show wind direction with icon
 - added pull to refresh
 - show error on problems
 
-## 0.2.0
+### 0.2.0
 
 - improved app icon
 - layout improvements
@@ -139,14 +139,14 @@ fetch their data up front and not change it on every action in the app.
 - bugfix navigation on rotation
 - fix system bar colors
 
-## 0.1.1
+### 0.1.1
 
 - fixed back handling
 - add selected date on top for detail view
 - fix adding locations in other formats
 - added confirmation before restoring all hours
 
-## 0.1.0
+### 0.1.0
 
 Initial app release
 
