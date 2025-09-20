@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -265,7 +266,7 @@ fun AppTheme(
     val view = LocalView.current
     val window = (view.context as Activity).window
     // here change the status bar element color
-    //WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
+    WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
 
     MaterialTheme(
         colorScheme = colorScheme,

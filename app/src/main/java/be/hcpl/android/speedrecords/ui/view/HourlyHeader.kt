@@ -2,6 +2,7 @@ package be.hcpl.android.speedrecords.ui.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.heightIn
@@ -32,7 +33,7 @@ fun HourlyHeader(
         modifier = Modifier
             .heightIn(min = 48.dp)
             .background(
-                MaterialTheme.colorScheme.primaryContainer,
+                if (isSystemInDarkTheme()) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.primaryContainer,
             )
             .padding(8.dp)
     ) {

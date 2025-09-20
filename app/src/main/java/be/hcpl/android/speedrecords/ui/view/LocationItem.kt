@@ -1,6 +1,7 @@
 package be.hcpl.android.speedrecords.ui.view
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -37,12 +39,12 @@ fun LocationItem(
         val highMinValue = (it.value.windSpeedAt10mMin ?: 0) >= model.windThreshold
         val highMaxValue = (it.value.windSpeedAt10mMax ?: 0) >= model.windThreshold
         Card(
-            colors= CardColors(
+            colors = if (!isSystemInDarkTheme()) CardColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 disabledContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 disabledContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-            ),
+            ) else CardDefaults.cardColors(),
             modifier = Modifier.padding(4.dp),
             onClick = { onOpenDetail(model.locationName, it.value.time.orEmpty(), it.value.displayDay.orEmpty()) },
         ) {

@@ -150,8 +150,7 @@ Initial app release
 ## Features & TODO 
 
 - allow for easy location input from in app map
-- Custom Config Options
-  - (opt) how many days in the past
+- (opt) config for how many days in the past
 - Implement notifications
 - improve app icon (use blue color from theme)
 
