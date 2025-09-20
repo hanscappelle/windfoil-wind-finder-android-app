@@ -150,15 +150,15 @@ fetch their data up front and not change it on every action in the app.
 
 Initial app release
 
-# TODO
+## TODO
 
-## Features & TODO 
+### Features & TODO 
 
 - allow for easy location input from in app map
 - (opt) config for how many days in the past
 - Implement notifications
 
-## Bugs
+### Bugs
 
 - after renaming cached data is no longer found
 - useless now with big header on phone in landscape
