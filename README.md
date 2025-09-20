@@ -69,6 +69,10 @@ fetch their data up front and not change it on every action in the app.
 
 ## Version History
 
+### 0.12.0
+
+- layout fix for dutch version with 100% cloud coverage
+
 ### 0.11.0
 
 - new app icon
@@ -160,7 +164,6 @@ Initial app release
 
 ### Bugs
 
-- after renaming cached data is no longer found
 - useless now with big header on phone in landscape
 - on missing data in detail no clear indication on how to navigate back
 
