@@ -2,13 +2,13 @@ package be.hcpl.android.speedrecords.ui.transformer
 
 import android.content.Context
 import be.hcpl.android.speedrecords.R
-import be.hcpl.android.speedrecords.domain.AssetRepository
-import be.hcpl.android.speedrecords.domain.ConfigRepository
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_THRESHOLD
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.UnitType
 import be.hcpl.android.speedrecords.domain.model.WeatherData
+import be.hcpl.android.speedrecords.domain.repository.AssetRepository
+import be.hcpl.android.speedrecords.domain.repository.ConfigRepository
 import be.hcpl.android.speedrecords.ui.model.DailyValueUiModel
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
 import be.hcpl.android.speedrecords.ui.model.HourlyValueUiModel

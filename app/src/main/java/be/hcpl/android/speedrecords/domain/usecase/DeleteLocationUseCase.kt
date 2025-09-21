@@ -1,7 +1,7 @@
 package be.hcpl.android.speedrecords.domain.usecase
 
-import be.hcpl.android.speedrecords.domain.ConfigRepository
-import be.hcpl.android.speedrecords.domain.LocationRepository
+import be.hcpl.android.speedrecords.domain.repository.ConfigRepository
+import be.hcpl.android.speedrecords.domain.repository.LocationRepository
 import be.hcpl.android.speedrecords.domain.usecase.DeleteLocationUseCase.Result.Failed
 import be.hcpl.android.speedrecords.domain.usecase.DeleteLocationUseCase.Result.Success
 

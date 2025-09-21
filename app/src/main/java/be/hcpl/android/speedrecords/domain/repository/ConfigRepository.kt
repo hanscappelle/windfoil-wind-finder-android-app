@@ -1,8 +1,7 @@
-package be.hcpl.android.speedrecords.domain
+package be.hcpl.android.speedrecords.domain.repository
 
 import android.content.Context
 import be.hcpl.android.speedrecords.R
-import be.hcpl.android.speedrecords.domain.ConfigRepository.Result.Settings
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_THRESHOLD
 import be.hcpl.android.speedrecords.domain.model.DataSource
@@ -20,16 +19,16 @@ interface ConfigRepository {
     fun getIgnoredHours(): Result
     fun ignoreHour(time: String): Result
     fun clearIgnoredHours(): Result
-    fun toggleConvertUnits(current: Boolean): Settings
-    fun shouldConvertUnits(): Settings
+    fun toggleConvertUnits(current: Boolean): Result.Settings
+    fun shouldConvertUnits(): Result.Settings
 
     fun currentModel(): DataSource
     fun updateModel(model: DataSource): Result
     fun toggleModel(): DataSource
-    fun currentThreshold(): Settings
-    fun toggleThreshold(): Settings
-    fun currentForecastDays(): Settings
-    fun toggleForecastDays(): Settings
+    fun currentThreshold(): Result.Settings
+    fun toggleThreshold(): Result.Settings
+    fun currentForecastDays(): Result.Settings
+    fun toggleForecastDays(): Result.Settings
 
     fun retrieveCachedWeatherData(): Map<LocationData, WeatherData>
     fun updateCachedWeatherData(data: Map<LocationData, WeatherData>)
@@ -89,12 +88,12 @@ class ConfigRepositoryImpl(
         sharedPref.edit().putString(PREF_KEY_IGNORED_HOURS, gson.toJson(hours)).apply()
     }
 
-    override fun toggleConvertUnits(current: Boolean): Settings {
+    override fun toggleConvertUnits(current: Boolean): ConfigRepository.Result.Settings {
         sharedPref.edit().putBoolean(PREF_KEY_CONVERT_UNITS, !current).apply()
-        return Settings(!current)
+        return ConfigRepository.Result.Settings(!current)
     }
 
-    override fun shouldConvertUnits() = Settings(sharedPref.getBoolean(PREF_KEY_CONVERT_UNITS, false))
+    override fun shouldConvertUnits() = ConfigRepository.Result.Settings(sharedPref.getBoolean(PREF_KEY_CONVERT_UNITS, false))
 
     override fun currentModel() = sharedPref.getString(PREF_KEY_MODEL, null)?.let { json -> gson.fromJson(json, DataSource::class.java) }
         ?: DataSource.ECMWF
@@ -157,11 +156,11 @@ class ConfigRepositoryImpl(
         return nextModel
     }
 
-    override fun currentThreshold() = Settings(
+    override fun currentThreshold() = ConfigRepository.Result.Settings(
         markWindThreshold = sharedPref.getInt(PREF_KEY_MARK_THRESHOLD, DEFAULT_THRESHOLD)
     )
 
-    override fun toggleThreshold(): Settings {
+    override fun toggleThreshold(): ConfigRepository.Result.Settings {
         var current = currentThreshold().markWindThreshold ?: DEFAULT_THRESHOLD
         shrinking = when {
             current >= RANGE_MAX_THRESHOLD || shrinking && current > RANGE_MIN_THRESHOLD -> {
@@ -178,11 +177,11 @@ class ConfigRepositoryImpl(
         return currentThreshold()
     }
 
-    override fun currentForecastDays() = Settings(
+    override fun currentForecastDays() = ConfigRepository.Result.Settings(
         forecastDays = sharedPref.getInt(PREF_KEY_FORECAST_DAYS, DEFAULT_FORECAST_DAYS)
     )
 
-    override fun toggleForecastDays(): Settings {
+    override fun toggleForecastDays(): ConfigRepository.Result.Settings {
         var current = currentForecastDays().forecastDays ?: DEFAULT_FORECAST_DAYS
         shrinking = when {
             current >= RANGE_MAX_FORECAST_DAYS || shrinking && current > RANGE_MIN_FORECAST_DAYS -> {

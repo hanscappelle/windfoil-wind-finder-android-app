@@ -1,7 +1,7 @@
 package be.hcpl.android.speedrecords.domain.usecase
 
 import android.net.Uri
-import be.hcpl.android.speedrecords.domain.LocationRepository
+import be.hcpl.android.speedrecords.domain.repository.LocationRepository
 import be.hcpl.android.speedrecords.domain.usecase.ShowLocationUseCase.Result.Success
 
 class ShowLocationUseCase(

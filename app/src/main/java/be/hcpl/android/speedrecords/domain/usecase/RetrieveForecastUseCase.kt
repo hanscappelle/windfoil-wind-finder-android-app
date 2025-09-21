@@ -1,10 +1,10 @@
 package be.hcpl.android.speedrecords.domain.usecase
 
-import be.hcpl.android.speedrecords.domain.ConfigRepository
-import be.hcpl.android.speedrecords.domain.LocationRepository
-import be.hcpl.android.speedrecords.domain.WeatherRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.WeatherData
+import be.hcpl.android.speedrecords.domain.repository.ConfigRepository
+import be.hcpl.android.speedrecords.domain.repository.LocationRepository
+import be.hcpl.android.speedrecords.domain.repository.WeatherRepository
 import kotlin.collections.forEach
 
 class RetrieveForecastUseCase(

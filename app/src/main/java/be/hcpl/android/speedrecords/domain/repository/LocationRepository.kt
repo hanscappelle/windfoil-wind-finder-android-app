@@ -1,9 +1,9 @@
-package be.hcpl.android.speedrecords.domain
+package be.hcpl.android.speedrecords.domain.repository
 
 import android.content.Context
 import be.hcpl.android.speedrecords.R
-import be.hcpl.android.speedrecords.domain.LocationRepository.Result
 import be.hcpl.android.speedrecords.domain.model.LocationData
+import be.hcpl.android.speedrecords.domain.repository.LocationRepository.Result
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

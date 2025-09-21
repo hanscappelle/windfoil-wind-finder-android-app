@@ -1,12 +1,12 @@
-package be.hcpl.android.speedrecords.domain
+package be.hcpl.android.speedrecords.domain.repository
 
 import be.hcpl.android.speedrecords.api.OpenWeatherService
 import be.hcpl.android.speedrecords.api.contract.WeatherResponse
 import be.hcpl.android.speedrecords.api.transformer.WeatherTransformer
-import be.hcpl.android.speedrecords.domain.WeatherRepository.Result
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.WeatherData
+import be.hcpl.android.speedrecords.domain.repository.WeatherRepository.Result
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar

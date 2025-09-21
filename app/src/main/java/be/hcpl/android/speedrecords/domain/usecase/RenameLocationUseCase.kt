@@ -1,8 +1,8 @@
 package be.hcpl.android.speedrecords.domain.usecase
 
-import be.hcpl.android.speedrecords.domain.ConfigRepository
-import be.hcpl.android.speedrecords.domain.LocationRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
+import be.hcpl.android.speedrecords.domain.repository.ConfigRepository
+import be.hcpl.android.speedrecords.domain.repository.LocationRepository
 
 class RenameLocationUseCase(
     private val configRepository: ConfigRepository,

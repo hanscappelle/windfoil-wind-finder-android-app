@@ -2,11 +2,11 @@ package be.hcpl.android.speedrecords.ui.activity
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import be.hcpl.android.speedrecords.domain.ConfigRepository
-import be.hcpl.android.speedrecords.domain.LocationRepository
-import be.hcpl.android.speedrecords.domain.WeatherRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.WeatherData
+import be.hcpl.android.speedrecords.domain.repository.ConfigRepository
+import be.hcpl.android.speedrecords.domain.repository.LocationRepository
+import be.hcpl.android.speedrecords.domain.repository.WeatherRepository
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
 

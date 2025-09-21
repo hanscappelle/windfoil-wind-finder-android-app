@@ -1,4 +1,4 @@
-package be.hcpl.android.speedrecords.domain
+package be.hcpl.android.speedrecords.domain.repository
 
 import be.hcpl.android.speedrecords.R
 
