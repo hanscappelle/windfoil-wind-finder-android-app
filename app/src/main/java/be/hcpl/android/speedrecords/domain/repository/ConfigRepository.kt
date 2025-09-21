@@ -58,8 +58,8 @@ class ConfigRepositoryImpl(
 
     private var ignoredHours = mutableListOf<String>()
 
-    // TODO use val here
-    private var weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
+    // single source of all cached weather data in app
+    private val weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
 
     init {
         getIgnoredHours()
@@ -108,7 +108,8 @@ class ConfigRepositoryImpl(
         // json only supports maps with string keys so we need to enrich the data
         return if (cachedDataJson != null) {
             val data: Map<String, WeatherData> = gson.fromJson(cachedDataJson, cachedDataType)
-            weatherData = data.mapKeys {
+            weatherData.clear()
+            weatherData.putAll(data.mapKeys {
                 when (val result = locationRepository.locationByName(it.key)) {
                     is LocationRepository.Result.Success -> result.location
                     is LocationRepository.Result.Data,
@@ -116,14 +117,14 @@ class ConfigRepositoryImpl(
                     is LocationRepository.Result.Renamed,
                         -> LocationData(it.key, 0.0, 0.0)
                 }
-            }.toMutableMap()
+            })
             weatherData
         } else emptyMap()
     }
 
     override fun updateCachedWeatherData(data: Map<LocationData, WeatherData>) {
-        // TODO back to val
-        weatherData = data.toMutableMap()
+        weatherData.clear()
+        weatherData.putAll(data)
         sharedPref.edit().putString(PREF_KEY_CACHED_DATA, gson.toJson(data.mapKeys { it.key.name }, cachedDataType)).apply()
     }
 
@@ -131,7 +132,8 @@ class ConfigRepositoryImpl(
         oldLocation: LocationData,
         newLocation: LocationData,
     ) {
-        updateCachedWeatherData(weatherData.mapKeys { if (it.key.name == oldLocation.name) it.key.copy(name = newLocation.name) else it.key }.toMutableMap())
+        updateCachedWeatherData(weatherData.mapKeys { if (it.key.name == oldLocation.name) it.key.copy(name = newLocation.name) else it.key }
+            .toMutableMap())
     }
 
     override fun addToCachedWeatherData(
