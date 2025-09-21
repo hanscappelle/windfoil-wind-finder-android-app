@@ -38,9 +38,9 @@ val appModule = module {
     factoryOf(::WeatherTransformerImpl) { bind<WeatherTransformer>() }
     factoryOf(::WeatherDataUiModelTransformerImpl) { bind<WeatherDataUiModelTransformer>() }
 
-    factoryOf(::WeatherRepositoryImpl) { bind<WeatherRepository>() }
-    singleOf(::LocationRepositoryImpl) { bind<LocationRepository>() }
     singleOf(::ConfigRepositoryImpl) { bind<ConfigRepository>() }
+    factoryOf(::WeatherRepositoryImpl) { bind<WeatherRepository>() }
+    factoryOf(::LocationRepositoryImpl) { bind<LocationRepository>() }
     factoryOf(::AssetRepositoryImpl) { bind<AssetRepository>() }
 
     factoryOf(::RetrieveForecastUseCase)

@@ -26,36 +26,23 @@ interface LocationRepository {
 class LocationRepositoryImpl(
     context: Context,
     private val gson: Gson,
+    private val configRepository: ConfigRepository,
 ) : LocationRepository {
 
     private val sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-
-    // some initial valid data to start with for clean app
-    private var localLocations = listOf(
-        LocationData(
-            "Espace Fun @ Lacs De l'Eau d'Heure",
-            50.1890147,
-            4.3504654,
-        ),
-        LocationData(
-            "Surfing Elephant @ De Haan",
-            51.3044498,
-            3.083262,
-        )
-    )
 
     init {
         retrieveLocations()
     }
 
     override fun locationByName(name: String) =
-        localLocations.find { it.name == name }?.let { Result.Success(it) } ?: Result.Failed()
+        configRepository.locationData.find { it.name == name }?.let { Result.Success(it) } ?: Result.Failed()
 
     override fun addNewLocation(received: String?): Result {
         // should be received as [50.1890147, 4.3504654] or [50.1890147, 4.3504654, location name]
         // TODO allow adding a name to this location (also in UI)
         return try {
-            val changed = localLocations.toMutableList()
+            val changed = configRepository.locationData.toMutableList()
             val split = received?.split(", ")
             val newLocation = extractLocationInfo(split, received)
             changed.add(newLocation)
@@ -76,7 +63,7 @@ class LocationRepositoryImpl(
         )
 
     override fun dropLocation(location: LocationData): Result {
-        val changed = localLocations.toMutableList()
+        val changed = configRepository.locationData.toMutableList()
         return if (changed.remove(location)) {
             persistLocations(changed)
             Result.Success(location)
@@ -88,24 +75,25 @@ class LocationRepositoryImpl(
         if (storedLocations != null) {
             val parsedLocations = gson.fromJson<List<LocationData>>(storedLocations, listOfLocationsType).toMutableList()
             if (parsedLocations.isNotEmpty()) {
-                localLocations = parsedLocations
+                configRepository.locationData = parsedLocations
             }
         }
-        return Result.Data(localLocations)
+        return Result.Data(configRepository.locationData)
     }
 
-    private fun persistLocations(locations: List<LocationData> = localLocations) {
+    private fun persistLocations(locations: List<LocationData> = configRepository.locationData) {
+        configRepository.locationData = locations
         sharedPref.edit().putString(PREF_KEY_STORED_LOCATIONS, gson.toJson(locations)).apply()
     }
 
     override fun renameLocation(oldName: String, newName: String): Result {
         // TODO we should really work with an ID instead of matching on name
-        var matchedLocation = localLocations.find { it.name == oldName }
+        var matchedLocation = configRepository.locationData.find { it.name == oldName }
         return if (matchedLocation == null) {
             Result.Failed()
         } else {
-            var atIndex = localLocations.indexOf(matchedLocation)
-            val changed = localLocations.toMutableList()
+            var atIndex = configRepository.locationData.indexOf(matchedLocation)
+            val changed = configRepository.locationData.toMutableList()
             changed.remove(matchedLocation)
             val newLocation = matchedLocation.copy(name = newName)
             changed.add(atIndex, newLocation)

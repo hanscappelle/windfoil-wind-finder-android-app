@@ -16,6 +16,9 @@ import com.google.gson.reflect.TypeToken
 
 interface ConfigRepository {
 
+    // TODO hide and provide functions
+    var locationData: List<LocationData>
+
     fun getIgnoredHours(): Result
     fun ignoreHour(time: String): Result
     fun clearIgnoredHours(): Result
@@ -51,7 +54,6 @@ interface ConfigRepository {
 class ConfigRepositoryImpl(
     context: Context,
     private val gson: Gson,
-    private val locationRepository: LocationRepository,
 ) : ConfigRepository {
 
     private val sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
@@ -60,6 +62,20 @@ class ConfigRepositoryImpl(
 
     // single source of all cached weather data in app
     private val weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
+
+    // some initial valid data to start with for clean app plus single source of locations data
+    override var locationData = listOf(
+        LocationData(
+            "Espace Fun @ Lacs De l'Eau d'Heure",
+            50.1890147,
+            4.3504654,
+        ),
+        LocationData(
+            "Surfing Elephant @ De Haan",
+            51.3044498,
+            3.083262,
+        )
+    )
 
     init {
         getIgnoredHours()
@@ -109,14 +125,8 @@ class ConfigRepositoryImpl(
         return if (cachedDataJson != null) {
             val data: Map<String, WeatherData> = gson.fromJson(cachedDataJson, cachedDataType)
             weatherData.clear()
-            weatherData.putAll(data.mapKeys {
-                when (val result = locationRepository.locationByName(it.key)) {
-                    is LocationRepository.Result.Success -> result.location
-                    is LocationRepository.Result.Data,
-                    is LocationRepository.Result.Failed,
-                    is LocationRepository.Result.Renamed,
-                        -> LocationData(it.key, 0.0, 0.0)
-                }
+            weatherData.putAll(data.mapKeys { entry ->
+                locationData.firstOrNull { it.name == entry.key } ?: LocationData(entry.key, 0.0, 0.0)
             })
             weatherData
         } else emptyMap()
