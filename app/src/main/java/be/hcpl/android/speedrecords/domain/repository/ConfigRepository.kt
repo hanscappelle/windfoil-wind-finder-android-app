@@ -16,9 +16,6 @@ import com.google.gson.reflect.TypeToken
 
 interface ConfigRepository {
 
-    // TODO hide and provide functions
-    var locationData: List<LocationData>
-
     fun getIgnoredHours(): Result
     fun ignoreHour(time: String): Result
     fun clearIgnoredHours(): Result
@@ -38,6 +35,8 @@ interface ConfigRepository {
     fun updateLocationName(oldLocation: LocationData, newLocation: LocationData)
     fun addToCachedWeatherData(location: LocationData, weatherData: WeatherData)
     fun dropFromCache(locationName: String)
+    fun cachedLocations(): List<LocationData>
+    fun updateCachedLocations(locations: List<LocationData>)
 
     sealed class Result {
         data class Data(val ignoredHours: List<String>) : Result()
@@ -64,7 +63,7 @@ class ConfigRepositoryImpl(
     private val weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
 
     // some initial valid data to start with for clean app plus single source of locations data
-    override var locationData = listOf(
+    private val locationData = mutableListOf(
         LocationData(
             "Espace Fun @ Lacs De l'Eau d'Heure",
             50.1890147,
@@ -156,6 +155,13 @@ class ConfigRepositoryImpl(
 
     override fun dropFromCache(locationName: String) {
         updateCachedWeatherData(weatherData.filter { it.key.name == locationName })
+    }
+
+    override fun cachedLocations() = locationData
+
+    override fun updateCachedLocations(locations: List<LocationData>) {
+        locationData.clear()
+        locationData.addAll(locations)
     }
 
     override fun toggleModel(): DataSource {
