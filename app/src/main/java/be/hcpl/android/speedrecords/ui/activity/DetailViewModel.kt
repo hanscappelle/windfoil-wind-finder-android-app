@@ -29,18 +29,18 @@ class DetailViewModel(
         day?.let { selectedDay = it }
         locationName?.let { name ->
             when (val result = locationRepository.locationByName(name)) {
-                is LocationRepository.Result.Data -> updateLocation(result)
+                is LocationRepository.Result.Success -> updateLocation(result.location)
                 is LocationRepository.Result.Failed,
-                is LocationRepository.Result.Success,
                 is LocationRepository.Result.Renamed,
+                is LocationRepository.Result.Data,
                     -> Unit
             }
         }
 
     }
 
-    private fun updateLocation(result: LocationRepository.Result.Data) {
-        result.locations.firstOrNull()?.let {
+    private fun updateLocation(location: LocationData) {
+        location.let {
             locationData = it
             when (val result = weatherRepository.cachedForecastFor(it)) {
                 is WeatherRepository.Result.Failed -> Unit

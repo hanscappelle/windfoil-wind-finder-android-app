@@ -49,7 +49,7 @@ class LocationRepositoryImpl(
     }
 
     override fun locationByName(name: String) =
-        localLocations.find { it.name == name }?.let { Result.Data(listOf(it)) } ?: Result.Failed()
+        localLocations.find { it.name == name }?.let { Result.Success(it) } ?: Result.Failed()
 
     override fun addNewLocation(received: String?): Result {
         // should be received as [50.1890147, 4.3504654] or [50.1890147, 4.3504654, location name]

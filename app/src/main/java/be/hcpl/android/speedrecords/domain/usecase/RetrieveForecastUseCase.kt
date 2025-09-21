@@ -37,7 +37,7 @@ class RetrieveForecastUseCase(
                     weatherData.put(location, result.data)
                 }
 
-                is WeatherRepository.Result.Failed -> handleError(result.reason)
+                is WeatherRepository.Result.Failed -> handleError(result.message)
             }
         }
         configRepository.updateCachedWeatherData(weatherData)

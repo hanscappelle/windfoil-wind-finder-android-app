@@ -19,7 +19,7 @@ interface WeatherRepository {
 
     sealed class Result {
         data class Success(val data: WeatherData) : Result()
-        data class Failed(val reason: String) : Result()
+        data class Failed(val message: String) : Result()
     }
 }
 

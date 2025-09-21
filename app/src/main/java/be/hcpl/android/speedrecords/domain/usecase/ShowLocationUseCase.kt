@@ -10,15 +10,13 @@ class ShowLocationUseCase(
 
     operator fun invoke(name: String): Result {
         return when (val result = locationRepository.locationByName(name)) {
-            is LocationRepository.Result.Data -> {
-                result.locations.firstOrNull()?.let { matchedLocation ->
-                    Success(Uri.parse("https://maps.google.com/maps?q=loc:" + matchedLocation.lat + "," + matchedLocation.lng + " (" + matchedLocation.name + ")"))
-                } ?: handleError()
+            is LocationRepository.Result.Success -> result.location.let { matchedLocation ->
+                Success(Uri.parse("https://maps.google.com/maps?q=loc:" + matchedLocation.lat + "," + matchedLocation.lng + " (" + matchedLocation.name + ")"))
             }
 
+            is LocationRepository.Result.Data,
             is LocationRepository.Result.Failed,
             is LocationRepository.Result.Renamed,
-            is LocationRepository.Result.Success,
                 -> handleError()
         }
     }

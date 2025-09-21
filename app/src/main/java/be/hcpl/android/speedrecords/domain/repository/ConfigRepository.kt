@@ -110,9 +110,9 @@ class ConfigRepositoryImpl(
             val data: Map<String, WeatherData> = gson.fromJson(cachedDataJson, cachedDataType)
             weatherData = data.mapKeys {
                 when (val result = locationRepository.locationByName(it.key)) {
-                    is LocationRepository.Result.Data -> result.locations.first()
+                    is LocationRepository.Result.Success -> result.location
+                    is LocationRepository.Result.Data,
                     is LocationRepository.Result.Failed,
-                    is LocationRepository.Result.Success,
                     is LocationRepository.Result.Renamed,
                         -> LocationData(it.key, 0.0, 0.0)
                 }

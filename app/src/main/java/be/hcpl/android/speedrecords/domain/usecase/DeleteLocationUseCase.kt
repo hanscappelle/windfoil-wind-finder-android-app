@@ -12,8 +12,8 @@ class DeleteLocationUseCase(
 
     operator fun invoke(name: String): Result {
         return when (val result = locationRepository.locationByName(name)) {
-            is LocationRepository.Result.Data -> {
-                result.locations.firstOrNull()?.let { matchedLocation ->
+            is LocationRepository.Result.Success -> {
+                result.location.let { matchedLocation ->
                     when (locationRepository.dropLocation(matchedLocation)) {
                         is LocationRepository.Result.Success -> {
                             dropDataForLocation(matchedLocation.name)
@@ -26,19 +26,17 @@ class DeleteLocationUseCase(
                             -> handleError()
 
                     }
-                } ?: handleError()
+                }
             }
 
             is LocationRepository.Result.Failed,
-            is LocationRepository.Result.Success,
+            is LocationRepository.Result.Data,
+            is LocationRepository.Result.Renamed,
                 -> {
                 // when location not found drop also cached data or it will stick
                 dropDataForLocation(name)
                 handleError()
             }
-
-            is LocationRepository.Result.Renamed,
-                -> handleError()
         }
     }
 
