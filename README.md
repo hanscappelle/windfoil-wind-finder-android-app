@@ -72,7 +72,7 @@ fetch their data up front and not change it on every action in the app.
 ### 0.12.0
 
 - layout fix for dutch version with 100% cloud coverage
-- after renaming cached data is no longer found
+- fixed after renaming cached data was no longer found
 
 ### 0.11.0
 
