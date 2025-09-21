@@ -154,7 +154,7 @@ class ConfigRepositoryImpl(
     }
 
     override fun dropFromCache(locationName: String) {
-        updateCachedWeatherData(weatherData.filter { it.key.name == locationName })
+        updateCachedWeatherData(weatherData.filterNot { it.key.name == locationName })
     }
 
     override fun cachedLocations() = locationData

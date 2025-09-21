@@ -101,7 +101,7 @@ class MainViewModel(
 
     fun deleteLocation(name: String) {
         when (val result = deleteLocationUseCase(name)) {
-            DeleteLocationUseCase.Result.Success -> retrieveWeatherData()
+            DeleteLocationUseCase.Result.Success -> refreshUi()
             is DeleteLocationUseCase.Result.Failed -> handleError(result.message)
         }
     }
