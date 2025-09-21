@@ -32,6 +32,7 @@ class DetailViewModel(
                 is LocationRepository.Result.Data -> updateLocation(result)
                 is LocationRepository.Result.Failed,
                 is LocationRepository.Result.Success,
+                is LocationRepository.Result.Renamed,
                     -> Unit
             }
         }

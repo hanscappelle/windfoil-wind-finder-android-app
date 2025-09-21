@@ -6,26 +6,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.hcpl.android.speedrecords.domain.ConfigRepository
-import be.hcpl.android.speedrecords.domain.LocationRepository
-import be.hcpl.android.speedrecords.domain.WeatherRepository
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.WeatherData
+import be.hcpl.android.speedrecords.domain.usecase.CreateLocationUseCase
+import be.hcpl.android.speedrecords.domain.usecase.DeleteLocationUseCase
+import be.hcpl.android.speedrecords.domain.usecase.RenameLocationUseCase
+import be.hcpl.android.speedrecords.domain.usecase.RetrieveForecastUseCase
+import be.hcpl.android.speedrecords.domain.usecase.ShowLocationUseCase
+import be.hcpl.android.speedrecords.ui.activity.MainViewModel.Event.*
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val locationRepository: LocationRepository,
-    private val weatherRepository: WeatherRepository,
     private val configRepository: ConfigRepository,
     private val uiModelTransformer: WeatherDataUiModelTransformer,
+    private val renameLocationUseCase: RenameLocationUseCase,
+    private val deleteLocationUseCase: DeleteLocationUseCase,
+    private val retrieveForecastUseCase: RetrieveForecastUseCase,
+    private val createLocationUseCase: CreateLocationUseCase,
+    private val showLocationUseCase: ShowLocationUseCase,
 ) : ViewModel() {
 
     val state = MutableLiveData<State>()
     val events = MutableLiveData<Event>()
 
-    var weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
     var refreshing = true
     var convertToFahrenheit = configRepository.shouldConvertUnits().convertUnits
 
@@ -37,54 +43,32 @@ class MainViewModel(
         // initially get data from cache instead of always starting with a network call
         val data = configRepository.retrieveCachedWeatherData()
         if (data.isNotEmpty()) {
-            weatherData.putAll(data)
             refreshing = false
-            refreshUi()
+            refreshUi(data)
         } else {
             // only fetch if we have no data
             retrieveWeatherData()
         }
     }
 
-    private fun retrieveWeatherData() {
+    fun retrieveWeatherData() {
         viewModelScope.launch {
             // show loading state
             refreshing = true
-            weatherData.clear()
-            refreshUi()
+            refreshUi(emptyMap())
             // for all configured locations get update
-            val data = locationRepository.retrieveLocations()
-            when (data) {
-                is LocationRepository.Result.Data -> handleReceivedLocations(data.locations)
-                is LocationRepository.Result.Failed,
-                is LocationRepository.Result.Success,
-                    -> handleError()
-            }
-        }
-    }
-
-    suspend fun handleReceivedLocations(locations: List<LocationData>) {
-        locations.forEach { location ->
-            // get forecast weather data
-            val result = weatherRepository.forecast(location)
-            when (result) {
-                is WeatherRepository.Result.Success -> {
-                    weatherData.put(location, result.data)
+            when (val result = retrieveForecastUseCase.invoke()) {
+                is RetrieveForecastUseCase.Result.Failed -> handleError(result.message)
+                is RetrieveForecastUseCase.Result.Success -> {
                     refreshing = false
-                    refreshUi()
+                    refreshUi(result.data)
                 }
-
-                is WeatherRepository.Result.Failed -> handleError(result.reason)
             }
         }
-        configRepository.updateCachedWeatherData(weatherData)
     }
 
-    fun updateAllData() {
-        retrieveWeatherData()
-    }
-
-    private fun refreshUi() {
+    private fun refreshUi(data: Map<LocationData, WeatherData>? = null) {
+        val weatherData = data ?: configRepository.retrieveCachedWeatherData()
         state.postValue(
             State(
                 locations = uiModelTransformer.transformLocations(weatherData).copy(isRefreshing = refreshing),
@@ -95,56 +79,41 @@ class MainViewModel(
 
     fun receivedLocation(intent: Intent) {
         var sharedText: String? = intent.getStringExtra(Intent.EXTRA_TEXT)
-        val result = locationRepository.addNewLocation(sharedText)
-        when (result) {
-            is LocationRepository.Result.Success -> updateAllData()
-            is LocationRepository.Result.Failed -> handleError(result.message)
-            is LocationRepository.Result.Data -> handleError()
+        when (val result = createLocationUseCase(sharedText)) {
+            is CreateLocationUseCase.Result.Failed -> handleError(result.message)
+            CreateLocationUseCase.Result.Success -> retrieveWeatherData() // adding new locations requires data refresh
         }
     }
 
     fun updateLocationName(oldName: String, newName: String) {
-        when (val result = locationRepository.renameLocation(oldName, newName)) {
-            is LocationRepository.Result.Success -> {
-                // TODO back to val
-                //update name locally before refresh UI
-                weatherData = weatherData.mapKeys { if (it.key.name == oldName) it.key.copy(name = newName) else it.key }.toMutableMap()
-                refreshUi()
-                configRepository.updateCachedWeatherData(weatherData)
-            }
-
-            is LocationRepository.Result.Failed -> handleError(result.message)
-            is LocationRepository.Result.Data -> handleError()
+        when (val result = renameLocationUseCase(oldName, newName)) {
+            is RenameLocationUseCase.Result.Success -> refreshUi()
+            is RenameLocationUseCase.Result.Failed -> handleError(result.message)
         }
     }
 
     fun showLocation(name: String) {
-        val matchedLocation = weatherData.keys.find { it.name == name }
-        matchedLocation?.let {
-            events.postValue(Event.ShowLocationOnMap(uri = Uri.parse("https://maps.google.com/maps?q=loc:" + matchedLocation.lat + "," + matchedLocation.lng + " (" + matchedLocation.name + ")")))
+        when (val result = showLocationUseCase(name)) {
+            is ShowLocationUseCase.Result.Success -> events.postValue(ShowLocationOnMap(uri = result.uri))
+            is ShowLocationUseCase.Result.Failed -> handleError(result.message)
         }
     }
 
     fun deleteLocation(name: String) {
-        val matchedLocation = weatherData.keys.find { it.name == name }
-        matchedLocation?.let {
-            when (locationRepository.dropLocation(matchedLocation)) {
-                is LocationRepository.Result.Success -> updateAllData()
-                is LocationRepository.Result.Data,
-                is LocationRepository.Result.Failed,
-                    -> handleError()
-            }
+        when (val result = deleteLocationUseCase(name)) {
+            DeleteLocationUseCase.Result.Success -> retrieveWeatherData()
+            is DeleteLocationUseCase.Result.Failed -> handleError(result.message)
         }
     }
 
     fun openLocationDetail(name: String, date: String, day: String) {
-        events.postValue(Event.OpenDetail(name, date, day))
+        events.postValue(OpenDetail(name, date, day))
     }
 
     fun handleError(message: String? = null) {
         refreshing = false
         refreshUi()
-        events.postValue(Event.ShowError(uiModelTransformer.transformError(message)))
+        events.postValue(ShowError(uiModelTransformer.transformError(message)))
     }
 
     fun onChangeUnit() {
@@ -154,18 +123,16 @@ class MainViewModel(
 
     fun onChangeModel() {
         configRepository.toggleModel()
-        //updateAllData() // need to fetch again at this point
         refreshUi()
     }
 
     fun onChangeThreshold() {
         configRepository.toggleThreshold()
-        refreshUi() // only ui refresh needed for this change
+        refreshUi()
     }
 
     fun onChangeForecastDays() {
         configRepository.toggleForecastDays()
-        //updateAllData() // need to fetch again at this point
         refreshUi()
     }
 

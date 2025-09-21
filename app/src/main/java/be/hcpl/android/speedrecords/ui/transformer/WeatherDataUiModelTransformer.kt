@@ -21,7 +21,7 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 interface WeatherDataUiModelTransformer {
-    fun transformLocations(map: MutableMap<LocationData, WeatherData>): LocationUiModel
+    fun transformLocations(map: Map<LocationData, WeatherData>): LocationUiModel
     fun transformDetail(location: LocationData, date: String, day: String, weather: WeatherData): HourlyUiModel
     fun transformError(string: String?): String
     fun transformSettings(): SettingsUiModel
@@ -36,7 +36,7 @@ class WeatherDataUiModelTransformerImpl(
     private val dateFormatDisplay = SimpleDateFormat("EEEE", Locale.getDefault())
     private val dateFormatParse = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-    override fun transformLocations(map: MutableMap<LocationData, WeatherData>): LocationUiModel {
+    override fun transformLocations(map: Map<LocationData, WeatherData>): LocationUiModel {
         val shouldConvert = configRepository.shouldConvertUnits().convertUnits
         return LocationUiModel(
             locations = map.map {

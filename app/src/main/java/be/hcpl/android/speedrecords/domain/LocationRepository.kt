@@ -18,6 +18,7 @@ interface LocationRepository {
     sealed class Result {
         data class Data(val locations: List<LocationData>) : Result()
         data class Success(val location: LocationData) : Result()
+        data class Renamed(val oldLocation: LocationData, val newLocation: LocationData) : Result()
         data class Failed(val message: String? = null) : Result()
     }
 }
@@ -109,7 +110,7 @@ class LocationRepositoryImpl(
             val newLocation = matchedLocation.copy(name = newName)
             changed.add(atIndex, newLocation)
             persistLocations(changed)
-            Result.Success(newLocation)
+            Result.Renamed(matchedLocation, newLocation)
         }
     }
 }

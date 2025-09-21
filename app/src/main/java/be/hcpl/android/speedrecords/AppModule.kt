@@ -12,6 +12,11 @@ import be.hcpl.android.speedrecords.domain.LocationRepository
 import be.hcpl.android.speedrecords.domain.LocationRepositoryImpl
 import be.hcpl.android.speedrecords.domain.WeatherRepository
 import be.hcpl.android.speedrecords.domain.WeatherRepositoryImpl
+import be.hcpl.android.speedrecords.domain.usecase.CreateLocationUseCase
+import be.hcpl.android.speedrecords.domain.usecase.DeleteLocationUseCase
+import be.hcpl.android.speedrecords.domain.usecase.RenameLocationUseCase
+import be.hcpl.android.speedrecords.domain.usecase.RetrieveForecastUseCase
+import be.hcpl.android.speedrecords.domain.usecase.ShowLocationUseCase
 import be.hcpl.android.speedrecords.ui.activity.DetailViewModel
 import be.hcpl.android.speedrecords.ui.activity.MainViewModel
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
@@ -33,10 +38,16 @@ val appModule = module {
     factoryOf(::WeatherTransformerImpl) { bind<WeatherTransformer>() }
     factoryOf(::WeatherDataUiModelTransformerImpl) { bind<WeatherDataUiModelTransformer>() }
 
-    singleOf(::WeatherRepositoryImpl) { bind<WeatherRepository>() }
+    factoryOf(::WeatherRepositoryImpl) { bind<WeatherRepository>() }
     singleOf(::LocationRepositoryImpl) { bind<LocationRepository>() }
-    factoryOf(::ConfigRepositoryImpl) { bind<ConfigRepository>() }
+    singleOf(::ConfigRepositoryImpl) { bind<ConfigRepository>() }
     factoryOf(::AssetRepositoryImpl) { bind<AssetRepository>() }
+
+    factoryOf(::RetrieveForecastUseCase)
+    factoryOf(::DeleteLocationUseCase)
+    factoryOf(::RenameLocationUseCase)
+    factoryOf(::CreateLocationUseCase)
+    factoryOf(::ShowLocationUseCase)
 
     singleOf(::Gson)
 }

@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
                     MainScreen(
                         model = locations,
                         settingsModel = settings,
-                        onRefresh = { viewModel.updateAllData() },
+                        onRefresh = { viewModel.retrieveWeatherData() },
                         onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
                         onShowLocation = { name -> viewModel.showLocation(name) },
                         onDeleteLocation = { name -> viewModel.deleteLocation(name) },

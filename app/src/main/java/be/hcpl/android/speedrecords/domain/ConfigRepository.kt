@@ -30,8 +30,12 @@ interface ConfigRepository {
     fun toggleThreshold(): Settings
     fun currentForecastDays(): Settings
     fun toggleForecastDays(): Settings
+
     fun retrieveCachedWeatherData(): Map<LocationData, WeatherData>
     fun updateCachedWeatherData(data: Map<LocationData, WeatherData>)
+    fun updateLocationName(oldLocation: LocationData, newLocation: LocationData)
+    fun addToCachedWeatherData(location: LocationData, weatherData: WeatherData)
+    fun dropFromCache(locationName: String)
 
     sealed class Result {
         data class Data(val ignoredHours: List<String>) : Result()
@@ -54,6 +58,9 @@ class ConfigRepositoryImpl(
     private val sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
 
     private var ignoredHours = mutableListOf<String>()
+
+    // TODO use val here
+    private var weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
 
     init {
         getIgnoredHours()
@@ -102,18 +109,42 @@ class ConfigRepositoryImpl(
         // json only supports maps with string keys so we need to enrich the data
         return if (cachedDataJson != null) {
             val data: Map<String, WeatherData> = gson.fromJson(cachedDataJson, cachedDataType)
-            data.mapKeys {
-                when (val result = locationRepository.locationByName(it.key)){
+            weatherData = data.mapKeys {
+                when (val result = locationRepository.locationByName(it.key)) {
                     is LocationRepository.Result.Data -> result.locations.first()
                     is LocationRepository.Result.Failed,
-                    is LocationRepository.Result.Success -> LocationData(it.key, 0.0, 0.0)
+                    is LocationRepository.Result.Success,
+                    is LocationRepository.Result.Renamed,
+                        -> LocationData(it.key, 0.0, 0.0)
                 }
-                 }
+            }.toMutableMap()
+            weatherData
         } else emptyMap()
     }
 
     override fun updateCachedWeatherData(data: Map<LocationData, WeatherData>) {
-        sharedPref.edit().putString(PREF_KEY_CACHED_DATA, gson.toJson(data.mapKeys{ it.key.name }, cachedDataType)).apply()
+        // TODO back to val
+        weatherData = data.toMutableMap()
+        sharedPref.edit().putString(PREF_KEY_CACHED_DATA, gson.toJson(data.mapKeys { it.key.name }, cachedDataType)).apply()
+    }
+
+    override fun updateLocationName(
+        oldLocation: LocationData,
+        newLocation: LocationData,
+    ) {
+        updateCachedWeatherData(weatherData.mapKeys { if (it.key.name == oldLocation.name) it.key.copy(name = newLocation.name) else it.key }.toMutableMap())
+    }
+
+    override fun addToCachedWeatherData(
+        location: LocationData,
+        weatherData: WeatherData,
+    ) {
+        this.weatherData.put(location, weatherData)
+        updateCachedWeatherData(this.weatherData)
+    }
+
+    override fun dropFromCache(locationName: String) {
+        updateCachedWeatherData(weatherData.filter { it.key.name == locationName })
     }
 
     override fun toggleModel(): DataSource {

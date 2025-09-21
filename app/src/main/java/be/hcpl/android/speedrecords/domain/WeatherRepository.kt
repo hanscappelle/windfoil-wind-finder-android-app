@@ -15,7 +15,6 @@ import java.util.Locale
 interface WeatherRepository {
 
     suspend fun forecast(locationData: LocationData): Result
-
     fun cachedForecastFor(locationData: LocationData): Result
 
     sealed class Result {
@@ -27,29 +26,27 @@ interface WeatherRepository {
 class WeatherRepositoryImpl(
     private val weatherService: OpenWeatherService,
     private val transformer: WeatherTransformer,
-    private val settings: ConfigRepository,
+    private val configRepository: ConfigRepository,
 ) : WeatherRepository {
 
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
-    private val cachedData: MutableMap<LocationData, WeatherData> = settings.retrieveCachedWeatherData().toMutableMap()
 
     override suspend fun forecast(locationData: LocationData): Result {
         // using coroutines, always give the results for today + 10 days
         val today = Calendar.getInstance()
         val endDate = Calendar.getInstance()
-        val forecastDays = settings.currentForecastDays().forecastDays ?: DEFAULT_FORECAST_DAYS
+        val forecastDays = configRepository.currentForecastDays().forecastDays ?: DEFAULT_FORECAST_DAYS
         endDate.add(Calendar.DAY_OF_YEAR, forecastDays)
         val response: Response<WeatherResponse> = weatherService.forecast(
             latitude = locationData.lat,
             longitude = locationData.lng,
             startDate = dateFormat.format(today.time),
             endDate = dateFormat.format(endDate.time),
-            model = settings.currentModel().type,
+            model = configRepository.currentModel().type,
         )
         return if (response.isSuccessful && response.body() != null) {
             val weatherData = transformer.transformForecast(response.body())
-            cachedData.put(locationData, weatherData)
+            configRepository.addToCachedWeatherData(locationData, weatherData)
             Result.Success(weatherData)
         } else {
             Result.Failed(response.message())
@@ -57,5 +54,6 @@ class WeatherRepositoryImpl(
     }
 
     override fun cachedForecastFor(locationData: LocationData) =
-        cachedData[locationData]?.let { Result.Success(it) } ?: Result.Failed("no cached data")
+        configRepository.retrieveCachedWeatherData()[locationData]?.let { Result.Success(it) } ?: Result.Failed("no cached data")
+
 }
