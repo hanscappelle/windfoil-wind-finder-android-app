@@ -25,10 +25,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         updateContent(
-            listOf(
+            locations = listOf(
                 LocationUiModel(locations = emptyList()),
                 LocationUiModel(locations = emptyList()),
-            ), settings = listOf(SettingsUiModel(), SettingsUiModel())
+            ),
+            settings = listOf(SettingsUiModel(), SettingsUiModel()),
+            refreshing = false,
         )
 
         recovered = savedInstanceState != null
@@ -71,12 +73,13 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleState(state: MainViewModel.State) {
-        updateContent(state.locations, state.settings)
+        updateContent(state.locations, state.settings, state.refreshing)
     }
 
     private fun updateContent(
         locations: List<LocationUiModel>,
         settings: List<SettingsUiModel>,
+        refreshing: Boolean,
     ) {
         setContent {
             AppScaffold(
@@ -85,6 +88,7 @@ class MainActivity : ComponentActivity() {
                 MainScreen(
                     model = locations,
                     settingsModel = settings,
+                    refreshing = refreshing,
                     onRefresh = { type -> viewModel.retrieveWeatherData(type) },
                     onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
                     onShowLocation = { name -> viewModel.showLocation(name) },

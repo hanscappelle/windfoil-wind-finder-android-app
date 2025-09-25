@@ -18,8 +18,8 @@ fun LocationView(
     model: LocationUiModel,
     settingsModel: SettingsUiModel,
     onAddNewLocation: () -> Unit,
-    onRefresh: () -> Unit,
-    onRefreshInfo: () -> Unit, // TODO restore pull to refresh
+    //onRefresh: () -> Unit,
+    onRefreshInfo: () -> Unit,
     onShowSettingsInfo: () -> Unit,
     onShowAppInfo: () -> Unit,
     onShowLocation: (String) -> Unit,
@@ -39,7 +39,7 @@ fun LocationView(
 
         LocationOverviewHeader(
             onAddNewLocation = onAddNewLocation,
-            onRefresh = onRefresh,
+            onRefresh = onRefreshInfo,
             onShowSettingsInfo = onShowSettingsInfo,
             onShowAppInfo = onShowAppInfo,
         )
@@ -62,7 +62,7 @@ fun LocationView(
 
         LocationOverview(
             model = model,
-            onRefresh = onRefresh,
+            //onRefresh = onRefresh,
             onRenameLocation = onRenameLocation,
             onShowLocation = onShowLocation,
             onDeleteLocation = onDeleteLocation,

@@ -74,6 +74,7 @@ fetch their data up front and not change it on every action in the app.
 - added many more weather models
 - added indication of model resolution and origin
 - restored some dutch literals
+- fixed pull to refresh after moving to grid
 
 ### 1.1
 
@@ -179,7 +180,6 @@ Initial app release
 - (opt) config for how many days in the past
 - (feature) Implement notifications
 - (bug) on missing data in detail no clear indication on how to navigate back
-- (bug) pull to refresh is broken since moving to 2 columns
 - (feature) show date of when data was fetched to indicate a refresh is needed
 - (bug) on detail view indicate what model is shown (currently always MAIN)
 

@@ -75,9 +75,10 @@ class MainViewModel(
         val weatherDataAlt = data?.takeIf { type == ModelType.ALT } ?: configRepository.retrieveCachedWeatherData(ModelType.ALT)
         state.postValue(
             State(
+                refreshing = refreshing,
                 locations = listOf(
-                    uiModelTransformer.transformLocations(weatherData).copy(isRefreshing = refreshing),
-                    uiModelTransformer.transformLocations(weatherDataAlt).copy(isRefreshing = refreshing),
+                    uiModelTransformer.transformLocations(weatherData),//.copy(isRefreshing = refreshing),
+                    uiModelTransformer.transformLocations(weatherDataAlt),//.copy(isRefreshing = refreshing),
                 ),
                 settings = uiModelTransformer.transformSettings(),
             )
@@ -150,13 +151,14 @@ class MainViewModel(
     data class State(
         val locations: List<LocationUiModel> = listOf(
             LocationUiModel(
-                locations = emptyList(), isRefreshing = true
+                locations = emptyList(), //isRefreshing = true
             ),
             LocationUiModel(
-                locations = emptyList(), isRefreshing = true
+                locations = emptyList(), //isRefreshing = true
             )
         ),
         val settings: List<SettingsUiModel> = listOf(SettingsUiModel(), SettingsUiModel()),
+        val refreshing: Boolean = false,
     )
 
     sealed class Event {
