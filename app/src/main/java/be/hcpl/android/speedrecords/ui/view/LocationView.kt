@@ -34,7 +34,7 @@ fun LocationView(
 ){
     Column(
         horizontalAlignment = Alignment.Start,
-        verticalArrangement = spacedBy(8.dp),
+        verticalArrangement = spacedBy(4.dp),
     ) {
 
         LocationOverviewHeader(
@@ -67,7 +67,7 @@ fun LocationView(
             onShowLocation = onShowLocation,
             onDeleteLocation = onDeleteLocation,
             onOpenDetail = onOpenDetail,
-            modifier = modifier.padding(8.dp),
+            modifier = modifier.padding(4.dp),
         )
     }
 }
