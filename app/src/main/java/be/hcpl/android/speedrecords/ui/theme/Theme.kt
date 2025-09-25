@@ -1,6 +1,7 @@
 package be.hcpl.android.speedrecords.ui.theme
 
 import android.app.Activity
+import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -8,6 +9,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
@@ -266,7 +268,9 @@ fun AppTheme(
     val view = LocalView.current
     val window = (view.context as Activity).window
     // here change the status bar element color
-    WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
+    val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+    if (!isLandscape)
+        WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
 
     MaterialTheme(
         colorScheme = colorScheme,
