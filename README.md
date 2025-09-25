@@ -169,10 +169,12 @@ Initial app release
 
 ### Features & Bugs 
 
-- allow for easy location input from in app using location from FAB
+- (feature) allow for easy location input from in app using location from FAB
 - (opt) config for how many days in the past
-- Implement notifications
+- (feature) Implement notifications
 - (bug) on missing data in detail no clear indication on how to navigate back
+- (bug) pull to refresh is broken since moving to 2 columns
+- (feature) show date of when data was fetched to indicate a refresh is needed
 
 # Resources
 
