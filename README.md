@@ -164,10 +164,11 @@ Initial app release
 
 ### Features & Bugs 
 
-- allow for easy location input from in app map
+- allow for easy location input from in app using location from FAB
 - (opt) config for how many days in the past
 - Implement notifications
 - (bug) on missing data in detail no clear indication on how to navigate back
+- for landscape allow comparing weather models
 
 # Resources
 
