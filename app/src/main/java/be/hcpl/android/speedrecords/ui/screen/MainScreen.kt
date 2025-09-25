@@ -1,42 +1,37 @@
 package be.hcpl.android.speedrecords.ui.screen
 
-import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import android.content.res.Configuration
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import be.hcpl.android.speedrecords.R
+import be.hcpl.android.speedrecords.domain.model.ModelType
 import be.hcpl.android.speedrecords.ui.dialog.ConfirmDialog
 import be.hcpl.android.speedrecords.ui.dialog.InfoDialog
 import be.hcpl.android.speedrecords.ui.dialog.InfoDialogUiModel
 import be.hcpl.android.speedrecords.ui.dialog.NameLocationDialog
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
-import be.hcpl.android.speedrecords.ui.view.LocationOverview
-import be.hcpl.android.speedrecords.ui.view.LocationOverviewHeader
-import be.hcpl.android.speedrecords.ui.view.SettingsView
+import be.hcpl.android.speedrecords.ui.view.LocationView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    model: LocationUiModel,
-    settingsModel: SettingsUiModel,
-    onRefresh: () -> Unit = {},
+    model: List<LocationUiModel>,
+    settingsModel: List<SettingsUiModel>,
+    onRefresh: (ModelType) -> Unit = {},
     onUpdateLocationName: (String, String) -> Unit = { _, _ -> },
     onShowLocation: (String) -> Unit = {},
     onDeleteLocation: (String) -> Unit = {},
     onOpenDetail: (String, String, String) -> Unit = { _, _, _ -> },
-    onChangeModel: () -> Unit = {},
+    onChangeModel: (ModelType) -> Unit = {},
     onChangeThreshold: () -> Unit = {},
     onChangeForecastDays: () -> Unit = {},
     onChangeUnit: () -> Unit = {},
@@ -65,62 +60,96 @@ fun MainScreen(
     )
 
     // content
-    Column(
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = spacedBy(8.dp),
+    val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+    val noRows = if (isLandscape) 2 else 1
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(noRows),
+        //verticalArrangement = spacedBy(4.dp),
+        //modifier = modifier.padding(8.dp),
     ) {
 
-        LocationOverviewHeader(
-            onAddNewLocation = {
-                openInfoDialog.value = true
-                infoDialogModel.value = InfoDialogUiModel.locationInfo
-            },
-            onRefresh = {
-                openInfoDialog.value = true
-                infoDialogModel.value = InfoDialogUiModel.refreshInfo
-            },
-            onShowSettingsInfo = {
-                openInfoDialog.value = true
-                infoDialogModel.value = InfoDialogUiModel.settingsInfo
-            },
-            onShowAppInfo = {
-                openInfoDialog.value = true
-                infoDialogModel.value = InfoDialogUiModel.appInfo
-            },
-        )
+        item {
+            LocationView(
+                modifier = modifier,
+                settingsModel = settingsModel[0],
+                model = model[0],
+                onAddNewLocation = {
+                    openInfoDialog.value = true
+                    infoDialogModel.value = InfoDialogUiModel.locationInfo
+                },
+                onRefresh = { onRefresh(ModelType.MAIN) },
+                onRefreshInfo = {
+                    openInfoDialog.value = true
+                    infoDialogModel.value = InfoDialogUiModel.refreshInfo
+                },
+                onShowSettingsInfo = {
+                    openInfoDialog.value = true
+                    infoDialogModel.value = InfoDialogUiModel.settingsInfo
+                },
+                onShowAppInfo = {
+                    openInfoDialog.value = true
+                    infoDialogModel.value = InfoDialogUiModel.appInfo
+                },
+                onRenameLocation = { name ->
+                    locationNameState.value = name
+                    oldNameValueState.value = name
+                    addLocationDialog.value = true
+                },
+                onDeleteLocation = { name ->
+                    oldNameValueState.value = name
+                    confirmDialog.value = true
+                },
+                onShowLocation = onShowLocation,
+                onOpenDetail = onOpenDetail,
+                onChangeModel = { onChangeModel(ModelType.MAIN) },
+                onChangeThreshold = onChangeThreshold,
+                onChangeForecastDays = onChangeForecastDays,
+                onChangeUnit = onChangeUnit,
+            )
+        }
 
-        SettingsView(
-            model = settingsModel,
-            onChangeModel = onChangeModel,
-            onChangeThreshold = onChangeThreshold,
-            onChangeForecastDays = onChangeForecastDays,
-            onChangeUnit = onChangeUnit,
-            modifier = modifier.padding(8.dp),
-        )
-
-        HorizontalDivider(
-            modifier = Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-                .padding(8.dp),
-        )
-
-        LocationOverview(
-            model = model,
-            onRefresh = onRefresh,
-            onRenameLocation = { name ->
-                locationNameState.value = name
-                oldNameValueState.value = name
-                addLocationDialog.value = true
-            },
-            onShowLocation = onShowLocation,
-            onDeleteLocation = { name ->
-                oldNameValueState.value = name
-                confirmDialog.value = true
-            },
-            onOpenDetail = onOpenDetail,
-            modifier = modifier.padding(8.dp),
-        )
+        if (isLandscape) {
+            // TODO use extra model here
+            item {
+                LocationView(
+                    modifier = modifier,
+                    model = model[1],
+                    settingsModel = settingsModel[1],
+                    onAddNewLocation = {
+                        openInfoDialog.value = true
+                        infoDialogModel.value = InfoDialogUiModel.locationInfo
+                    },
+                    onRefresh = { onRefresh(ModelType.ALT) },
+                    onRefreshInfo = {
+                        openInfoDialog.value = true
+                        infoDialogModel.value = InfoDialogUiModel.refreshInfo
+                    },
+                    onShowSettingsInfo = {
+                        openInfoDialog.value = true
+                        infoDialogModel.value = InfoDialogUiModel.settingsInfo
+                    },
+                    onShowAppInfo = {
+                        openInfoDialog.value = true
+                        infoDialogModel.value = InfoDialogUiModel.appInfo
+                    },
+                    onRenameLocation = { name ->
+                        locationNameState.value = name
+                        oldNameValueState.value = name
+                        addLocationDialog.value = true
+                    },
+                    onDeleteLocation = { name ->
+                        oldNameValueState.value = name
+                        confirmDialog.value = true
+                    },
+                    onShowLocation = onShowLocation,
+                    onOpenDetail = onOpenDetail,
+                    onChangeModel = { onChangeModel(ModelType.ALT) },
+                    onChangeThreshold = onChangeThreshold,
+                    onChangeForecastDays = onChangeForecastDays,
+                    onChangeUnit = onChangeUnit,
+                )
+            }
+        }
     }
-
 }

@@ -6,6 +6,7 @@ import be.hcpl.android.speedrecords.domain.model.DEFAULT_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_THRESHOLD
 import be.hcpl.android.speedrecords.domain.model.DataSource
 import be.hcpl.android.speedrecords.domain.model.LocationData
+import be.hcpl.android.speedrecords.domain.model.ModelType
 import be.hcpl.android.speedrecords.domain.model.RANGE_MAX_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.RANGE_MAX_THRESHOLD
 import be.hcpl.android.speedrecords.domain.model.RANGE_MIN_FORECAST_DAYS
@@ -22,18 +23,18 @@ interface ConfigRepository {
     fun toggleConvertUnits(current: Boolean): Result.Settings
     fun shouldConvertUnits(): Result.Settings
 
-    fun currentModel(): DataSource
-    fun updateModel(model: DataSource): Result
-    fun toggleModel(): DataSource
+    fun currentModel(type: ModelType): DataSource
+    fun updateModel(model: DataSource, type: ModelType): Result
+    fun toggleModel(type: ModelType): DataSource
     fun currentThreshold(): Result.Settings
     fun toggleThreshold(): Result.Settings
     fun currentForecastDays(): Result.Settings
     fun toggleForecastDays(): Result.Settings
 
-    fun retrieveCachedWeatherData(): Map<LocationData, WeatherData>
-    fun updateCachedWeatherData(data: Map<LocationData, WeatherData>)
+    fun retrieveCachedWeatherData(type: ModelType): Map<LocationData, WeatherData>
+    fun updateCachedWeatherData(data: Map<LocationData, WeatherData>, type: ModelType)
     fun updateLocationName(oldLocation: LocationData, newLocation: LocationData)
-    fun addToCachedWeatherData(location: LocationData, weatherData: WeatherData)
+    fun addToCachedWeatherData(location: LocationData, weatherData: WeatherData, type: ModelType)
     fun dropFromCache(locationName: String)
     fun cachedLocations(): List<LocationData>
     fun updateCachedLocations(locations: List<LocationData>)
@@ -61,6 +62,7 @@ class ConfigRepositoryImpl(
 
     // single source of all cached weather data in app
     private val weatherData: MutableMap<LocationData, WeatherData> = mutableMapOf()
+    private val weatherDataAlt: MutableMap<LocationData, WeatherData> = mutableMapOf()
 
     // some initial valid data to start with for clean app plus single source of locations data
     private val locationData = mutableListOf(
@@ -110,17 +112,31 @@ class ConfigRepositoryImpl(
 
     override fun shouldConvertUnits() = ConfigRepository.Result.Settings(sharedPref.getBoolean(PREF_KEY_CONVERT_UNITS, false))
 
-    override fun currentModel() = sharedPref.getString(PREF_KEY_MODEL, null)?.let { json -> gson.fromJson(json, DataSource::class.java) }
-        ?: DataSource.ECMWF
+    override fun currentModel(type: ModelType) =
+        sharedPref.getString(keyForModel(type), null)?.let { json -> gson.fromJson(json, DataSource::class.java) } ?: DataSource.ECMWF
 
-    override fun updateModel(model: DataSource): ConfigRepository.Result {
-        sharedPref.edit().putString(PREF_KEY_MODEL, gson.toJson(model)).apply()
+    private fun keyForModel(type: ModelType) = if (type == ModelType.MAIN) PREF_KEY_MODEL else PREF_KEY_MODEL_ALT
+
+    override fun updateModel(model: DataSource, type: ModelType): ConfigRepository.Result {
+        sharedPref.edit().putString(keyForModel(type), gson.toJson(model)).apply()
         return ConfigRepository.Result.Success
     }
 
-    override fun retrieveCachedWeatherData(): Map<LocationData, WeatherData> {
-        val cachedDataJson = sharedPref.getString(PREF_KEY_CACHED_DATA, null)
+    private fun keyForCachedData(type: ModelType) = if (type == ModelType.MAIN) PREF_KEY_CACHED_DATA else PREF_KEY_CACHED_DATA_ALT
+
+    override fun retrieveCachedWeatherData(type: ModelType): Map<LocationData, WeatherData> {
+        val cachedDataJson = sharedPref.getString(keyForCachedData(type), null)
         // json only supports maps with string keys so we need to enrich the data
+        return if (type == ModelType.MAIN)
+            updateAndReturnCachedData(weatherData, cachedDataJson)
+        else
+            updateAndReturnCachedData(weatherDataAlt, cachedDataJson)
+    }
+
+    private fun updateAndReturnCachedData(
+        weatherData: MutableMap<LocationData, WeatherData>,
+        cachedDataJson: String?,
+    ): Map<LocationData, WeatherData> {
         return if (cachedDataJson != null) {
             val data: Map<String, WeatherData> = gson.fromJson(cachedDataJson, cachedDataType)
             weatherData.clear()
@@ -131,30 +147,46 @@ class ConfigRepositoryImpl(
         } else emptyMap()
     }
 
-    override fun updateCachedWeatherData(data: Map<LocationData, WeatherData>) {
-        weatherData.clear()
-        weatherData.putAll(data)
-        sharedPref.edit().putString(PREF_KEY_CACHED_DATA, gson.toJson(data.mapKeys { it.key.name }, cachedDataType)).apply()
+    override fun updateCachedWeatherData(data: Map<LocationData, WeatherData>, type: ModelType) {
+        if (type == ModelType.MAIN) {
+            weatherData.clear()
+            weatherData.putAll(data)
+        } else {
+            weatherDataAlt.clear()
+            weatherDataAlt.putAll(data)
+        }
+        sharedPref.edit().putString(keyForCachedData(type), gson.toJson(data.mapKeys { it.key.name }, cachedDataType)).apply()
     }
 
     override fun updateLocationName(
         oldLocation: LocationData,
         newLocation: LocationData,
     ) {
+        // rename has to update location in both sets
         updateCachedWeatherData(weatherData.mapKeys { if (it.key.name == oldLocation.name) it.key.copy(name = newLocation.name) else it.key }
-            .toMutableMap())
+            .toMutableMap(), ModelType.MAIN)
+        updateCachedWeatherData(weatherDataAlt.mapKeys { if (it.key.name == oldLocation.name) it.key.copy(name = newLocation.name) else it.key }
+            .toMutableMap(), ModelType.ALT)
     }
 
     override fun addToCachedWeatherData(
         location: LocationData,
         weatherData: WeatherData,
+        type: ModelType,
     ) {
-        this.weatherData.put(location, weatherData)
-        updateCachedWeatherData(this.weatherData)
+        if (type == ModelType.MAIN) {
+            this.weatherData.put(location, weatherData)
+            updateCachedWeatherData(this.weatherData, type)
+        } else {
+            this.weatherDataAlt.put(location, weatherData)
+            updateCachedWeatherData(this.weatherDataAlt, type)
+        }
     }
 
     override fun dropFromCache(locationName: String) {
-        updateCachedWeatherData(weatherData.filterNot { it.key.name == locationName })
+        // data drop has to be done in both sets
+        updateCachedWeatherData(weatherData.filterNot { it.key.name == locationName }, ModelType.MAIN)
+        updateCachedWeatherData(weatherDataAlt.filterNot { it.key.name == locationName }, ModelType.ALT)
     }
 
     override fun cachedLocations() = locationData
@@ -164,13 +196,13 @@ class ConfigRepositoryImpl(
         locationData.addAll(locations)
     }
 
-    override fun toggleModel(): DataSource {
+    override fun toggleModel(type: ModelType): DataSource {
         // get current model
-        val currentModel = currentModel()
+        val currentModel = currentModel(type)
         // and go to the next in line
         val nextIndex = currentModel.ordinal + 1
         val nextModel = if (nextIndex < DataSource.entries.size) DataSource.entries[nextIndex] else DataSource.entries.first()
-        updateModel(nextModel)
+        updateModel(nextModel, type)
         return nextModel
     }
 
@@ -225,7 +257,9 @@ private val cachedDataType = object : TypeToken<Map<String, WeatherData>>() {}.t
 private const val PREF_KEY_IGNORED_HOURS = "key_ignored_hours"
 private const val PREF_KEY_CONVERT_UNITS = "key_convert_units"
 private const val PREF_KEY_MODEL = "key_model"
+private const val PREF_KEY_MODEL_ALT = "key_model_alt"
 private const val PREF_KEY_FORECAST_DAYS = "key_forecast_days"
 private const val PREF_KEY_MARK_THRESHOLD = "key_mark_threshold"
 private const val PREF_KEY_CACHED_DATA = "key_cached_data"
+private const val PREF_KEY_CACHED_DATA_ALT = "key_cached_data_alt"
 

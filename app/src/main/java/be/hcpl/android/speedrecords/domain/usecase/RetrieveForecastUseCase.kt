@@ -1,6 +1,7 @@
 package be.hcpl.android.speedrecords.domain.usecase
 
 import be.hcpl.android.speedrecords.domain.model.LocationData
+import be.hcpl.android.speedrecords.domain.model.ModelType
 import be.hcpl.android.speedrecords.domain.model.WeatherData
 import be.hcpl.android.speedrecords.domain.repository.ConfigRepository
 import be.hcpl.android.speedrecords.domain.repository.LocationRepository
@@ -13,10 +14,10 @@ class RetrieveForecastUseCase(
     private val configRepository: ConfigRepository,
 ) {
 
-    suspend fun invoke(): Result {
+    suspend fun invoke(type: ModelType): Result {
         val data = locationRepository.retrieveLocations()
         return when (data) {
-            is LocationRepository.Result.Data -> handleReceivedLocations(data.locations)
+            is LocationRepository.Result.Data -> handleReceivedLocations(data.locations, type)
             is LocationRepository.Result.Failed,
             is LocationRepository.Result.Success,
             is LocationRepository.Result.Renamed,
@@ -27,11 +28,11 @@ class RetrieveForecastUseCase(
 
     private fun handleError(message: String? = null) = Result.Failed(message)
 
-    private suspend fun handleReceivedLocations(locations: List<LocationData>) : Result{
+    private suspend fun handleReceivedLocations(locations: List<LocationData>, type: ModelType) : Result{
         val weatherData = mutableMapOf<LocationData, WeatherData>()
         locations.forEach { location ->
             // get forecast weather data
-            val result = weatherRepository.forecast(location)
+            val result = weatherRepository.forecast(location, type)
             when (result) {
                 is WeatherRepository.Result.Success -> {
                     weatherData.put(location, result.data)
@@ -40,7 +41,7 @@ class RetrieveForecastUseCase(
                 is WeatherRepository.Result.Failed -> handleError(result.message)
             }
         }
-        configRepository.updateCachedWeatherData(weatherData)
+        configRepository.updateCachedWeatherData(weatherData, type)
         return Result.Success(weatherData)
     }
 

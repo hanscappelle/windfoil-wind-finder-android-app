@@ -5,6 +5,11 @@ enum class UnitType{
     Fahrenheit,
 }
 
+enum class ModelType{
+    MAIN,
+    ALT,
+}
+
 enum class DataSource(val type: String, val model: WeatherModel){
     ECMWF("ecmwf_ifs025", WeatherModel.IFS_AIFS),
     NOAA("gfs_seamless", WeatherModel.GFS_HRRR),

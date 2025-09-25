@@ -1,8 +1,8 @@
 package be.hcpl.android.speedrecords.ui.view
 
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
@@ -17,35 +17,35 @@ fun LocationOverview(
     model: LocationUiModel,
     modifier: Modifier = Modifier,
     onRefresh: () -> Unit,
-    onRenameLocation: (String) -> Unit = {},
-    onShowLocation: (String) -> Unit = {},
-    onDeleteLocation: (String) -> Unit = {},
-    onOpenDetail: (String, String, String) -> Unit = { _, _, _ -> },
+    onRenameLocation: (String) -> Unit,
+    onShowLocation: (String) -> Unit,
+    onDeleteLocation: (String) -> Unit,
+    onOpenDetail: (String, String, String) -> Unit,
 ) {
     PullToRefreshBox(
         isRefreshing = model.isRefreshing,
         onRefresh = onRefresh,
         modifier = modifier.fillMaxWidth(),
     ) {
-        LazyColumn(
+        /*Lazy*/Column(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = spacedBy(8.dp),
         ) {
             model.locations.forEach { location ->
-                item {
+                //item {
                     LocationHeader(
                         location = location,
                         onRenameLocation = { onRenameLocation(location.locationName) },
                         onShowLocation = { onShowLocation(location.locationName) },
                         onDeleteLocation = { onDeleteLocation(location.locationName) },
                     )
-                }
-                item {
+                //}
+                //item {
                     LocationItem(
                         location,
                         onOpenDetail = onOpenDetail,
                     )
-                }
+                //}
             }
         }
     }

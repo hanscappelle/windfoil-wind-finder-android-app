@@ -5,6 +5,7 @@ import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_THRESHOLD
 import be.hcpl.android.speedrecords.domain.model.LocationData
+import be.hcpl.android.speedrecords.domain.model.ModelType
 import be.hcpl.android.speedrecords.domain.model.UnitType
 import be.hcpl.android.speedrecords.domain.model.WeatherData
 import be.hcpl.android.speedrecords.domain.repository.AssetRepository
@@ -24,7 +25,7 @@ interface WeatherDataUiModelTransformer {
     fun transformLocations(map: Map<LocationData, WeatherData>): LocationUiModel
     fun transformDetail(location: LocationData, date: String, day: String, weather: WeatherData): HourlyUiModel
     fun transformError(string: String?): String
-    fun transformSettings(): SettingsUiModel
+    fun transformSettings(): List<SettingsUiModel>
 }
 
 class WeatherDataUiModelTransformerImpl(
@@ -115,11 +116,19 @@ class WeatherDataUiModelTransformerImpl(
         )
     }
 
-    override fun transformSettings() = SettingsUiModel(
-        source = configRepository.currentModel(),
-        unit = if (configRepository.shouldConvertUnits().convertUnits == true) UnitType.Fahrenheit else UnitType.Celsius,
-        threshold = configRepository.currentThreshold().markWindThreshold ?: DEFAULT_THRESHOLD,
-        forecastDays = configRepository.currentForecastDays().forecastDays ?: DEFAULT_FORECAST_DAYS,
+    override fun transformSettings() = listOf(
+        SettingsUiModel(
+            source = configRepository.currentModel(ModelType.MAIN),
+            unit = if (configRepository.shouldConvertUnits().convertUnits == true) UnitType.Fahrenheit else UnitType.Celsius,
+            threshold = configRepository.currentThreshold().markWindThreshold ?: DEFAULT_THRESHOLD,
+            forecastDays = configRepository.currentForecastDays().forecastDays ?: DEFAULT_FORECAST_DAYS,
+        ),
+        SettingsUiModel(
+            source = configRepository.currentModel(ModelType.ALT),
+            unit = if (configRepository.shouldConvertUnits().convertUnits == true) UnitType.Fahrenheit else UnitType.Celsius,
+            threshold = configRepository.currentThreshold().markWindThreshold ?: DEFAULT_THRESHOLD,
+            forecastDays = configRepository.currentForecastDays().forecastDays ?: DEFAULT_FORECAST_DAYS,
+        )
     )
 
     override fun transformError(message: String?) = message ?: context.getString(R.string.error_update_failed)

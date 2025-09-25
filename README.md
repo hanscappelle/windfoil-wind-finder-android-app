@@ -71,7 +71,8 @@ fetch their data up front and not change it on every action in the app.
 
 ### 1.1
 
-- on detail in landscape show 2 columns oof data at once
+- on detail in landscape show 2 columns of data at once
+- for landscape allow comparing weather models
 
 ### 1.0
 
@@ -172,7 +173,6 @@ Initial app release
 - (opt) config for how many days in the past
 - Implement notifications
 - (bug) on missing data in detail no clear indication on how to navigate back
-- for landscape allow comparing weather models
 
 # Resources
 

@@ -24,7 +24,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        updateContent(LocationUiModel(locations = emptyList()), settings = SettingsUiModel())
+        updateContent(
+            listOf(
+                LocationUiModel(locations = emptyList()),
+                LocationUiModel(locations = emptyList()),
+            ), settings = listOf(SettingsUiModel(), SettingsUiModel())
+        )
 
         recovered = savedInstanceState != null
 
@@ -47,7 +52,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleEvent(event: MainViewModel.Event) {
-        if( recovered ) {
+        if (recovered) {
             // FIXME fix for now for handling events received on recovered
             recovered = false
             return
@@ -70,26 +75,26 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun updateContent(
-        locations: LocationUiModel,
-        settings: SettingsUiModel,
-        ) {
+        locations: List<LocationUiModel>,
+        settings: List<SettingsUiModel>,
+    ) {
         setContent {
             AppScaffold(
                 title = stringResource(R.string.app_name),
             ) {
-                    MainScreen(
-                        model = locations,
-                        settingsModel = settings,
-                        onRefresh = { viewModel.retrieveWeatherData() },
-                        onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
-                        onShowLocation = { name -> viewModel.showLocation(name) },
-                        onDeleteLocation = { name -> viewModel.deleteLocation(name) },
-                        onOpenDetail = {name, date, day -> viewModel.openLocationDetail(name, date, day)},
-                        onChangeModel = { viewModel.onChangeModel() },
-                        onChangeThreshold = { viewModel.onChangeThreshold() },
-                        onChangeForecastDays = { viewModel.onChangeForecastDays() },
-                        onChangeUnit = { viewModel.onChangeUnit() },
-                    )
+                MainScreen(
+                    model = locations,
+                    settingsModel = settings,
+                    onRefresh = { type -> viewModel.retrieveWeatherData(type) },
+                    onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
+                    onShowLocation = { name -> viewModel.showLocation(name) },
+                    onDeleteLocation = { name -> viewModel.deleteLocation(name) },
+                    onOpenDetail = { name, date, day -> viewModel.openLocationDetail(name, date, day) },
+                    onChangeModel = { type -> viewModel.onChangeModel(type) },
+                    onChangeThreshold = { viewModel.onChangeThreshold() },
+                    onChangeForecastDays = { viewModel.onChangeForecastDays() },
+                    onChangeUnit = { viewModel.onChangeUnit() },
+                )
             }
         }
     }

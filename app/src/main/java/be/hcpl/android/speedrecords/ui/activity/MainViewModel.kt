@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.hcpl.android.speedrecords.domain.model.LocationData
+import be.hcpl.android.speedrecords.domain.model.ModelType
 import be.hcpl.android.speedrecords.domain.model.WeatherData
 import be.hcpl.android.speedrecords.domain.repository.ConfigRepository
 import be.hcpl.android.speedrecords.domain.usecase.CreateLocationUseCase
@@ -36,42 +37,48 @@ class MainViewModel(
     var convertToFahrenheit = configRepository.shouldConvertUnits().convertUnits
 
     init {
-        doInit()
+        doInit(ModelType.MAIN)
+        doInit(ModelType.ALT)
     }
 
-    private fun doInit() {
+    private fun doInit(type: ModelType) {
         // initially get data from cache instead of always starting with a network call
-        val data = configRepository.retrieveCachedWeatherData()
+        val data = configRepository.retrieveCachedWeatherData(type)
         if (data.isNotEmpty()) {
             refreshing = false
-            refreshUi(data)
+            refreshUi(data, type)
         } else {
             // only fetch if we have no data
-            retrieveWeatherData()
+            retrieveWeatherData(type)
         }
     }
 
-    fun retrieveWeatherData() {
+    fun retrieveWeatherData(type: ModelType) {
         viewModelScope.launch {
             // show loading state
             refreshing = true
-            refreshUi(emptyMap())
+            // TODO this will remove cached data, better not to plus look for fallback
+            // refreshUi(emptyMap(), type)
             // for all configured locations get update
-            when (val result = retrieveForecastUseCase.invoke()) {
+            when (val result = retrieveForecastUseCase.invoke(type)) {
                 is RetrieveForecastUseCase.Result.Failed -> handleError(result.message)
                 is RetrieveForecastUseCase.Result.Success -> {
                     refreshing = false
-                    refreshUi(result.data)
+                    refreshUi(result.data, type)
                 }
             }
         }
     }
 
-    private fun refreshUi(data: Map<LocationData, WeatherData>? = null) {
-        val weatherData = data ?: configRepository.retrieveCachedWeatherData()
+    private fun refreshUi(data: Map<LocationData, WeatherData>? = null, type: ModelType? = null) {
+        val weatherData = data?.takeIf { type == ModelType.MAIN } ?: configRepository.retrieveCachedWeatherData(ModelType.MAIN)
+        val weatherDataAlt = data?.takeIf { type == ModelType.ALT } ?: configRepository.retrieveCachedWeatherData(ModelType.ALT)
         state.postValue(
             State(
-                locations = uiModelTransformer.transformLocations(weatherData).copy(isRefreshing = refreshing),
+                locations = listOf(
+                    uiModelTransformer.transformLocations(weatherData).copy(isRefreshing = refreshing),
+                    uiModelTransformer.transformLocations(weatherDataAlt).copy(isRefreshing = refreshing),
+                ),
                 settings = uiModelTransformer.transformSettings(),
             )
         )
@@ -81,7 +88,11 @@ class MainViewModel(
         var sharedText: String? = intent.getStringExtra(Intent.EXTRA_TEXT)
         when (val result = createLocationUseCase(sharedText)) {
             is CreateLocationUseCase.Result.Failed -> handleError(result.message)
-            CreateLocationUseCase.Result.Success -> retrieveWeatherData() // adding new locations requires data refresh
+            CreateLocationUseCase.Result.Success -> {
+                // adding new locations requires data refresh
+                retrieveWeatherData(ModelType.MAIN)
+                retrieveWeatherData(ModelType.ALT)
+            }
         }
     }
 
@@ -121,8 +132,8 @@ class MainViewModel(
         refreshUi()
     }
 
-    fun onChangeModel() {
-        configRepository.toggleModel()
+    fun onChangeModel(type: ModelType) {
+        configRepository.toggleModel(type)
         refreshUi()
     }
 
@@ -137,10 +148,15 @@ class MainViewModel(
     }
 
     data class State(
-        val locations: LocationUiModel = LocationUiModel(
-            locations = emptyList(), isRefreshing = true
+        val locations: List<LocationUiModel> = listOf(
+            LocationUiModel(
+                locations = emptyList(), isRefreshing = true
+            ),
+            LocationUiModel(
+                locations = emptyList(), isRefreshing = true
+            )
         ),
-        val settings: SettingsUiModel = SettingsUiModel(),
+        val settings: List<SettingsUiModel> = listOf(SettingsUiModel(), SettingsUiModel()),
     )
 
     sealed class Event {
