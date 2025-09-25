@@ -69,6 +69,12 @@ fetch their data up front and not change it on every action in the app.
 
 ## Version History
 
+### 1.2
+
+- added many more weather models
+- added indication of model resolution and origin
+- restored some dutch literals
+
 ### 1.1
 
 - on detail in landscape show 2 columns of data at once

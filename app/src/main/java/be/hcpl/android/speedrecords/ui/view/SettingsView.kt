@@ -58,7 +58,7 @@ fun SettingsView(
         // table content
         Row(Modifier.fillMaxWidth()) {
             TableCell(
-                text = "${model.source.name}/${model.source.model.name}",
+                text = "${model.source.name}/${model.source.model.name}/${model.source.model.origin}/${model.source.model.resolutionMin}-${model.source.model.resolutionMax}km",
                 modifier = Modifier
                     .weight(1f)
                     .clickable { onChangeModel() },
