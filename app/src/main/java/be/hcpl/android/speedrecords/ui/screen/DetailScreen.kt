@@ -53,7 +53,7 @@ fun DetailScreen(
         LazyVerticalGrid(
             columns = GridCells.Fixed(noRows),
             verticalArrangement = spacedBy(4.dp),
-            modifier = modifier.padding(8.dp),
+            modifier = modifier.padding(4.dp),
         ) {
             model.hourly.forEach { hour, data ->
                 item {
