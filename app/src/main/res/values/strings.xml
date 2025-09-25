@@ -2,8 +2,8 @@
     <string name="app_name">Wind Forecast App</string>
     <string name="a11y_add_location">Add a new location</string>
     <string name="title_favourite_locations">Your Favourites</string>
-    <string name="info_add_location">You can add locations from Google Maps. Pick a location and use the share option selecting this app.</string>
-    <string name="info_add_location_extra">Make sure to share from a dropped pin to send latitude &amp; longitude, not just place names. You can also share as text in format \"lat, lon, name\".</string>
+    <string name="info_add_location">If this app has location permission your current location is now added. You can also add locations from Google Maps. Pick a location and use the share option selecting this app.</string>
+    <string name="info_add_location_extra">Make sure to share from a dropped pin to send latitude &amp; longitude, not place names. You can also share as text in format \"lat, lon, name\".</string>
     <string name="ok">OK</string>
     <string name="a11y_edit_location">edit location name</string>
     <string name="a11y_delete_location">remove this location</string>
@@ -36,4 +36,6 @@
     <string name="label_cover">cover</string>
     <string name="unit_days">days</string>
     <string name="a11y_navigate_back">Navigate back</string>
+    <string name="err_location_disabled">Location disabled on device</string>
+    <string name="err_location_no_permission">No permission for location granted</string>
 </resources>

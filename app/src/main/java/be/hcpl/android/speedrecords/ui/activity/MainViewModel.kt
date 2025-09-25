@@ -1,6 +1,7 @@
 package be.hcpl.android.speedrecords.ui.activity
 
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -88,6 +89,17 @@ class MainViewModel(
     fun receivedLocation(intent: Intent) {
         var sharedText: String? = intent.getStringExtra(Intent.EXTRA_TEXT)
         when (val result = createLocationUseCase(sharedText)) {
+            is CreateLocationUseCase.Result.Failed -> handleError(result.message)
+            CreateLocationUseCase.Result.Success -> {
+                // adding new locations requires data refresh
+                retrieveWeatherData(ModelType.MAIN)
+                retrieveWeatherData(ModelType.ALT)
+            }
+        }
+    }
+
+    fun receivedLocation(location: Location) {
+        when (val result = createLocationUseCase("${location.latitude}, ${location.longitude}, New Location")) {
             is CreateLocationUseCase.Result.Failed -> handleError(result.message)
             CreateLocationUseCase.Result.Success -> {
                 // adding new locations requires data refresh

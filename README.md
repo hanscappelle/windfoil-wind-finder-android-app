@@ -75,6 +75,7 @@ fetch their data up front and not change it on every action in the app.
 - added indication of model resolution and origin
 - restored some dutch literals
 - fixed pull to refresh after moving to grid
+- allow for easy location input from GPS provider
 
 ### 1.1
 
@@ -176,7 +177,6 @@ Initial app release
 
 ### Features & Bugs 
 
-- (feature) allow for easy location input from in app using location from FAB
 - (opt) config for how many days in the past
 - (feature) Implement notifications
 - (bug) on missing data in detail no clear indication on how to navigate back

@@ -30,6 +30,7 @@ fun MainScreen(
     settingsModel: List<SettingsUiModel>,
     refreshing: Boolean,
     onRefresh: (ModelType) -> Unit = {},
+    onAddLocation: () -> Unit = {},
     onUpdateLocationName: (String, String) -> Unit = { _, _ -> },
     onShowLocation: (String) -> Unit = {},
     onDeleteLocation: (String) -> Unit = {},
@@ -89,6 +90,7 @@ fun MainScreen(
                     onAddNewLocation = {
                         openInfoDialog.value = true
                         infoDialogModel.value = InfoDialogUiModel.locationInfo
+                        onAddLocation()
                     },
                     //onRefresh = { onRefresh(ModelType.MAIN) },
                     onRefreshInfo = {

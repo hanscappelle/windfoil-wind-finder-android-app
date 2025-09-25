@@ -30,7 +30,7 @@ class RetrieveForecastUseCase(
 
     private suspend fun handleReceivedLocations(locations: List<LocationData>, type: ModelType) : Result{
         val weatherData = mutableMapOf<LocationData, WeatherData>()
-        locations.forEach { location ->
+        locations.toList().forEach { location ->
             // get forecast weather data
             val result = weatherRepository.forecast(location, type)
             when (result) {

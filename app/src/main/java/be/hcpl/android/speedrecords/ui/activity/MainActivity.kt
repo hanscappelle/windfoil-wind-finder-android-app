@@ -1,12 +1,18 @@
 package be.hcpl.android.speedrecords.ui.activity
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat
 import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
@@ -90,6 +96,7 @@ class MainActivity : ComponentActivity() {
                     settingsModel = settings,
                     refreshing = refreshing,
                     onRefresh = { type -> viewModel.retrieveWeatherData(type) },
+                    onAddLocation = { getLocation() },
                     onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
                     onShowLocation = { name -> viewModel.showLocation(name) },
                     onDeleteLocation = { name -> viewModel.deleteLocation(name) },
@@ -102,6 +109,109 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    // region location handling
+
+    private var locationPermissionRequested = false
+    private val MY_PERMISSIONS_REQUEST_LOCATION = 100
+
+    private fun getLocation() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            // No explanation needed, we can request the permission.
+            if (!locationPermissionRequested) {
+                locationPermissionRequested = true
+                requestPermissions(
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    MY_PERMISSIONS_REQUEST_LOCATION
+                )
+            } else {
+                // inform user location is needed
+                Toast.makeText(MainActivity@this, R.string.err_location_no_permission, Toast.LENGTH_LONG).show()
+            }
+            return
+        }
+        registerLocationListener(LocationManager.GPS_PROVIDER)
+    }
+
+    private fun registerLocationListener(provider: String) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        // remove previous listener first
+        unregisterListener()
+        // get current location to provide as defaults into
+        // field
+        val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        // begin by getting the last known location
+        //val fetchedLocationDetails = locationManager.getLastKnownLocation(provider)
+        //if (fetchedLocationDetails != null) {
+        // update current location
+        // TODO add location to app here
+        //}
+        // and start listening in order to update the location when more
+        // information is retrieved
+        // Register the listener with the Location Manager to receive location
+        // updates
+        locationManager
+            .requestLocationUpdates(provider, 0, 0f, locationListener)
+    }
+
+    private fun unregisterListener() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        // get current location to provide as defaults into
+        // field
+        val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        // remove previous listener first
+        locationManager.removeUpdates(locationListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterListener()
+    }
+
+    /**
+     * listener for updating location when more data is found
+     */
+    private val locationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            //Location(location.latitude, location.longitude)
+            viewModel.receivedLocation(location)
+            unregisterListener()
+        }
+
+        override fun onStatusChanged(
+            provider: String, status: Int,
+            extras: Bundle,
+        ) {
+            // nothing so far
+        }
+
+        override fun onProviderEnabled(provider: String) {
+            // nothing so far
+        }
+
+        override fun onProviderDisabled(provider: String) {
+            Toast.makeText(this@MainActivity, R.string.err_location_disabled, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // endregion
 
 }
 
