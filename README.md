@@ -69,6 +69,11 @@ fetch their data up front and not change it on every action in the app.
 
 ## Version History
 
+### 1.0
+
+- simplify versioning
+- optimize landscape layout removing graphic header
+
 ### 0.12.0
 
 - layout fix for dutch version with 100% cloud coverage
@@ -157,16 +162,12 @@ Initial app release
 
 ## TODO
 
-### Features & TODO 
+### Features & Bugs 
 
 - allow for easy location input from in app map
 - (opt) config for how many days in the past
 - Implement notifications
-
-### Bugs
-
-- useless now with big header on phone in landscape
-- on missing data in detail no clear indication on how to navigate back
+- (bug) on missing data in detail no clear indication on how to navigate back
 
 # Resources
 
