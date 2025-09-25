@@ -175,6 +175,7 @@ Initial app release
 - (bug) on missing data in detail no clear indication on how to navigate back
 - (bug) pull to refresh is broken since moving to 2 columns
 - (feature) show date of when data was fetched to indicate a refresh is needed
+- (bug) on detail view indicate what model is shown (currently always MAIN)
 
 # Resources
 
