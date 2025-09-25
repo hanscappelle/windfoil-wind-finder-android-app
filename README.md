@@ -69,6 +69,10 @@ fetch their data up front and not change it on every action in the app.
 
 ## Version History
 
+### 1.1
+
+- on detail in landscape show 2 columns oof data at once
+
 ### 1.0
 
 - simplify versioning
