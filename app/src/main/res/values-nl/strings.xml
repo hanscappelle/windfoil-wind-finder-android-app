@@ -32,8 +32,8 @@
     <string name="info_app_more">Meer informatie over de App kan je vinden op de project website op https://github.com/hanscappelle/windfoil-wind-finder-android-app</string>
     <string name="unit_knots">kn</string>
     <string name="label_wind">wind</string>
-    <string name="label_gusts">stotn</string>
-    <string name="label_cover">wolkn</string>
+    <string name="label_gusts">stoten</string>
+    <string name="label_cover">wolken</string>
     <string name="unit_days">dagen</string>
     <string name="a11y_navigate_back">Terug naar vorig scherm</string>
 </resources>
