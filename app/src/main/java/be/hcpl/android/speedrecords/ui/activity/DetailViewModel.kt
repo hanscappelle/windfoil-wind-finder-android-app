@@ -26,19 +26,20 @@ class DetailViewModel(
     private var locationData: LocationData? = null
     private var weatherData: WeatherData? = null
     private var weatherModel: DataSource? = null
+    private var modelType: ModelType? = null
 
     fun updateLocation(locationName: String?, date: String?, day: String?, modelType: ModelType?) {
         date?.let { selectedDate = it }
         day?.let { selectedDay = it }
         modelType?.let {
+            this.modelType = it
             // get current weather model for type here
-            weatherModel = configRepository.currentModel(modelType)
+            this.weatherModel = configRepository.currentModel(modelType)
         }
         locationName?.let { name ->
             when (val result = locationRepository.locationByName(name)) {
                 is LocationRepository.Result.Success -> {
-                    updateLocation(result.location, ModelType.MAIN)
-                    updateLocation(result.location, ModelType.ALT)
+                    updateLocation(result.location, modelType ?: ModelType.MAIN)
                 }
                 is LocationRepository.Result.Failed,
                 is LocationRepository.Result.Renamed,

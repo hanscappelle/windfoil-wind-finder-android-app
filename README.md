@@ -65,13 +65,23 @@ to refresh with these new settings.
 
 This manual refresh was added to reduce the number of requests to the public
 weather API. And it will also help people with bad connection that need to 
-fetch their data up front and not change it on every action in the app. 
+fetch their data up front and not change it on every action in the app.
+
+## Upcoming Features & Bugs
+
+- (feature) config for how many days in the past
+- (feature) Implement notifications for weather alerts
+- (bug) on missing data in detail no clear indication on how to navigate back
+- (feature) show date of when data was fetched to indicate a refresh is needed
+- (feature) allow name input right after adding location
+- (bug) add unique names for new locations initially
 
 ## Version History
 
 ### 1.3
 
-- show selected weather model also on detail view 
+- show selected weather model also on detail view
+- fix showing model specific data on detail view
 
 ### 1.2
 
@@ -176,15 +186,6 @@ fetch their data up front and not change it on every action in the app.
 ### 0.1.0
 
 Initial app release
-
-## TODO
-
-### Features & Bugs 
-
-- (feature) config for how many days in the past
-- (feature) Implement notifications for weather alerts
-- (bug) on missing data in detail no clear indication on how to navigate back
-- (feature) show date of when data was fetched to indicate a refresh is needed
 
 # Resources
 
