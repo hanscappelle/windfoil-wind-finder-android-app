@@ -69,6 +69,10 @@ fetch their data up front and not change it on every action in the app.
 
 ## Version History
 
+### 1.3
+
+- 
+
 ### 1.2
 
 - added many more weather models
