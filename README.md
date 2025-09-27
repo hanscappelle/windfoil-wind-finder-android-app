@@ -15,7 +15,22 @@ The weather model and some of the settings are configurable to show only the inf
 
 ### Adding locations
 
-You can add locations by sharing text in format: `lat, lng, locationName` 
+The easiest way to add a location is to use the GPS on your device.
+For this to work you need to give the app location permission.
+This will be requested the first time you use the plus (+) icon in the header.
+
+<img width="200" src="release/Screenshot_20250927_091631.png"/>
+
+During use of app is sufficient, if you remove it you can enable it
+again from the general system app settings selecting this app.
+
+When you use that plus (+) icon as soon as a location is received
+a popup will show that lets you name this acquired location to 
+something more user friendly.
+
+<img width="200" src="release/Screenshot_20250927_091656.png"/>
+
+You can also manually add locations by sharing text in format: `lat, lng, locationName` 
 with locationName being optional. The separator is important: `, ` For example: 
 
 ```
@@ -75,6 +90,10 @@ fetch their data up front and not change it on every action in the app.
 - (feature) show date of when data was fetched to indicate a refresh is needed
 
 ## Version History
+
+### 1.4
+
+- (bug) removing not found locations from cache
 
 ### 1.3
 
