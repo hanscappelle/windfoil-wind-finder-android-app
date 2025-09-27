@@ -30,16 +30,21 @@ class RetrieveForecastUseCase(
 
     private suspend fun handleReceivedLocations(locations: List<LocationData>, type: ModelType) : Result{
         val weatherData = mutableMapOf<LocationData, WeatherData>()
+        var lastError: String? = null
         locations.toList().forEach { location ->
             // get forecast weather data
-            val result = weatherRepository.forecast(location, type)
-            when (result) {
-                is WeatherRepository.Result.Success -> weatherData.put(location, result.data)
-                is WeatherRepository.Result.Failed -> handleError(result.message)
+            when (val result = weatherRepository.forecast(location, type)) {
+                is WeatherRepository.Result.Success -> {
+                    weatherData.put(location, result.data)
+                }
+                is WeatherRepository.Result.Failed -> {
+                    // keep track of last error only to report that one to user
+                    lastError = result.message
+                }
             }
         }
         configRepository.updateCachedWeatherData(weatherData, type)
-        return Result.Success(weatherData)
+        return lastError?.let { Result.Failed(lastError) } ?: Result.Success(weatherData)
     }
 
     sealed class Result {

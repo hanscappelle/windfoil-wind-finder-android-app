@@ -84,8 +84,8 @@ fetch their data up front and not change it on every action in the app.
 
 ## Upcoming Features & Bugs
 
-- (feature) config for how many days in the past
-- (feature) Implement notifications for weather alerts
+- (feature) also show weather information from the past
+- (feature) implement notifications for weather alerts
 - (bug) on missing data in detail no clear indication on how to navigate back
 - (feature) show date of when data was fetched to indicate a refresh is needed
 
