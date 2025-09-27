@@ -20,6 +20,9 @@ import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
 import be.hcpl.android.speedrecords.ui.transformer.WeatherDataUiModelTransformer
 import kotlinx.coroutines.launch
+import kotlin.math.round
+
+private const val TEN_K = 10_000
 
 class MainViewModel(
     private val configRepository: ConfigRepository,
@@ -99,10 +102,10 @@ class MainViewModel(
     }
 
     fun receivedLocation(location: Location) {
-        when (val result = createLocationUseCase("${location.latitude}, ${location.longitude}, New Location")) {
+        when (val result = createLocationUseCase("${location.latitude}, ${location.longitude}, New Location ${round(location.latitude* TEN_K)/ TEN_K};${round(location.longitude* TEN_K)/ TEN_K}")) {
             is CreateLocationUseCase.Result.Failed -> handleError(result.message)
             CreateLocationUseCase.Result.Success -> {
-                // adding new locations requires data refresh
+                // adding new locations requires data refresh on all data
                 retrieveWeatherData(ModelType.MAIN)
                 retrieveWeatherData(ModelType.ALT)
             }

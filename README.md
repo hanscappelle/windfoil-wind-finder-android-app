@@ -74,14 +74,14 @@ fetch their data up front and not change it on every action in the app.
 - (bug) on missing data in detail no clear indication on how to navigate back
 - (feature) show date of when data was fetched to indicate a refresh is needed
 - (feature) allow name input right after adding location
-- (bug) add unique names for new locations initially
 
 ## Version History
 
 ### 1.3
 
 - show selected weather model also on detail view
-- fix showing model specific data on detail view
+- (bug) fix showing model specific data on detail view
+- (bug) add unique names for new locations initially
 
 ### 1.2
 
