@@ -93,7 +93,7 @@ fetch their data up front and not change it on every action in the app.
 
 ### 1.4
 
-- (bug) removing not found locations from cache
+- (bug) removing not found locations from cache fixed
 
 ### 1.3
 

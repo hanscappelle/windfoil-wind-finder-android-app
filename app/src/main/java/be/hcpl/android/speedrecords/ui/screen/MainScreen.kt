@@ -63,7 +63,7 @@ fun MainScreen(
     ConfirmDialog(
         confirmDialog,
         message = stringResource(R.string.confirm_delete),
-        onConfirm = { onDeleteLocation(locationNameValue) },
+        onConfirm = { onDeleteLocation(oldNameValueState.value) },
         onCancel = {},
     )
 
