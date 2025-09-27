@@ -88,7 +88,7 @@ a second column shows with forecast data for the exact same locations. However
 you can change the weather model for each of the 2 columns individually. That
 way you can compare the forecast for different models. 
 
-<img width="320" src="release/Screenshot_20250927_183438.png"/> <img width="640" src="release/Screenshot_20250920_110446.png"/>
+<img width="640" src="release/Screenshot_20250927_183438.png"/>
 
 ## Upcoming Features & Bugs
 
@@ -116,6 +116,16 @@ way you can compare the forecast for different models.
 ### 1.2
 
 - added many more weather models
+  - DMI("dmi_seamless", WeatherModel.HARMONIE_DK),
+  - UKMO("ukmo_seamless", WeatherModel.UKMO),
+  - KMA("kma_seamless", WeatherModel.KMA),
+  - JMA("jma_seamless", WeatherModel.MSM_GSM),
+  - ICON_CH("meteoswiss_icon_ch1", WeatherModel.ICON_CH),
+  - MET_NORDIC("metno_seamless", WeatherModel.MET_NORDIC),
+  - GEM("gem_seamless", WeatherModel.GEM),
+  - ACCESS_G("bom_access_global", WeatherModel.ACCESS_G),
+  - GFS_GRAPES("cma_grapes_global", WeatherModel.GFS_GRAPES),
+  - ARPAE_AROME("italia_meteo_arpae_icon_2i", WeatherModel.ARPAE_AROME),
 - added indication of model resolution and origin
 - restored some dutch literals
 - fixed pull to refresh after moving to grid
