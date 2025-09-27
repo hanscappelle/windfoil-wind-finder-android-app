@@ -3,7 +3,7 @@
     <string name="app_name">Wind Forecast App</string>
     <string name="a11y_add_location">Nieuwe locatie toevoegen</string>
     <string name="title_favourite_locations">Je Favorieten</string>
-    <string name="info_add_location">Als deze app locatie toegang heeft zal je huidige locatie nu in de lijst staan. Je kan ook locaties toevoegen vanuit Google Maps. Plaats een pin op de kaart en gebruik de Android deel optie om deze app te selecteren.</string>
+    <string name="info_add_location">Als deze app locatie toegang heeft zal je huidige locatie in de lijst komen. Je kan ook locaties toevoegen vanuit Google Maps. Plaats een pin op de kaart en gebruik de Android deel optie om deze app te selecteren.</string>
     <string name="info_add_location_extra">Let er wel op dat je coördinaten en niet plaatsnamen deelt in Google Maps. Alternatief is tekst delen in formaat \"lat, lon, name\".</string>
     <string name="ok">Oké</string>
     <string name="a11y_edit_location">Wijzig naam locatie</string>

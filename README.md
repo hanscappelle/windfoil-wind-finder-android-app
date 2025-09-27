@@ -93,6 +93,7 @@ fetch their data up front and not change it on every action in the app.
 
 ### 1.4
 
+- several ui improvements
 - (bug) removing not found locations from cache fixed
 - (bug) fallback to default locations when no more locations
 - (bug) fix crash on connection error during refresh
