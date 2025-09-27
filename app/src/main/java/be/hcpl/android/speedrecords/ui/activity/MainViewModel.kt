@@ -39,6 +39,8 @@ class MainViewModel(
 
     var refreshing = true
     var convertToFahrenheit = configRepository.shouldConvertUnits().convertUnits
+    var selectedLocationName: String? = null
+    var showRenameLocation = false
 
     init {
         doInit(ModelType.MAIN)
@@ -85,6 +87,8 @@ class MainViewModel(
                     uiModelTransformer.transformLocations(weatherDataAlt),//.copy(isRefreshing = refreshing),
                 ),
                 settings = uiModelTransformer.transformSettings(),
+                showRenameDialog = showRenameLocation,
+                locationName = selectedLocationName ?: "New Location Name",
             )
         )
     }
@@ -102,17 +106,23 @@ class MainViewModel(
     }
 
     fun receivedLocation(location: Location) {
-        when (val result = createLocationUseCase("${location.latitude}, ${location.longitude}, New Location ${round(location.latitude* TEN_K)/ TEN_K};${round(location.longitude* TEN_K)/ TEN_K}")) {
+        val uniqueLocationName = "New Location ${round(location.latitude * TEN_K) / TEN_K};${round(location.longitude * TEN_K) / TEN_K}"
+        val locationText = "${location.latitude}, ${location.longitude}, $uniqueLocationName"
+        when (val result = createLocationUseCase(locationText)) {
             is CreateLocationUseCase.Result.Failed -> handleError(result.message)
             CreateLocationUseCase.Result.Success -> {
                 // adding new locations requires data refresh on all data
                 retrieveWeatherData(ModelType.MAIN)
                 retrieveWeatherData(ModelType.ALT)
+                // and allow user to enter a new name for this new location also
+                onShowRenameLocation(uniqueLocationName)
             }
         }
     }
 
     fun updateLocationName(oldName: String, newName: String) {
+        showRenameLocation = false
+        refreshUi()
         when (val result = renameLocationUseCase(oldName, newName)) {
             is RenameLocationUseCase.Result.Success -> refreshUi()
             is RenameLocationUseCase.Result.Failed -> handleError(result.message)
@@ -163,6 +173,12 @@ class MainViewModel(
         refreshUi()
     }
 
+    fun onShowRenameLocation(locationName: String) {
+        showRenameLocation = true
+        selectedLocationName = locationName
+        refreshUi()
+    }
+
     data class State(
         val locations: List<LocationUiModel> = listOf(
             LocationUiModel(
@@ -174,6 +190,8 @@ class MainViewModel(
         ),
         val settings: List<SettingsUiModel> = listOf(SettingsUiModel(), SettingsUiModel()),
         val refreshing: Boolean = false,
+        val showRenameDialog: Boolean = false,
+        val locationName: String = "New Location Name",
     )
 
     sealed class Event {

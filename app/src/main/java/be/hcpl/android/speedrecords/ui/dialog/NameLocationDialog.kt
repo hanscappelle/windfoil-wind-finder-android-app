@@ -15,7 +15,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,14 +27,20 @@ import be.hcpl.android.speedrecords.R
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun NameLocationDialog(
-    openDialog: MutableState<Boolean>,
-    locationName: MutableState<String>,
-    onNameEntered: (String) -> Unit = {},
+    openDialog: Boolean,
+    originalLocationName: String,
+    onNameEntered: (String) -> Unit,
+    onDismiss: () -> Unit,
 ) {
 
-    if (openDialog.value) {
+    // state hoisted
+    //val openDialog = remember { mutableStateOf(openDialog) }
+    val locationName = remember { mutableStateOf(originalLocationName) }
+    locationName.value = originalLocationName
+
+    if (openDialog) {
         AlertDialog(
-            onDismissRequest = { openDialog.value = false }
+            onDismissRequest = onDismiss,//{ openDialog.value = false }
         ) {
             Surface(
                 modifier = Modifier
@@ -64,8 +71,8 @@ fun NameLocationDialog(
                     )
                     Button(
                         onClick = {
-                            onNameEntered(locationName.toString())
-                            openDialog.value = false
+                            onNameEntered(locationName.value)
+                            //openDialog.value = false
                         },
                     ) {
                         Text(text = stringResource(R.string.ok))

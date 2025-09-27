@@ -73,13 +73,13 @@ fetch their data up front and not change it on every action in the app.
 - (feature) Implement notifications for weather alerts
 - (bug) on missing data in detail no clear indication on how to navigate back
 - (feature) show date of when data was fetched to indicate a refresh is needed
-- (feature) allow name input right after adding location
 
 ## Version History
 
 ### 1.3
 
 - show selected weather model also on detail view
+- (feature) allow name input right after adding location
 - (bug) fix showing model specific data on detail view
 - (bug) add unique names for new locations initially
 

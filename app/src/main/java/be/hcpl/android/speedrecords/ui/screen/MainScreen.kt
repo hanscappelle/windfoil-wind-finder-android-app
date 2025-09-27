@@ -31,7 +31,7 @@ fun MainScreen(
     refreshing: Boolean,
     onRefresh: (ModelType) -> Unit = {},
     onAddLocation: () -> Unit = {},
-    onUpdateLocationName: (String, String) -> Unit = { _, _ -> },
+    onUpdateLocationName: (String, String) -> Unit,
     onShowLocation: (String) -> Unit = {},
     onDeleteLocation: (String) -> Unit = {},
     onOpenDetail: (String, ModelType, String, String) -> Unit,
@@ -39,27 +39,31 @@ fun MainScreen(
     onChangeThreshold: () -> Unit = {},
     onChangeForecastDays: () -> Unit = {},
     onChangeUnit: () -> Unit = {},
+    showRenameLocationDialog: Boolean = false,
+    locationNameValue: String,
+    onShowRenameLocation: (String) -> Unit,
 ) {
     // some dialogs
     val openInfoDialog = remember { mutableStateOf(false) }
     val infoDialogModel = remember { mutableStateOf(InfoDialogUiModel.locationInfo) }
     InfoDialog(openInfoDialog, infoDialogModel.value)
 
-    val addLocationDialog = remember { mutableStateOf(false) }
-    val locationNameState = remember { mutableStateOf("") }
+    //val showRenameLocationDialog = remember { mutableStateOf(false) }
+    //val locationNameState = remember { mutableStateOf("") }
     // TODO should work with an ID instead...
     val oldNameValueState = remember { mutableStateOf("") }
     NameLocationDialog(
-        openDialog = addLocationDialog,
-        locationName = locationNameState,
-        onNameEntered = { newName -> onUpdateLocationName(oldNameValueState.value, locationNameState.value) }
+        openDialog = showRenameLocationDialog,
+        originalLocationName = locationNameValue,
+        onNameEntered = { newName -> onUpdateLocationName(locationNameValue, newName) },
+        onDismiss = { onUpdateLocationName(locationNameValue, locationNameValue) },
     )
 
     val confirmDialog = remember { mutableStateOf(false) }
     ConfirmDialog(
         confirmDialog,
         message = stringResource(R.string.confirm_delete),
-        onConfirm = { onDeleteLocation(oldNameValueState.value) },
+        onConfirm = { onDeleteLocation(locationNameValue) },
         onCancel = {},
     )
 
@@ -105,11 +109,7 @@ fun MainScreen(
                         openInfoDialog.value = true
                         infoDialogModel.value = InfoDialogUiModel.appInfo
                     },
-                    onRenameLocation = { name ->
-                        locationNameState.value = name
-                        oldNameValueState.value = name
-                        addLocationDialog.value = true
-                    },
+                    onRenameLocation = { name -> onShowRenameLocation(name) },
                     onDeleteLocation = { name ->
                         oldNameValueState.value = name
                         confirmDialog.value = true
@@ -146,11 +146,7 @@ fun MainScreen(
                             openInfoDialog.value = true
                             infoDialogModel.value = InfoDialogUiModel.appInfo
                         },
-                        onRenameLocation = { name ->
-                            locationNameState.value = name
-                            oldNameValueState.value = name
-                            addLocationDialog.value = true
-                        },
+                        onRenameLocation = { name -> onShowRenameLocation(name) },
                         onDeleteLocation = { name ->
                             oldNameValueState.value = name
                             confirmDialog.value = true

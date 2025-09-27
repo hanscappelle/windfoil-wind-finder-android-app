@@ -14,6 +14,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import be.hcpl.android.speedrecords.R
+import be.hcpl.android.speedrecords.ui.activity.MainViewModel.State
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
 import be.hcpl.android.speedrecords.ui.screen.AppScaffold
@@ -31,12 +32,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         updateContent(
-            locations = listOf(
-                LocationUiModel(locations = emptyList()),
-                LocationUiModel(locations = emptyList()),
-            ),
-            settings = listOf(SettingsUiModel(), SettingsUiModel()),
-            refreshing = false,
+            State(
+                locations = listOf(
+                    LocationUiModel(locations = emptyList()),
+                    LocationUiModel(locations = emptyList()),
+                ),
+                settings = listOf(SettingsUiModel(), SettingsUiModel()),
+                refreshing = false,
+            )
         )
 
         recovered = savedInstanceState != null
@@ -80,33 +83,34 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleState(state: MainViewModel.State) {
-        updateContent(state.locations, state.settings, state.refreshing)
+        updateContent(state)
     }
 
-    private fun updateContent(
-        locations: List<LocationUiModel>,
-        settings: List<SettingsUiModel>,
-        refreshing: Boolean,
-    ) {
-        setContent {
-            AppScaffold(
-                title = stringResource(R.string.app_name),
-            ) {
-                MainScreen(
-                    model = locations,
-                    settingsModel = settings,
-                    refreshing = refreshing,
-                    onRefresh = { type -> viewModel.retrieveWeatherData(type) },
-                    onAddLocation = { getLocation() },
-                    onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
-                    onShowLocation = { name -> viewModel.showLocation(name) },
-                    onDeleteLocation = { name -> viewModel.deleteLocation(name) },
-                    onOpenDetail = { name, type, date, day -> viewModel.openLocationDetail(name, type, date, day) },
-                    onChangeModel = { type -> viewModel.onChangeModel(type) },
-                    onChangeThreshold = { viewModel.onChangeThreshold() },
-                    onChangeForecastDays = { viewModel.onChangeForecastDays() },
-                    onChangeUnit = { viewModel.onChangeUnit() },
-                )
+    private fun updateContent(state: MainViewModel.State) {
+        with(state) {
+            setContent {
+                AppScaffold(
+                    title = stringResource(R.string.app_name),
+                ) {
+                    MainScreen(
+                        model = locations,
+                        settingsModel = settings,
+                        refreshing = refreshing,
+                        onRefresh = { type -> viewModel.retrieveWeatherData(type) },
+                        onAddLocation = { getLocation() },
+                        onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
+                        onShowLocation = { name -> viewModel.showLocation(name) },
+                        onDeleteLocation = { name -> viewModel.deleteLocation(name) },
+                        onOpenDetail = { name, type, date, day -> viewModel.openLocationDetail(name, type, date, day) },
+                        onChangeModel = { type -> viewModel.onChangeModel(type) },
+                        onChangeThreshold = { viewModel.onChangeThreshold() },
+                        onChangeForecastDays = { viewModel.onChangeForecastDays() },
+                        onChangeUnit = { viewModel.onChangeUnit() },
+                        onShowRenameLocation = { name -> viewModel.onShowRenameLocation(name) },
+                        showRenameLocationDialog = showRenameDialog,
+                        locationNameValue = locationName,
+                    )
+                }
             }
         }
     }
@@ -132,7 +136,7 @@ class MainActivity : ComponentActivity() {
                 )
             } else {
                 // inform user location is needed
-                Toast.makeText(MainActivity@this, R.string.err_location_no_permission, Toast.LENGTH_LONG).show()
+                Toast.makeText(MainActivity@ this, R.string.err_location_no_permission, Toast.LENGTH_LONG).show()
             }
             return
         }
