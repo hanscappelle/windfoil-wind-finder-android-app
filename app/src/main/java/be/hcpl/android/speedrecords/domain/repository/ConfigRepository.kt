@@ -65,18 +65,7 @@ class ConfigRepositoryImpl(
     private val weatherDataAlt: MutableMap<LocationData, WeatherData> = mutableMapOf()
 
     // some initial valid data to start with for clean app plus single source of locations data
-    private val locationData = mutableListOf(
-        LocationData(
-            "Espace Fun @ Lacs De l'Eau d'Heure",
-            50.1890147,
-            4.3504654,
-        ),
-        LocationData(
-            "Surfing Elephant @ De Haan",
-            51.3044498,
-            3.083262,
-        )
-    )
+    val locationData = defaultLocations.toMutableList()
 
     init {
         getIgnoredHours()
@@ -250,6 +239,19 @@ class ConfigRepositoryImpl(
 
     var shrinking = false
 }
+
+val defaultLocations = listOf(
+    LocationData(
+        "Espace Fun @ Lacs De l'Eau d'Heure",
+        50.1890147,
+        4.3504654,
+    ),
+    LocationData(
+        "Surfing Elephant @ De Haan",
+        51.3044498,
+        3.083262,
+    )
+)
 
 private val listOfHoursType = object : TypeToken<List<String>>() {}.type
 private val cachedDataType = object : TypeToken<Map<String, WeatherData>>() {}.type

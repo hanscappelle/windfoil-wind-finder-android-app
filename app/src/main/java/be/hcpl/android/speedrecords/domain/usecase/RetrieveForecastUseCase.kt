@@ -34,10 +34,7 @@ class RetrieveForecastUseCase(
             // get forecast weather data
             val result = weatherRepository.forecast(location, type)
             when (result) {
-                is WeatherRepository.Result.Success -> {
-                    weatherData.put(location, result.data)
-                }
-
+                is WeatherRepository.Result.Success -> weatherData.put(location, result.data)
                 is WeatherRepository.Result.Failed -> handleError(result.message)
             }
         }

@@ -65,6 +65,10 @@ class LocationRepositoryImpl(
     override fun dropLocation(location: LocationData): Result {
         val changed = configRepository.cachedLocations().toMutableList()
         return if (changed.remove(location)) {
+            if( changed.isEmpty()){
+                // fall back to defaults when last valid lcoation was removed
+                changed.addAll(defaultLocations)
+            }
             persistLocations(changed)
             Result.Success(location)
         } else Result.Failed()
@@ -76,6 +80,9 @@ class LocationRepositoryImpl(
             val parsedLocations = gson.fromJson<List<LocationData>>(storedLocations, listOfLocationsType).toMutableList()
             if (parsedLocations.isNotEmpty()) {
                 configRepository.updateCachedLocations(parsedLocations)
+            } else {
+                // fallback to defaults when nothing found
+                configRepository.updateCachedLocations(defaultLocations)
             }
         }
         return Result.Data(configRepository.cachedLocations())
