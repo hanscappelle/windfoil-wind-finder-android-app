@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.hcpl.android.speedrecords.R
+import be.hcpl.android.speedrecords.domain.model.DataSource
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
 
 @Composable
@@ -38,7 +39,7 @@ fun HourlyHeader(
             .padding(8.dp)
     ) {
         Text(
-            text = "${model.locationName} - ${model.date} - ${model.day}",
+            text = "${model.locationName} - ${model.date} - ${model.day} (${model.weatherModel.name}/${model.weatherModel.model.name})",
             fontSize = 20.sp,
             modifier = Modifier
                 .weight(1f)
@@ -59,6 +60,7 @@ fun HourlyHeaderPreview() {
     HourlyHeader(
         model = HourlyUiModel(
             locationName = "Brussels",
+            weatherModel = DataSource.ECMWF,
             date = "2025-08-27",
             day = "Sunday",
             hourly = emptyMap(),

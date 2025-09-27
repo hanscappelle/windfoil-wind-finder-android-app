@@ -72,6 +72,7 @@ class MainActivity : ComponentActivity() {
                     .putExtra(DetailActivity.Companion.KEY_SELECTED_LOCATION, event.locationName)
                     .putExtra(DetailActivity.Companion.KEY_SELECTED_DATE, event.selectedDate)
                     .putExtra(DetailActivity.Companion.KEY_SELECTED_DAY, event.selectedDay)
+                    .putExtra(DetailActivity.Companion.KEY_SELECTED_MODEL, event.model.name)
             )
 
             is MainViewModel.Event.ShowError -> Toast.makeText(this, event.message, Toast.LENGTH_LONG).show()
@@ -100,7 +101,7 @@ class MainActivity : ComponentActivity() {
                     onUpdateLocationName = { oldName, newName -> viewModel.updateLocationName(oldName, newName) },
                     onShowLocation = { name -> viewModel.showLocation(name) },
                     onDeleteLocation = { name -> viewModel.deleteLocation(name) },
-                    onOpenDetail = { name, date, day -> viewModel.openLocationDetail(name, date, day) },
+                    onOpenDetail = { name, type, date, day -> viewModel.openLocationDetail(name, type, date, day) },
                     onChangeModel = { type -> viewModel.onChangeModel(type) },
                     onChangeThreshold = { viewModel.onChangeThreshold() },
                     onChangeForecastDays = { viewModel.onChangeForecastDays() },

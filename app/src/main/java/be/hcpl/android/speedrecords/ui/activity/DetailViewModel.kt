@@ -2,6 +2,7 @@ package be.hcpl.android.speedrecords.ui.activity
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import be.hcpl.android.speedrecords.domain.model.DataSource
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.ModelType
 import be.hcpl.android.speedrecords.domain.model.WeatherData
@@ -24,10 +25,15 @@ class DetailViewModel(
     private var selectedDay: String? = null
     private var locationData: LocationData? = null
     private var weatherData: WeatherData? = null
+    private var weatherModel: DataSource? = null
 
-    fun updateLocation(locationName: String?, date: String?, day: String?) {
+    fun updateLocation(locationName: String?, date: String?, day: String?, modelType: ModelType?) {
         date?.let { selectedDate = it }
         day?.let { selectedDay = it }
+        modelType?.let {
+            // get current weather model for type here
+            weatherModel = configRepository.currentModel(modelType)
+        }
         locationName?.let { name ->
             when (val result = locationRepository.locationByName(name)) {
                 is LocationRepository.Result.Success -> {
@@ -57,14 +63,15 @@ class DetailViewModel(
     }
 
     private fun refreshUi() {
-        if (listOf(locationData, selectedDate, selectedDay, weatherData).none { it == null }) {
+        if (listOf(locationData, selectedDate, selectedDay, weatherData, weatherModel).none { it == null }) {
             state.postValue(
                 State(
                     model = transformer.transformDetail(
                         location = locationData!!,
                         date = selectedDate!!,
                         day = selectedDay!!,
-                        weather = weatherData!!
+                        weather = weatherData!!,
+                        weatherModel = weatherModel!!,
                     )
                 )
             )

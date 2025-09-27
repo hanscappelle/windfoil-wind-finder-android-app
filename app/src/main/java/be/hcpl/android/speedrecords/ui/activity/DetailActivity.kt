@@ -5,6 +5,7 @@ import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import be.hcpl.android.speedrecords.domain.model.ModelType
 import be.hcpl.android.speedrecords.ui.model.HourlyUiModel
 import be.hcpl.android.speedrecords.ui.screen.AppScaffold
 import be.hcpl.android.speedrecords.ui.screen.DetailScreen
@@ -25,7 +26,8 @@ class DetailActivity : ComponentActivity() {
         val location = intent.getStringExtra(KEY_SELECTED_LOCATION)
         val date = intent.getStringExtra(KEY_SELECTED_DATE)
         val day = intent.getStringExtra(KEY_SELECTED_DAY)
-        viewModel.updateLocation(location, date, day)
+        val modelType = intent.getStringExtra(KEY_SELECTED_MODEL)?.let { ModelType.valueOf(it) }
+        viewModel.updateLocation(location, date, day, modelType)
 
         viewModel.state.observe(this, ::handleState)
     }
@@ -62,6 +64,7 @@ class DetailActivity : ComponentActivity() {
         const val KEY_SELECTED_DATE = "key_selected_date"
         const val KEY_SELECTED_DAY = "key_selected_day"
         const val KEY_SELECTED_LOCATION = "key_selected_location"
+        const val KEY_SELECTED_MODEL = "key_selected_model"
     }
 
 }

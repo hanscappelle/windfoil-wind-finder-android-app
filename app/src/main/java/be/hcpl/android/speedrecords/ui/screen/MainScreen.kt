@@ -34,7 +34,7 @@ fun MainScreen(
     onUpdateLocationName: (String, String) -> Unit = { _, _ -> },
     onShowLocation: (String) -> Unit = {},
     onDeleteLocation: (String) -> Unit = {},
-    onOpenDetail: (String, String, String) -> Unit = { _, _, _ -> },
+    onOpenDetail: (String, ModelType, String, String) -> Unit,
     onChangeModel: (ModelType) -> Unit = {},
     onChangeThreshold: () -> Unit = {},
     onChangeForecastDays: () -> Unit = {},
@@ -115,7 +115,7 @@ fun MainScreen(
                         confirmDialog.value = true
                     },
                     onShowLocation = onShowLocation,
-                    onOpenDetail = onOpenDetail,
+                    onOpenDetail = { name, time, day -> onOpenDetail(name, ModelType.MAIN, time, day) },
                     onChangeModel = { onChangeModel(ModelType.MAIN) },
                     onChangeThreshold = onChangeThreshold,
                     onChangeForecastDays = onChangeForecastDays,
@@ -156,7 +156,7 @@ fun MainScreen(
                             confirmDialog.value = true
                         },
                         onShowLocation = onShowLocation,
-                        onOpenDetail = onOpenDetail,
+                        onOpenDetail = { name, time, day -> onOpenDetail(name, ModelType.ALT, time, day) },
                         onChangeModel = { onChangeModel(ModelType.ALT) },
                         onChangeThreshold = onChangeThreshold,
                         onChangeForecastDays = onChangeForecastDays,

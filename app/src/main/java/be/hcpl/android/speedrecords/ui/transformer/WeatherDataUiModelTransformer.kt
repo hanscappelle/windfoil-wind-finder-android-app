@@ -4,6 +4,7 @@ import android.content.Context
 import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_FORECAST_DAYS
 import be.hcpl.android.speedrecords.domain.model.DEFAULT_THRESHOLD
+import be.hcpl.android.speedrecords.domain.model.DataSource
 import be.hcpl.android.speedrecords.domain.model.LocationData
 import be.hcpl.android.speedrecords.domain.model.ModelType
 import be.hcpl.android.speedrecords.domain.model.UnitType
@@ -23,7 +24,7 @@ import kotlin.math.roundToInt
 
 interface WeatherDataUiModelTransformer {
     fun transformLocations(map: Map<LocationData, WeatherData>): LocationUiModel
-    fun transformDetail(location: LocationData, date: String, day: String, weather: WeatherData): HourlyUiModel
+    fun transformDetail(location: LocationData, date: String, day: String, weather: WeatherData, weatherModel: DataSource): HourlyUiModel
     fun transformError(string: String?): String
     fun transformSettings(): List<SettingsUiModel>
 }
@@ -79,6 +80,7 @@ class WeatherDataUiModelTransformerImpl(
         date: String,
         day: String,
         weather: WeatherData,
+        weatherModel: DataSource,
     ): HourlyUiModel {
         val shouldConvert = configRepository.shouldConvertUnits().convertUnits
         val ignoredHours = when (val result = configRepository.getIgnoredHours()) {
@@ -92,6 +94,7 @@ class WeatherDataUiModelTransformerImpl(
             locationName = location.name,
             date = date,
             day = day,
+            weatherModel = weatherModel,
             hourly = weather.hourly.filter {
                 // filter on selected date
                 it.key.startsWith(date) &&

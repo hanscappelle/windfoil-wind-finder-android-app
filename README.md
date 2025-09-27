@@ -71,7 +71,7 @@ fetch their data up front and not change it on every action in the app.
 
 ### 1.3
 
-- 
+- show selected weather model also on detail view 
 
 ### 1.2
 
@@ -181,11 +181,10 @@ Initial app release
 
 ### Features & Bugs 
 
-- (opt) config for how many days in the past
-- (feature) Implement notifications
+- (feature) config for how many days in the past
+- (feature) Implement notifications for weather alerts
 - (bug) on missing data in detail no clear indication on how to navigate back
 - (feature) show date of when data was fetched to indicate a refresh is needed
-- (bug) on detail view indicate what model is shown (currently always MAIN)
 
 # Resources
 

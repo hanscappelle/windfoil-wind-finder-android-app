@@ -130,8 +130,8 @@ class MainViewModel(
         }
     }
 
-    fun openLocationDetail(name: String, date: String, day: String) {
-        events.postValue(OpenDetail(name, date, day))
+    fun openLocationDetail(name: String, type: ModelType, date: String, day: String) {
+        events.postValue(OpenDetail(name, type, date, day))
     }
 
     fun handleError(message: String? = null) {
@@ -177,6 +177,7 @@ class MainViewModel(
         data class ShowLocationOnMap(val uri: Uri) : Event()
         data class OpenDetail(
             val locationName: String,
+            val model: ModelType,
             val selectedDate: String,
             val selectedDay: String,
         ) : Event()
