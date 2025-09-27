@@ -44,9 +44,7 @@ Note that if the pin resolves as a known location it tries to share as a
 Google maps link instead which won't work. Alternative option is to share
 from any text based app where you enter in the above format. 
 
-Video showing this procedure:
-
-![video](release/screen-20250906-175206.mp4)
+Video showing this procedure: ![video](release/screen-20250906-175206.mp4)
 
 ### Exploring Forecast
 
@@ -64,8 +62,9 @@ When picking a day it will navigate to a detail screen. Format used there is:
 hour in day | wind speed & gusts | wind direction | cloud cover & precipitation | air temperature 
 ```
 
-From this screen you can always narrow down the number of hours that should show.
-If you later want to bring back some hours you can use the refresh icon on top screen.
+From this screen you can always narrow down the number of hours that should show by 
+removing the ones you don't need with the bin icon. If you later want to bring those 
+hours back you can use the refresh icon on top of the screen.
 
 ### Changing Configuration & Data Refresh
 
@@ -81,6 +80,15 @@ to refresh with these new settings.
 This manual refresh was added to reduce the number of requests to the public
 weather API. And it will also help people with bad connection that need to 
 fetch their data up front and not change it on every action in the app.
+
+### Comparing Weather Models
+
+A neat feature is that by holding your phone in landscape mode (horizontal)
+a second column shows with forecast data for the exact same locations. However
+you can change the weather model for each of the 2 columns individually. That
+way you can compare the forecast for different models. 
+
+<img width="320" src="release/Screenshot_20250927_183438.png"/> <img width="640" src="release/Screenshot_20250920_110446.png"/>
 
 ## Upcoming Features & Bugs
 
