@@ -48,6 +48,9 @@ class WeatherRepositoryImpl(
                 val weatherData = transformer.transformForecast(response.body())
                 configRepository.addToCachedWeatherData(locationData, weatherData, type)
                 Result.Success(weatherData)
+            } else if (response.errorBody() != null) {
+                val errorResponse = transformer.transformForecast(response.errorBody())
+                Result.Failed(errorResponse?.reason ?: "unknown error")
             } else {
                 Result.Failed(response.message())
             }

@@ -96,9 +96,12 @@ way you can compare the forecast for different models.
 - (feature) implement notifications for weather alerts
 - (bug) on missing data in detail no clear indication on how to navigate back
 - (feature) show date of when data was fetched to indicate a refresh is needed
-- (bug) when error received also print reason from api, ex: `22:16:18.090  I  {"error":true,"reason":"No data is available for this location"}`
 
 ## Version History
+
+### 1.5
+
+- (bug) when error received also print reason from api, ex: `22:16:18.090  I  {"error":true,"reason":"No data is available for this location"}`
 
 ### 1.4
 

@@ -1,19 +1,26 @@
 package be.hcpl.android.speedrecords.api.transformer
 
+import be.hcpl.android.speedrecords.api.contract.ErrorResponse
 import be.hcpl.android.speedrecords.api.contract.Hourly
 import be.hcpl.android.speedrecords.api.contract.WeatherResponse
 import be.hcpl.android.speedrecords.domain.model.DailyValue
 import be.hcpl.android.speedrecords.domain.model.HourlyUnit
 import be.hcpl.android.speedrecords.domain.model.HourlyValue
 import be.hcpl.android.speedrecords.domain.model.WeatherData
+import com.google.gson.Gson
+import okhttp3.ResponseBody
 import kotlin.text.substring
 
 interface WeatherTransformer {
 
     fun transformForecast(response: WeatherResponse?): WeatherData
+
+    fun transformForecast(response: ResponseBody?): ErrorResponse?
 }
 
-class WeatherTransformerImpl() : WeatherTransformer {
+class WeatherTransformerImpl(
+    private val gson: Gson,
+) : WeatherTransformer {
 
     override fun transformForecast(response: WeatherResponse?): WeatherData {
         val hourly = transformHourlyValues(response?.hourly)
@@ -36,6 +43,12 @@ class WeatherTransformerImpl() : WeatherTransformer {
             hourly = hourly,
             daily = calculateDailyValues(hourly),
         )
+    }
+
+    override fun transformForecast(response: ResponseBody?): ErrorResponse? {
+        return response?.string()?.let {
+            gson.fromJson<ErrorResponse>(it, ErrorResponse::class.java)
+        }
     }
 
     private fun transformHourlyValues(hourly: Hourly?): Map<String, HourlyValue> {
