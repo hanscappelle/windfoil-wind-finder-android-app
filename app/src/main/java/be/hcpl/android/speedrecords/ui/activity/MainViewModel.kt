@@ -61,11 +61,10 @@ class MainViewModel(
 
     fun retrieveWeatherData(type: ModelType) {
         viewModelScope.launch {
-            // show loading state
+            // show loading state, need to update UI for this to show
             refreshing = true
-            // TODO this will remove cached data, better not to plus look for fallback
-            // refreshUi(emptyMap(), type)
-            // for all configured locations get update
+            state.value?.let { state.postValue(it.copy(refreshing = refreshing)) }
+            // for all configured locations get an update (1 call)
             when (val result = retrieveForecastUseCase.invoke(type)) {
                 is RetrieveForecastUseCase.Result.Failed -> handleError(result.message)
                 is RetrieveForecastUseCase.Result.Success -> {

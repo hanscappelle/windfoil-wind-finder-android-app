@@ -99,6 +99,10 @@ way you can compare the forecast for different models.
 
 ## Version History
 
+### 1.6
+
+* fix dismiss of loading indicator
+
 ### 1.5
 
 - (bug) when error received also print reason from api, ex: `22:16:18.090  I  {"error":true,"reason":"No data is available for this location"}`

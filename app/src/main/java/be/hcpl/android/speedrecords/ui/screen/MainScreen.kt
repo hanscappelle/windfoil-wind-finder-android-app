@@ -48,8 +48,6 @@ fun MainScreen(
     val infoDialogModel = remember { mutableStateOf(InfoDialogUiModel.locationInfo) }
     InfoDialog(openInfoDialog, infoDialogModel.value)
 
-    //val showRenameLocationDialog = remember { mutableStateOf(false) }
-    //val locationNameState = remember { mutableStateOf("") }
     // TODO should work with an ID instead...
     val oldNameValueState = remember { mutableStateOf("") }
     NameLocationDialog(
@@ -72,7 +70,7 @@ fun MainScreen(
     val noRows = if (isLandscape) 2 else 1
 
     PullToRefreshBox(
-        isRefreshing = refreshing, //model[0].isRefreshing,// only using 1 model for refresh state || model[1].isRefreshing,
+        isRefreshing = refreshing,
         onRefresh = {
             onRefresh(ModelType.MAIN)
             onRefresh(ModelType.ALT)
@@ -82,8 +80,6 @@ fun MainScreen(
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(noRows),
-            //verticalArrangement = spacedBy(4.dp),
-            //modifier = modifier.padding(8.dp),
         ) {
 
             item {
@@ -96,7 +92,6 @@ fun MainScreen(
                         infoDialogModel.value = InfoDialogUiModel.locationInfo
                         onAddLocation()
                     },
-                    //onRefresh = { onRefresh(ModelType.MAIN) },
                     onRefreshInfo = {
                         openInfoDialog.value = true
                         infoDialogModel.value = InfoDialogUiModel.refreshInfo
@@ -133,7 +128,6 @@ fun MainScreen(
                             openInfoDialog.value = true
                             infoDialogModel.value = InfoDialogUiModel.locationInfo
                         },
-                        //onRefresh = { onRefresh(ModelType.ALT) },
                         onRefreshInfo = {
                             openInfoDialog.value = true
                             infoDialogModel.value = InfoDialogUiModel.refreshInfo
