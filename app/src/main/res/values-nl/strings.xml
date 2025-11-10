@@ -24,6 +24,7 @@
     <string name="label_number_of_days">#Dagen</string>
     <string name="label_temperature_unit">Eenheid</string>
     <string name="info_settings">Je kunt instellingen zoals weermodel en eenheden wijzigen door deze in de tabel bovenaan het overzicht aan te raken.</string>
+    <string name="info_settings_landscape">Gebruik een groot scherm of kantel naar landschap om 2 modellen te vergelijken.</string>
     <string name="info_settings_more">Let er wel op dat je voor de meeste van deze instellingen ook zelf nog opnieuw de data moet ophalen.</string>
     <string name="info_refresh">Data vernieuwe kan door aan de bovenkant van de lijst naar beneded te swipen (pull down).</string>
     <string name="info_refresh_more">Dit is zo voorzien voor wie op locatie geen goede verbinding heeft. Dan kun je de data op voorhand ophalen.</string>

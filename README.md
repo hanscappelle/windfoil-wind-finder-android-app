@@ -102,6 +102,7 @@ way you can compare the forecast for different models.
 ### 1.6
 
 * fix dismiss of loading indicator
+* inform user about compare feature
 
 ### 1.5
 

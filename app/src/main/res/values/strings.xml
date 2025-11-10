@@ -24,6 +24,7 @@
     <string name="label_number_of_days">#Days</string>
     <string name="label_temperature_unit">Unit</string>
     <string name="info_settings">You can change settings like weather model and units and threshold by selecting the value in the table displayed on top.</string>
+    <string name="info_settings_landscape">Use a large device or rotate to landscape to compare 2 weather models.</string>
     <string name="info_settings_more">Note that some of these settings will need you to trigger a full data refresh by swiping down on the list.</string>
     <string name="info_refresh">To refresh content you can pull down on the list. Also on changing some of the settings this action is often required.</string>
     <string name="info_refresh_more">This is implemented this way so you can choose to keep data on locations with bad reception. As long as the app doesn\'t get closed it will re-open with the fetched data.</string>

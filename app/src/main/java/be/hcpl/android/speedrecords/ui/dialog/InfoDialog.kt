@@ -80,6 +80,7 @@ data class InfoDialogUiModel(
         val settingsInfo = InfoDialogUiModel(
             infoText = listOf(
                 R.string.info_settings,
+                R.string.info_settings_landscape,
                 R.string.info_settings_more,
             )
         )
