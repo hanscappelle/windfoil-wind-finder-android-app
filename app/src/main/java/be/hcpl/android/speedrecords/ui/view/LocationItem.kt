@@ -38,6 +38,7 @@ fun LocationItem(
     model.hourlyForecast?.daily?.forEach {
         val highMinValue = (it.value.windSpeedAt10mMin ?: 0) >= model.windThreshold
         val highMaxValue = (it.value.windSpeedAt10mMax ?: 0) >= model.windThreshold
+        val highAvgValue = (it.value.windSpeedAt10mAvg ?: 0) >= model.windThreshold
         Card(
             colors = if (!isSystemInDarkTheme()) CardColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -74,15 +75,15 @@ fun LocationItem(
                 ) {
                     Text(
                         text = "avg day ${it.value.windSpeedAt10mAvg ?: "-"} ${stringResource(R.string.unit_knots)}",
-                        fontWeight = if (highMinValue) FontWeight.Bold else FontWeight.Normal,
-                        fontStyle = if (highMinValue) FontStyle.Italic else FontStyle.Normal,
-                        color = if (highMinValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontWeight = if (highAvgValue) FontWeight.Bold else FontWeight.Normal,
+                        fontStyle = if (highAvgValue) FontStyle.Italic else FontStyle.Normal,
+                        color = if (highAvgValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Text(
                         text = "min/max ${it.value.windSpeedAt10mMin ?: "-"}/${it.value.windSpeedAt10mMax ?: "-"} ${stringResource(R.string.unit_knots)}",
-                        fontWeight = if (highMaxValue) FontWeight.Bold else FontWeight.Normal,
-                        fontStyle = if (highMaxValue) FontStyle.Italic else FontStyle.Normal,
-                        color = if (highMaxValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontWeight = if (highMinValue) FontWeight.Bold else FontWeight.Normal,
+                        fontStyle = if (highMinValue) FontStyle.Italic else FontStyle.Normal,
+                        color = if (highMinValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
                 it.value.weatherIcon?.let { icon ->

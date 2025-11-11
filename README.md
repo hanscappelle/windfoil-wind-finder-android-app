@@ -101,7 +101,8 @@ way you can compare the forecast for different models.
 
 ### 1.7
 
-* show an average wind indication per day on overview based on all wind values (not just min/max)
+* show an average wind indication per day on overview
+* small layout tweaks
 
 ### 1.6
 
