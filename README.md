@@ -99,6 +99,10 @@ way you can compare the forecast for different models.
 
 ## Version History
 
+### 1.7
+
+* show an average wind indication per day on overview based on all wind values (not just min/max)
+
 ### 1.6
 
 * fix dismiss of loading indicator
