@@ -50,15 +50,15 @@ fun LocationItem(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = spacedBy(8.dp),
-                modifier = Modifier.padding(4.dp),
+                horizontalArrangement = spacedBy(4.dp),
+                modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = spacedBy(2.dp),
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(0.4f),
                 ) {
-                    Text(text = "${it.value.time}")
+                    Text(text = "${it.value.displayDate}")
                     Text(text = "${it.value.displayDay}")
                 }
                 Icon(
@@ -73,13 +73,13 @@ fun LocationItem(
                     modifier = Modifier.weight(1f),
                 ) {
                     Text(
-                        text = "min ${it.value.windSpeedAt10mMin ?: "-"} ${stringResource(R.string.unit_knots)}",
+                        text = "avg day ${it.value.windSpeedAt10mAvg ?: "-"} ${stringResource(R.string.unit_knots)}",
                         fontWeight = if (highMinValue) FontWeight.Bold else FontWeight.Normal,
                         fontStyle = if (highMinValue) FontStyle.Italic else FontStyle.Normal,
                         color = if (highMinValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Text(
-                        text = "max ${it.value.windSpeedAt10mMax ?: "-"} ${stringResource(R.string.unit_knots)}",
+                        text = "min/max ${it.value.windSpeedAt10mMin ?: "-"}/${it.value.windSpeedAt10mMax ?: "-"} ${stringResource(R.string.unit_knots)}",
                         fontWeight = if (highMaxValue) FontWeight.Bold else FontWeight.Normal,
                         fontStyle = if (highMaxValue) FontStyle.Italic else FontStyle.Normal,
                         color = if (highMaxValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer,
@@ -96,7 +96,7 @@ fun LocationItem(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = spacedBy(2.dp),
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(0.6f),
                 ) {
                     Text(text = "min ${it.value.tempMin}")
                     Text(text = "max ${it.value.tempMax}")
@@ -107,10 +107,9 @@ fun LocationItem(
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 fun LocationItemPreview() {
     LocationItem(
-
         model = LocationItemUiModel(
             locationName = "Brussels",
             lat = 0.0,
@@ -120,10 +119,12 @@ fun LocationItemPreview() {
                 longitude = 0.0,
                 daily = mapOf(
                     "date" to DailyValueUiModel(
-                        time = "date",
-                        displayDay = "10h",
+                        time = "2025-12-06",
+                        displayDate = "12/6",
+                        displayDay = "Tue",
                         windSpeedAt10mMin = 11,
                         windSpeedAt10mMax = 16,
+                        windSpeedAt10mAvg = 14,
                         tempMin = "18 °C",
                         tempMax = "22 °C",
                         weatherIcon = R.drawable.wmo_02d,

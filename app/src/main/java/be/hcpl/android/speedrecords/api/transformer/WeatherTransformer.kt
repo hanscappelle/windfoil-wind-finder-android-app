@@ -79,11 +79,12 @@ class WeatherTransformerImpl(
                 // when data is missing key is still provided but values are null
                 DailyValue(
                     time = entry.key,
-                    temperatureAt2mMin = entry.value.minOf { it.temperatureAt2m?:0.0 },
-                    temperatureAt2mMax = entry.value.maxOf { it.temperatureAt2m?:0.0 },
-                    windSpeedAt10mMin = entry.value.minOf { it.windSpeedAt10m?:0.0 },
-                    windSpeedAt10mMax = entry.value.maxOf { it.windSpeedAt10m?:0.0 },
-                    windGustsAt10mMax = entry.value.maxOf { it.windGustsAt10m?:0.0 },
+                    temperatureAt2mMin = entry.value.minOf { it.temperatureAt2m ?: 0.0 },
+                    temperatureAt2mMax = entry.value.maxOf { it.temperatureAt2m ?: 0.0 },
+                    windSpeedAt10mMin = entry.value.minOf { it.windSpeedAt10m ?: 0.0 },
+                    windSpeedAt10mMax = entry.value.maxOf { it.windSpeedAt10m ?: 0.0 },
+                    windSpeedAt10mAvg = entry.value.map { it.windSpeedAt10m ?: 0.0 }.average(),
+                    windGustsAt10mMax = entry.value.maxOf { it.windGustsAt10m ?: 0.0 },
                     // use weather code that is most common of that day (first)
                     weatherCode = resolveMostCommonValueFor(entry.value.map { it.weatherCode }),
                     windDirectionAt10m = resolveMostCommonValueFor(entry.value.map { it.windDirectionAt10m }),

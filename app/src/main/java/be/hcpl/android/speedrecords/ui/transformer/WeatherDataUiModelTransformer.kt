@@ -35,7 +35,8 @@ class WeatherDataUiModelTransformerImpl(
     private val context: Context,
 ) : WeatherDataUiModelTransformer {
 
-    private val dateFormatDisplay = SimpleDateFormat("EEEE", Locale.getDefault())
+    private val dateFormatDisplay = SimpleDateFormat("dd/MM", Locale.getDefault())
+    private val dayFormatDisplay = SimpleDateFormat("E", Locale.getDefault())
     private val dateFormatParse = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     override fun transformLocations(map: Map<LocationData, WeatherData>): LocationUiModel {
@@ -53,11 +54,13 @@ class WeatherDataUiModelTransformerImpl(
                         daily = it.value.daily.mapValues {
                             DailyValueUiModel(
                                 time = it.key,
-                                displayDay = dateFormatParse.parse(it.key)?.let { dateFormatDisplay.format(it) } ?: "",
+                                displayDate = dateFormatParse.parse(it.key)?.let { dateFormatDisplay.format(it) } ?: "",
+                                displayDay = dateFormatParse.parse(it.key)?.let { dayFormatDisplay.format(it) } ?: "",
                                 tempMin = convert(shouldConvert == true, it.value.temperatureAt2mMin),
                                 tempMax = convert(shouldConvert == true, it.value.temperatureAt2mMax),
                                 windSpeedAt10mMin = it.value.windSpeedAt10mMin?.toInt(),
                                 windSpeedAt10mMax = it.value.windSpeedAt10mMax?.toInt(),
+                                windSpeedAt10mAvg = it.value.windSpeedAt10mAvg?.toInt(),
                                 weatherIcon = assetRepository.getWeatherIcon(it.value.weatherCode),
                                 weatherDescription = assetRepository.getWeatherDescription(it.value.weatherCode),
                                 windDirectionAt10m = it.value.windDirectionAt10m,

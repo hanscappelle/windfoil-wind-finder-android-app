@@ -12,38 +12,26 @@ import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 fun LocationOverview(
     model: LocationUiModel,
     modifier: Modifier = Modifier,
-    //onRefresh: () -> Unit,
     onRenameLocation: (String) -> Unit,
     onShowLocation: (String) -> Unit,
     onDeleteLocation: (String) -> Unit,
     onOpenDetail: (String, String, String) -> Unit,
 ) {
-    //PullToRefreshBox(
-    //    isRefreshing = model.isRefreshing,
-    //    onRefresh = onRefresh,
-    //    modifier = modifier.fillMaxWidth(),
-    //) {
-        /*Lazy*/Column(
-            horizontalAlignment = Alignment.Start,
-            //verticalArrangement = spacedBy(8.dp),
-            modifier = modifier,
-        ) {
-            model.locations.forEach { location ->
-                //item {
-                    LocationHeader(
-                        location = location,
-                        onRenameLocation = { onRenameLocation(location.locationName) },
-                        onShowLocation = { onShowLocation(location.locationName) },
-                        onDeleteLocation = { onDeleteLocation(location.locationName) },
-                    )
-                //}
-                //item {
-                    LocationItem(
-                        location,
-                        onOpenDetail = onOpenDetail,
-                    )
-                //}
-            }
+    Column(
+        horizontalAlignment = Alignment.Start,
+        modifier = modifier,
+    ) {
+        model.locations.forEach { location ->
+            LocationHeader(
+                location = location,
+                onRenameLocation = { onRenameLocation(location.locationName) },
+                onShowLocation = { onShowLocation(location.locationName) },
+                onDeleteLocation = { onDeleteLocation(location.locationName) },
+            )
+            LocationItem(
+                location,
+                onOpenDetail = onOpenDetail,
+            )
         }
-    //}
+    }
 }
