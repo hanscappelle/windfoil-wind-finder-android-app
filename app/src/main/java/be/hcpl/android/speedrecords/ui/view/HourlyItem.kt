@@ -55,12 +55,12 @@ fun HourlyItem(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            //horizontalArrangement = spacedBy(2.dp),
-            modifier = Modifier.padding(horizontal = 4.dp, vertical = 0.dp),
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 0.dp),
         ) {
             Text(
                 text = "${model.displayTime}h",
-                modifier = Modifier.weight(1f),
+                //textAlign = TextAlign.Center,
+                modifier = Modifier.weight(0.6f),
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
