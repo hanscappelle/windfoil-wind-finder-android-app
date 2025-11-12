@@ -10,6 +10,7 @@ import be.hcpl.android.speedrecords.domain.model.WeatherData
 import be.hcpl.android.speedrecords.domain.repository.ConfigRepository
 import com.google.gson.Gson
 import okhttp3.ResponseBody
+import java.util.Calendar
 import kotlin.text.substring
 
 interface WeatherTransformer {
@@ -27,6 +28,7 @@ class WeatherTransformerImpl(
     override fun transformForecast(response: WeatherResponse?): WeatherData {
         val hourly = transformHourlyValues(response?.hourly)
         return WeatherData(
+            dateFetched = Calendar.getInstance().time.time,
             latitude = response?.latitude ?: 0.0,
             longitude = response?.longitude ?: 0.0,
             timezone = response?.timezone ?: "",

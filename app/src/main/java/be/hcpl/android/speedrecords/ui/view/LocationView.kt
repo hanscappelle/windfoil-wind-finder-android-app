@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import be.hcpl.android.speedrecords.R
 import be.hcpl.android.speedrecords.ui.model.LocationUiModel
 import be.hcpl.android.speedrecords.ui.model.SettingsUiModel
 
@@ -18,7 +21,6 @@ fun LocationView(
     model: LocationUiModel,
     settingsModel: SettingsUiModel,
     onAddNewLocation: () -> Unit,
-    //onRefresh: () -> Unit,
     onRefreshInfo: () -> Unit,
     onShowSettingsInfo: () -> Unit,
     onShowAppInfo: () -> Unit,
@@ -31,7 +33,7 @@ fun LocationView(
     onRenameLocation: (String) -> Unit,
     onDeleteLocation: (String) -> Unit,
     modifier: Modifier = Modifier,
-){
+) {
     Column(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = spacedBy(4.dp),
@@ -53,6 +55,12 @@ fun LocationView(
             modifier = modifier.padding(8.dp),
         )
 
+        model.dateFetched?.let { displayDate ->
+            Text(
+                text = "${stringResource(R.string.label_date_fetched)}: $displayDate"
+            )
+        }
+
         HorizontalDivider(
             modifier = Modifier
                 .height(1.dp)
@@ -62,7 +70,6 @@ fun LocationView(
 
         LocationOverview(
             model = model,
-            //onRefresh = onRefresh,
             onRenameLocation = onRenameLocation,
             onShowLocation = onShowLocation,
             onDeleteLocation = onDeleteLocation,

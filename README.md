@@ -95,13 +95,13 @@ way you can compare the forecast for different models.
 - (feature) also show weather information from the past
 - (feature) implement notifications for weather alerts
 - (bug) on missing data in detail no clear indication on how to navigate back
-- (feature) show date of when data was fetched to indicate a refresh is needed
 
 ## Version History
 
 ### 1.9
 
 * update some missing translations
+* (feature) show date of when data was fetched to indicate a refresh is needed
 
 ### 1.8
 

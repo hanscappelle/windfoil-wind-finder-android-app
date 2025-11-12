@@ -41,4 +41,5 @@
     <string name="err_location_no_permission">No permission for location granted</string>
     <string name="label_avg_day">avg day</string>
     <string name="label_min_max">min/max</string>
+    <string name="label_date_fetched">Date fetched</string>
 </resources>

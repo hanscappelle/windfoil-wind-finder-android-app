@@ -38,10 +38,12 @@ class WeatherDataUiModelTransformerImpl(
     private val dateFormatDisplay = SimpleDateFormat("dd/MM", Locale.getDefault())
     private val dayFormatDisplay = SimpleDateFormat("E", Locale.getDefault())
     private val dateFormatParse = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val timestampFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
     override fun transformLocations(map: Map<LocationData, WeatherData>): LocationUiModel {
         val shouldConvert = configRepository.shouldConvertUnits().convertUnits
         return LocationUiModel(
+            dateFetched = map.firstNotNullOfOrNull { timestampFormat.format(it.value.dateFetched) },
             locations = map.map {
                 LocationItemUiModel(
                     locationName = it.key.name,

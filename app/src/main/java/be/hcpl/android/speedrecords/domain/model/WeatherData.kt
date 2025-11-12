@@ -1,6 +1,7 @@
 package be.hcpl.android.speedrecords.domain.model
 
 data class WeatherData(
+    val dateFetched: Long? = null,
     val latitude: Double,
     val longitude: Double,
     val timezone: String,
