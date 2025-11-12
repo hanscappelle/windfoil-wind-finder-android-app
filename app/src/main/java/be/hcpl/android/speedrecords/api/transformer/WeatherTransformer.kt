@@ -7,6 +7,7 @@ import be.hcpl.android.speedrecords.domain.model.DailyValue
 import be.hcpl.android.speedrecords.domain.model.HourlyUnit
 import be.hcpl.android.speedrecords.domain.model.HourlyValue
 import be.hcpl.android.speedrecords.domain.model.WeatherData
+import be.hcpl.android.speedrecords.domain.repository.ConfigRepository
 import com.google.gson.Gson
 import okhttp3.ResponseBody
 import kotlin.text.substring
@@ -20,6 +21,7 @@ interface WeatherTransformer {
 
 class WeatherTransformerImpl(
     private val gson: Gson,
+    private val configRepository: ConfigRepository,
 ) : WeatherTransformer {
 
     override fun transformForecast(response: WeatherResponse?): WeatherData {
@@ -67,9 +69,17 @@ class WeatherTransformerImpl(
     }
 
     private fun calculateDailyValues(hourly: Map<String, HourlyValue>): Map<String, DailyValue> {
+        // only take not ignored hours into account for avg/min/max
+        val ignoredHours = configRepository.retrieveIgnoredHours()
         return hourly.values
-            .filter { it.time != null } // Ensure time and value are not null
+            .filter {
+                // Ensure time is not null at this point (time is used as key)
+                it.time != null
+                        // and also filter out ignored hours
+                        && !ignoredHours.contains(it.time.substring(11, 13))
+            }
             .groupBy {
+                // group received values by date (first 10 chars)
                 it.time!!.substring(0, 10) // Extract date part "yyyy-MM-dd"
             }
             .mapValues { entry ->

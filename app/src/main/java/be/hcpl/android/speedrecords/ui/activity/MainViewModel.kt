@@ -65,7 +65,7 @@ class MainViewModel(
             refreshing = true
             state.value?.let { state.postValue(it.copy(refreshing = refreshing)) }
             // for all configured locations get an update (1 call)
-            when (val result = retrieveForecastUseCase.invoke(type)) {
+            when (val result = retrieveForecastUseCase(type)) {
                 is RetrieveForecastUseCase.Result.Failed -> handleError(result.message)
                 is RetrieveForecastUseCase.Result.Success -> {
                     refreshing = false
@@ -82,8 +82,8 @@ class MainViewModel(
             State(
                 refreshing = refreshing,
                 locations = listOf(
-                    uiModelTransformer.transformLocations(weatherData),//.copy(isRefreshing = refreshing),
-                    uiModelTransformer.transformLocations(weatherDataAlt),//.copy(isRefreshing = refreshing),
+                    uiModelTransformer.transformLocations(weatherData),
+                    uiModelTransformer.transformLocations(weatherDataAlt),
                 ),
                 settings = uiModelTransformer.transformSettings(),
                 showRenameDialog = showRenameLocation,

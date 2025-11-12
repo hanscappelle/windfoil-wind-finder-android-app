@@ -17,7 +17,7 @@ import com.google.gson.reflect.TypeToken
 
 interface ConfigRepository {
 
-    fun getIgnoredHours(): Result
+    fun retrieveIgnoredHours(): List<String>
     fun ignoreHour(time: String): Result
     fun clearIgnoredHours(): Result
     fun toggleConvertUnits(current: Boolean): Result.Settings
@@ -71,11 +71,22 @@ class ConfigRepositoryImpl(
         getIgnoredHours()
     }
 
-    override fun getIgnoredHours(): ConfigRepository.Result {
+    private fun getIgnoredHours(): ConfigRepository.Result {
         return sharedPref.getString(PREF_KEY_IGNORED_HOURS, null)?.let { json ->
             ignoredHours = gson.fromJson(json, listOfHoursType)
             ConfigRepository.Result.Data(ignoredHours)
         } ?: ConfigRepository.Result.Failed
+    }
+
+    override fun retrieveIgnoredHours(): List<String> {
+        val ignoredHours = when (val result = getIgnoredHours()) {
+            is ConfigRepository.Result.Data -> result.ignoredHours
+            ConfigRepository.Result.Failed,
+            is ConfigRepository.Result.Settings,
+            ConfigRepository.Result.Success,
+                -> emptyList()
+        }
+        return ignoredHours
     }
 
     override fun ignoreHour(time: String): ConfigRepository.Result {

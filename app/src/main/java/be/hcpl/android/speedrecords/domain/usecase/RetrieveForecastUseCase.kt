@@ -14,7 +14,7 @@ class RetrieveForecastUseCase(
     private val configRepository: ConfigRepository,
 ) {
 
-    suspend fun invoke(type: ModelType): Result {
+    suspend operator fun invoke(type: ModelType): Result {
         val data = locationRepository.retrieveLocations()
         return when (data) {
             is LocationRepository.Result.Data -> handleReceivedLocations(data.locations, type)

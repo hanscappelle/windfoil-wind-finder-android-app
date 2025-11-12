@@ -86,13 +86,7 @@ class WeatherDataUiModelTransformerImpl(
         weatherModel: DataSource,
     ): HourlyUiModel {
         val shouldConvert = configRepository.shouldConvertUnits().convertUnits
-        val ignoredHours = when (val result = configRepository.getIgnoredHours()) {
-            is ConfigRepository.Result.Data -> result.ignoredHours
-            ConfigRepository.Result.Failed,
-            is ConfigRepository.Result.Settings,
-            ConfigRepository.Result.Success,
-                -> emptyList()
-        }
+        val ignoredHours = configRepository.retrieveIgnoredHours()
         return HourlyUiModel(
             locationName = location.name,
             date = date,
