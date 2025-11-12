@@ -74,13 +74,13 @@ fun LocationItem(
                     modifier = Modifier.weight(1f),
                 ) {
                     Text(
-                        text = "avg day ${it.value.windSpeedAt10mAvg ?: "-"} ${stringResource(R.string.unit_knots)}",
+                        text = "${stringResource(R.string.label_avg_day)} ${it.value.windSpeedAt10mAvg ?: "-"} ${stringResource(R.string.unit_knots)}",
                         fontWeight = if (highAvgValue) FontWeight.Bold else FontWeight.Normal,
                         fontStyle = if (highAvgValue) FontStyle.Italic else FontStyle.Normal,
                         color = if (highAvgValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Text(
-                        text = "min/max ${it.value.windSpeedAt10mMin ?: "-"}/${it.value.windSpeedAt10mMax ?: "-"} ${stringResource(R.string.unit_knots)}",
+                        text = "${stringResource(R.string.label_min_max)} ${it.value.windSpeedAt10mMin ?: "-"}/${it.value.windSpeedAt10mMax ?: "-"} ${stringResource(R.string.unit_knots)}",
                         fontWeight = if (highMinValue) FontWeight.Bold else FontWeight.Normal,
                         fontStyle = if (highMinValue) FontStyle.Italic else FontStyle.Normal,
                         color = if (highMinValue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer,

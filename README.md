@@ -101,7 +101,7 @@ way you can compare the forecast for different models.
 
 ### 1.9
 
-*
+* update some missing translations
 
 ### 1.8
 

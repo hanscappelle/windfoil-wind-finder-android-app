@@ -39,4 +39,6 @@
     <string name="a11y_navigate_back">Terug naar vorig scherm</string>
     <string name="err_location_disabled">Locatie uitgeschakeld op toestel</string>
     <string name="err_location_no_permission">Locatie toestemming geweigerd, kijk na bij instellingen</string>
+    <string name="label_avg_day">avg dag</string>
+    <string name="label_min_max">min/max</string>
 </resources>

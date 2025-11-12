@@ -39,4 +39,6 @@
     <string name="a11y_navigate_back">Navigate back</string>
     <string name="err_location_disabled">Location disabled on device</string>
     <string name="err_location_no_permission">No permission for location granted</string>
+    <string name="label_avg_day">avg day</string>
+    <string name="label_min_max">min/max</string>
 </resources>
