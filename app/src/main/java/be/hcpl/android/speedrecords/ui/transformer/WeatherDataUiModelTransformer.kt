@@ -43,7 +43,7 @@ class WeatherDataUiModelTransformerImpl(
     override fun transformLocations(map: Map<LocationData, WeatherData>): LocationUiModel {
         val shouldConvert = configRepository.shouldConvertUnits().convertUnits
         return LocationUiModel(
-            dateFetched = map.firstNotNullOfOrNull { timestampFormat.format(it.value.dateFetched) },
+            dateFetched = map.firstNotNullOfOrNull { it.value.dateFetched?.let { timestampFormat.format(it) } },
             locations = map.map {
                 LocationItemUiModel(
                     locationName = it.key.name,

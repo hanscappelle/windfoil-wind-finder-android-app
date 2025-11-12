@@ -98,6 +98,10 @@ way you can compare the forecast for different models.
 
 ## Version History
 
+### 1.10
+
+* fix crash on missing last fetched date parsing
+
 ### 1.9
 
 * update some missing translations
