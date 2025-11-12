@@ -99,6 +99,10 @@ way you can compare the forecast for different models.
 
 ## Version History
 
+### 1.9
+
+*
+
 ### 1.8
 
 * only take visual hours into account for avg/min/max on overview
