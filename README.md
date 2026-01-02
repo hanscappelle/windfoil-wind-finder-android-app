@@ -98,6 +98,11 @@ way you can compare the forecast for different models.
 
 ## Version History
 
+### 1.11 (in progress)
+
+* added settings screen for all app settings
+* add sorting option for saved locations
+
 ### 1.10
 
 * fix crash on missing last fetched date parsing
